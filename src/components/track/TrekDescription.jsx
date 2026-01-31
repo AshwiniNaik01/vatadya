@@ -123,10 +123,15 @@ const TrekPageWithFees = () => {
       </section>
 
       {/* RIGHT SIDEBAR */}
-      <aside className="bg-white border border-gray-200 rounded-2xl shadow-lg p-6 sticky top-24 h-fit">
+      <aside className=" sticky top-24 bg-white border border-gray-200 rounded-2xl shadow-lg p-6 sticky top-24 h-fit">
         <TrekFeeSidebar />
       </aside>
     </div>
+
+
+
+
+
   );
 };
 

@@ -125,6 +125,44 @@ const AboutUsPage = () => {
           </p>
         </div>
 
+
+        {/* edit by gaurav */}
+        {/* <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-6">
+
+          <h1 className="text-5xl md:text-6xl font-extrabold 
+    bg-gradient-to-r from-yellow-300 via-yellow-400 to-amber-500 
+    bg-clip-text text-transparent drop-shadow-lg">
+            TrekkVede
+          </h1>
+
+          <div className="w-24 h-1 rounded-full mt-4 mb-6 
+       bg-gradient-to-r from-transparent via-yellow-400 to-transparent" />
+
+          <p className="text-lg md:text-2xl tracking-widest uppercase font-medium
+          bg-gradient-to-r from-yellow-200 to-yellow-400
+           bg-clip-text text-transparent">
+            Explore the Himalayas with Experts
+          </p>
+
+          <div className="mt-10 flex gap-4 flex-col sm:flex-row">
+            <button className="px-7 py-3 font-semibold rounded-lg text-black
+      bg-gradient-to-r from-yellow-400 to-amber-400
+      hover:from-yellow-300 hover:to-amber-300
+      transition-all duration-300 shadow-lg">
+              Explore Treks
+            </button>
+
+            <button className="px-7 py-3 rounded-lg text-white font-medium
+      border border-white/40 backdrop-blur-sm bg-white/10
+      hover:bg-white hover:text-black transition">
+              Upcoming Events
+            </button>
+          </div>
+
+        </div> */}
+
+
+
         {/* HERO IMAGE CARDS */}
         <div className="absolute bottom-8 w-full z-20">
           <div className="max-w-6xl mx-auto flex justify-center gap-8 px-6">
