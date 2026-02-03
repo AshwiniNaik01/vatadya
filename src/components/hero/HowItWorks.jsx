@@ -1,31 +1,3 @@
-// import React from 'react';
-
-// const steps = [
-//   { step: "Step 1", title: "Select Trek" },
-//   { step: "Step 2", title: "Book Online" },
-//   { step: "Step 3", title: "Join the Trek" },
-// ];
-
-// const HowItWorks = () => {
-//   return (
-//     <section className="py-16 bg-white">
-//       <div className="container mx-auto text-center">
-//         <h2 className="text-3xl font-bold mb-10">How It Works</h2>
-//         <div className="flex flex-col md:flex-row justify-center gap-8">
-//           {steps.map((item, index) => (
-//             <div key={index} className="bg-gray-100 p-6 rounded shadow w-64">
-//               <h3 className="text-xl font-bold mb-2">{item.step}</h3>
-//               <p>{item.title}</p>
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default HowItWorks;
-
 
 import { Search, Calendar, Users, Mountain, CheckCircle } from "lucide-react";
 
@@ -73,7 +45,7 @@ const HowItWorks = () => {
             </span>
             <div className="w-12 h-1 bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-full"></div>
           </div>
-          
+
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
               Your Premium Experience
@@ -88,7 +60,7 @@ const HowItWorks = () => {
         <div className="relative">
           {/* Connecting Line */}
           <div className="hidden lg:block absolute top-24 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500/30 via-emerald-500/30 to-amber-500/30 rounded-full"></div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {steps.map((step, index) => (
               <div key={index} className="relative">

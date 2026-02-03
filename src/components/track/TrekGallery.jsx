@@ -1,138 +1,102 @@
-import React, { useState } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
+import { Image as ImageIcon, ArrowRight, Sparkles } from "lucide-react";
 
-const winterImages = [
-  "https://images.prismic.io/indiahike/f0e8c174-54f0-47db-97fe-b19f90bb47ad_Lohajung_Brahmatal_Drone_shot_Vignesh2.jpg",
-  "https://images.prismic.io/indiahike/37f413f1-5df0-46dc-8a01-43539aeb1d9f_Brahmatal-Trek_Guhanesan-Sivalingam_Sunset-View-from-Tilandi-Campsite_1_.jpg",
-  "https://images.prismic.io/indiahike/d7b174bc-af90-4c41-89fa-4a55c8d5c76c_Brahmatal_BT_Indiahikes_VishwajeetChavan_brahmatalcampsite_campsite_winter_.jpg",
-  "https://images.prismic.io/indiahike/43a8c497-80a5-46c7-9ca7-2b1c5020acfb_Brahmatal+-+Khorurai+-+Forest+-+Snow+-+Winter+-+Abhishek+M+-+++Indiahikes.jpg",
-  "https://images.prismic.io/indiahike/638e8e05-3ed7-4b9f-a72b-20d922a0ed37_Brahmatal+trek_Winter_Indiahikes.jpg",
-  "https://images.prismic.io/indiahike/ff51fb25-f486-434c-971d-5b6d782be51f_Brahmatal_BT_Indiahikes-Vishwas+Krishnamurthy-trekkers+at+Bekaltal.jpg",
-  "https://images.prismic.io/indiahike/d24744f4-f638-4da6-8ecd-512da3462e41_Brahmatal_BT_Indiahikes_Pratik+Mankawde_Tilandi+Campsite_Night+sky_.jpg",
-  "https://images.prismic.io/indiahike/d64aec46-0b26-4359-8bbc-9b417d1d33a8_Brahmatal_BT_Divya+Ramakrishna_trailwithtrekkers_route_summit_winter_.jpg",
+const featuredImages = [
+  {
+    url: "https://images.prismic.io/indiahike/f0e8c174-54f0-47db-97fe-b19f90bb47ad_Lohajung_Brahmatal_Drone_shot_Vignesh2.jpg",
+    title: "Drone View of Lohajung",
+    tag: "Aerial",
+  },
+  {
+    url: "https://images.prismic.io/indiahike/37f413f1-5df0-46dc-8a01-43539aeb1d9f_Brahmatal-Trek_Guhanesan-Sivalingam_Sunset-View-from-Tilandi-Campsite_1_.jpg",
+    title: "Sunset at Tilandi",
+    tag: "Peak",
+  },
+  {
+    url: "https://images.prismic.io/indiahike/d7b174bc-af90-4c41-89fa-4a55c8d5c76c_Brahmatal_BT_Indiahikes_VishwajeetChavan_brahmatalcampsite_campsite_winter_.jpg",
+    title: "Brahmatal Campsite",
+    tag: "Camp",
+  },
+  {
+    url: "https://images.prismic.io/indiahike/43a8c497-80a5-46c7-9ca7-2b1c5020acfb_Brahmatal+-+Khorurai+-+Forest+-+Snow+-+Winter+-+Abhishek+M+-+++Indiahikes.jpg",
+    title: "Forest Trails in Snow",
+    tag: "Frozen",
+  },
 ];
 
-const springImages = [
-  "https://images.unsplash.com/photo-1521295121783-8a321d551ad2",
-  "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
-  "https://images.unsplash.com/photo-1521295121783-8a321d551ad2",
-  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
-  "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
-  "https://images.unsplash.com/photo-1499346030926-9a72daac6c63",
-  "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
-];
+const TrekGallery = ({ trek }) => {
+  if (!trek) return null;
 
-const TrekGallery = () => {
-  const [activeTab, setActiveTab] = useState("winter");
-  const [currentPage, setCurrentPage] = useState(1);
+  const galleryImages = trek.gallery || [];
+  const mainImage = trek.image?.cdnUrl;
 
-  const images = activeTab === "winter" ? winterImages : springImages;
-  const imagesPerPage = 6;
-  const totalPages = Math.ceil(images.length / imagesPerPage);
-
-  const displayedImages = images.slice(
-    (currentPage - 1) * imagesPerPage,
-    currentPage * imagesPerPage
-  );
-
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-    setCurrentPage(1); // reset to first page
-  };
+  const displayImages = mainImage ? [
+    { url: mainImage, title: trek.title, tag: "Main" },
+    ...galleryImages.map((img, i) => ({
+      url: img.cdnUrl,
+      title: `${trek.title} - Space ${i + 1}`,
+      tag: "Explorer"
+    }))
+  ] : galleryImages.map((img, i) => ({
+    url: img.cdnUrl,
+    title: `${trek.title} - Space ${i + 1}`,
+    tag: "Explorer"
+  }));
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-20">
-      {/* Heading */}
-      <div className="text-center mb-14">
-        <h2 className="text-4xl md:text-5xl font-extrabold font-serif text-gray-900">
-          Brahmatal <span className="text-emerald-600">Trek Gallery</span>
-        </h2>
-        <div className="mx-auto mt-5 h-1 w-28 bg-gradient-to-r from-emerald-400 to-sky-400 rounded-full" />
+    <div className="space-y-12">
+      {/* Section Header */}
+      <div className="flex flex-col md:flex-row items-end justify-between gap-6">
+        <div className="space-y-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase tracking-widest border border-emerald-100">
+            <Sparkles size={12} className="animate-pulse" />
+            Visual Journey
+          </div>
+          <h2 className="text-3xl md:text-4xl font-black text-gray-900 leading-tight">
+            Captured <span className="text-emerald-600">Moments</span>
+          </h2>
+          <p className="text-gray-500 max-w-lg font-medium">
+            Explore the breathtaking beauty of the {trek.title} trek through the eyes of our explorers.
+          </p>
+        </div>
+
+        <Link
+          to="/trek-gallery"
+          className="group flex items-center gap-3 px-6 py-3 bg-gray-900 text-white rounded-2xl font-black text-sm hover:bg-emerald-600 transition-all duration-300 shadow-xl hover:shadow-emerald-200"
+        >
+          View Full Gallery
+          <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+        </Link>
       </div>
 
-      {/* Tabs */}
-      <div className="flex justify-center mb-12 ">
-        <button
-          onClick={() => handleTabChange("winter")}
-          className={`px-6 py-3 font-semibold transition
-            ${
-              activeTab === "winter"
-                ? "border-b-4 border-emerald-500 text-emerald-600"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-        >
-          Winter (Dec–Feb)
-        </button>
-
-        <button
-          onClick={() => handleTabChange("spring")}
-          className={`px-6 py-3 font-semibold transition
-            ${
-              activeTab === "spring"
-                ? "border-b-4 border-emerald-500 text-emerald-600"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-        >
-          Spring (Mar–Apr)
-        </button>
-      </div>
-
-      {/* Image Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-        {displayedImages.map((img, index) => (
+      {/* Featured Grid */}
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        {displayImages.slice(0, 5).map((img, index) => (
           <div
             key={index}
-            className="group relative overflow-hidden rounded-2xl shadow-lg"
+            className={`group relative overflow-hidden rounded-[24px] shadow-lg transition-all duration-700 hover:-translate-y-1.5 ${index === 0 ? "col-span-2 row-span-2 h-[450px]" : "h-[215px]"
+              }`}
           >
             <img
-              src={img}
-              alt="Brahmatal Trek"
-              className="h-56 w-full object-cover transform group-hover:scale-110 transition duration-500"
-              loading="lazy"
+              src={img.url}
+              alt={img.title}
+              className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000"
             />
-            <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition" />
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+              <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-1">{img.tag}</span>
+              <h4 className="text-white font-bold text-base leading-tight">{img.title}</h4>
+            </div>
+
+            {/* Corner Accent */}
+            <div className="absolute top-4 right-4 w-9 h-9 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-75 group-hover:scale-100">
+              <ImageIcon size={16} />
+            </div>
           </div>
         ))}
       </div>
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-3 mt-10 font-semibold text-gray-700">
-          <button
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            className={`px-3 py-1 rounded-full border hover:bg-gray-100 transition ${
-              currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-          >
-            ‹ Previous
-          </button>
-
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <button
-              key={page}
-              onClick={() => setCurrentPage(page)}
-              className={`px-3 py-1 rounded-full border transition ${
-                currentPage === page
-                  ? "bg-emerald-500 text-white border-emerald-500"
-                  : "hover:bg-gray-100"
-              }`}
-            >
-              {page}
-            </button>
-          ))}
-
-          <button
-            onClick={() =>
-              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-            }
-            className={`px-3 py-1 rounded-full border hover:bg-gray-100 transition ${
-              currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-          >
-            Next ›
-          </button>
-        </div>
-      )}
-    </section>
+    </div>
   );
 };
 
