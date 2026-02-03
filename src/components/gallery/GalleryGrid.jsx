@@ -61,11 +61,10 @@
 
 // export default GalleryGrid;
 
-
 import React, { useState, useEffect } from "react";
 import { Maximize2, MapPin, Calendar } from "lucide-react";
 import { DIR } from "../../config/constants";
-import { fetchTrekGallery } from "./galleryApi";
+import { fetchTrekGallery } from "../gallery/galleryApi";
 // import { fetchTrekGallery } from "../../api/galleryApi";
 
 const GalleryGrid = () => {
@@ -83,7 +82,7 @@ const GalleryGrid = () => {
         if (Array.isArray(result.data) && result.data.length > 0) {
           const galleryItems = result.data.map((item, index) => ({
             id: `${item.photo}-${index}`,
-            url: item.photo.cdnUrl || "", // ✅ CDN image URL
+            url: item.photo.cdnUrl || "",
             title: item.title,
             month: item.month,
             year: item.year,
@@ -107,7 +106,8 @@ const GalleryGrid = () => {
     loadGallery();
   }, []);
 
-  if (loading) return <p className="text-center text-gray-500">Loading gallery...</p>;
+  if (loading)
+    return <p className="text-center text-gray-500">Loading gallery...</p>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
