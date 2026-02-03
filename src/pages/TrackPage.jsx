@@ -128,12 +128,13 @@ const TrackPage = () => {
     <div className="min-h-screen bg-gray-50">
       <BookNowModal isOpen={isBookModalOpen} onClose={() => setIsBookModalOpen(false)} />
 
-      {/* Fixed Header */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
-        <TrekIntroCard />
+      {/* Spacer for Absolute Global Navbar */}
+      <div className="h-[72px] lg:h-[80px]"></div>
+
+      {/* Trek Header - Now sticks to the very top once navbar scrolls away */}
+      <div className="sticky top-0 z-40 bg-white shadow-md">
+        <TrekIntroCard onBookNow={() => setIsBookModalOpen(true)} price="12,999" />
       </div>
-      {/* Spacer for fixed header */}
-      <div className="h-36"></div>
 
       {/* Slider */}
       <section className="relative z-10">
@@ -169,15 +170,15 @@ const TrackPage = () => {
 
       <div
         ref={tabsRef}
-        className="bg-white border-b border-gray-200 z-40 sticky top-52 transition-all duration-300 shadow-sm"
+        className="bg-white border-b border-gray-200 z-40 sticky top-[50px] lg:top-[220px] transition-all duration-300 shadow-sm"
       >
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex gap-6 overflow-x-auto scrollbar-hide py-4">
+          <div className="flex gap-6 overflow-x-auto scrollbar-hide py-2">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => handleTabClick(tab.id)}
-                className={`relative px-6 py-3 text-base font-semibold whitespace-nowrap transition-all duration-300 rounded-lg
+                className={`relative px-6 py-2 text-base font-semibold whitespace-nowrap transition-all duration-300 rounded-lg
             ${activeTab === tab.id
                     ? "bg-emerald-50 text-emerald-600 shadow-md"
                     : "text-gray-700 hover:text-emerald-600 hover:bg-emerald-50"
@@ -196,10 +197,10 @@ const TrackPage = () => {
 
 
       {/* Spacer for sticky tabs */}
-      {isTabsSticky && <div className="h-14"></div>}
+      {isTabsSticky && <div className="h-4"></div>}
 
       {/* Sections */}
-      <main className="max-w-7xl mx-auto px-4 py-8">
+      <main className="max-w-8xl mx-auto px-15 py-2">
         <section ref={overviewRef} id="overview-section" className="scroll-mt-36">
           <TrekInfoCard />
         </section>
@@ -217,31 +218,6 @@ const TrackPage = () => {
         </section>
       </main>
 
-      {/* Bottom Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-lg font-bold text-gray-900">₹ 12,999</div>
-              <div className="text-xs text-gray-500">per person</div>
-            </div>
-            <div className="flex gap-3">
-              <button className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-semibold hover:bg-gray-50 transition">
-                Save for Later
-              </button>
-              <button
-                onClick={() => setIsBookModalOpen(true)}
-                className="px-6 py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition"
-              >
-                Book Now
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Spacer for bottom action bar */}
-      <div className="h-20"></div>
     </div>
   );
 };
