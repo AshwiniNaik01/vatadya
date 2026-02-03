@@ -151,7 +151,7 @@ const TrekDetailPage = () => {
             {/* Dynamic Sticky Tabs */}
             <div
                 ref={tabsRef}
-                className="bg-white border-b border-gray-200 z-30 sticky top-[280px] lg:top-[290px] transition-all duration-300 shadow-sm"
+                className="bg-white border-b border-gray-200 z-99 sticky top-[190px] lg:top-[210px] transition-all duration-300 shadow-sm"
             >
                 <div className="max-w-7xl mx-auto px-4">
                     <div className="flex gap-6 overflow-x-auto scrollbar-hide py-3">
