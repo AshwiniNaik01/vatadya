@@ -25,7 +25,25 @@ const featuredImages = [
   },
 ];
 
-const TrekGallery = () => {
+const TrekGallery = ({ trek }) => {
+  if (!trek) return null;
+
+  const galleryImages = trek.gallery || [];
+  const mainImage = trek.image?.cdnUrl;
+
+  const displayImages = mainImage ? [
+    { url: mainImage, title: trek.title, tag: "Main" },
+    ...galleryImages.map((img, i) => ({
+      url: img.cdnUrl,
+      title: `${trek.title} - Space ${i + 1}`,
+      tag: "Explorer"
+    }))
+  ] : galleryImages.map((img, i) => ({
+    url: img.cdnUrl,
+    title: `${trek.title} - Space ${i + 1}`,
+    tag: "Explorer"
+  }));
+
   return (
     <div className="space-y-12">
       {/* Section Header */}
@@ -39,7 +57,7 @@ const TrekGallery = () => {
             Captured <span className="text-emerald-600">Moments</span>
           </h2>
           <p className="text-gray-500 max-w-lg font-medium">
-            Explore the breathtaking beauty of the Brahmatal trek through the eyes of our explorers.
+            Explore the breathtaking beauty of the {trek.title} trek through the eyes of our explorers.
           </p>
         </div>
 
@@ -53,11 +71,12 @@ const TrekGallery = () => {
       </div>
 
       {/* Featured Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {featuredImages.map((img, index) => (
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        {displayImages.slice(0, 5).map((img, index) => (
           <div
             key={index}
-            className="group relative h-80 rounded-[32px] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(16,185,129,0.15)] transition-all duration-700 hover:-translate-y-2"
+            className={`group relative overflow-hidden rounded-[24px] shadow-lg transition-all duration-700 hover:-translate-y-1.5 ${index === 0 ? "col-span-2 row-span-2 h-[450px]" : "h-[215px]"
+              }`}
           >
             <img
               src={img.url}
@@ -65,14 +84,14 @@ const TrekGallery = () => {
               className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000"
             />
             {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
               <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-1">{img.tag}</span>
-              <h4 className="text-white font-bold text-lg leading-tight">{img.title}</h4>
+              <h4 className="text-white font-bold text-base leading-tight">{img.title}</h4>
             </div>
 
             {/* Corner Accent */}
-            <div className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-75 group-hover:scale-100">
-              <ImageIcon size={18} />
+            <div className="absolute top-4 right-4 w-9 h-9 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-75 group-hover:scale-100">
+              <ImageIcon size={16} />
             </div>
           </div>
         ))}

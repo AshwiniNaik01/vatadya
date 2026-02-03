@@ -83,7 +83,7 @@ const GalleryGrid = () => {
         if (Array.isArray(result.data) && result.data.length > 0) {
           const galleryItems = result.data.map((item, index) => ({
             id: `${item.photo}-${index}`,
-            url: `${DIR.TrekGalleryImage}${item.photo}`,
+            url: item.photo.cdnUrl || "", // ✅ CDN image URL
             title: item.title,
             month: item.month,
             year: item.year,

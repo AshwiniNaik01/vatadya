@@ -125,29 +125,107 @@ const trekInfo = [
 ];
 
 
-const TrekInfoCard = () => {
+const TrekInfoCard = ({ trek }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
+  if (!trek) return null;
+
+  const dynamicInfo = [
+    {
+      title: "TREK DIFFICULTY",
+      value: trek.difficulty || "Easy – Moderate",
+      icon: <BarChart2 size={24} />,
+      lottie: barChartData,
+      color: "bg-amber-100 text-amber-600",
+      group: "Essentials"
+    },
+    {
+      title: "TREK DURATION",
+      value: trek.duration || "6 Days",
+      icon: <Clock size={24} />,
+      lottie: clockData,
+      color: "bg-blue-100 text-blue-600",
+      group: "Essentials"
+    },
+    {
+      title: "HIGHEST ALTITUDE",
+      value: trek.altitude || "N/A",
+      icon: <Mountain size={24} />,
+      lottie: mountainData,
+      color: "bg-emerald-100 text-emerald-600",
+      group: "Essentials"
+    },
+    {
+      title: "SUITABLE FOR",
+      value: trek.govtEligibility || "8 Years & Above",
+      icon: <Users size={24} />,
+      color: "bg-indigo-100 text-indigo-600",
+      group: "Essentials"
+    },
+    {
+      title: "PRICE",
+      value: `₹${trek.price?.toLocaleString()} onwards`,
+      icon: <MapPin size={24} />,
+      lottie: mapPinData,
+      color: "bg-rose-100 text-rose-600",
+      group: "Logistics"
+    },
+    {
+      title: "ACCOMMODATION",
+      value: trek.links?.inclusions?.toLowerCase().includes('camp') || trek.links?.inclusions?.toLowerCase().includes('tent') ? "Tents / Camps" : "Guest House / Tents",
+      icon: <Tent size={24} />,
+      lottie: tentData,
+      color: "bg-teal-100 text-teal-600",
+      group: "Logistics"
+    },
+    {
+      title: "START DATE",
+      value: trek.startDate ? new Date(trek.startDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : "Coming Soon",
+      icon: <Timer size={24} />,
+      lottie: airplaneData,
+      color: "bg-cyan-100 text-cyan-600",
+      group: "Logistics"
+    },
+    {
+      title: "GROUP SIZE",
+      value: trek.groupSize || "4-12 Climbers",
+      icon: <Users size={24} />,
+      color: "bg-sky-100 text-sky-600",
+      group: "Logistics"
+    },
+    {
+      title: "SEASON",
+      value: trek.season || "N/A",
+      icon: <Clock size={24} />,
+      lottie: clockData,
+      color: "bg-orange-100 text-orange-600",
+      group: "Services"
+    },
+    {
+      title: "GEAR RENTAL",
+      value: "Available",
+      icon: <ShoppingBag size={24} />,
+      lottie: shoppingCartData,
+      color: "bg-purple-100 text-purple-600",
+      group: "Services"
+    },
+    {
+      title: "STATUS",
+      value: trek.status || "Ongoing",
+      icon: <Package size={24} />,
+      color: "bg-gray-100 text-gray-600",
+      group: "Services"
+    },
+  ];
+
   return (
     <section className="w-full py-4 bg-[#f9fafb] relative overflow-hidden">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-64 h-64 bg-emerald-50 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl opacity-60"></div>
-
-      {/* Local Lottie Background Animation */}
-      <div className="absolute top-1/2 right-0 w-[500px] h-[500px] -translate-y-1/2 translate-x-1/4 opacity-10 pointer-events-none">
-        <Player
-          autoplay
-          loop
-          src={mountainData}
-          style={{ height: '100%', width: '100%' }}
-        />
-      </div>
-
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-50 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl opacity-60"></div>
 
       <div className="max-w-8xl mx-auto px-15 relative">
         <div className="text-center mb-16 space-y-4">
@@ -159,13 +237,13 @@ const TrekInfoCard = () => {
             Trek <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">Quick Facts</span>
           </h2>
           <p className="text-gray-500 max-w-2xl mx-auto text-lg">
-            Essential information you need to know before embarking on your Brahmatal adventure.
+            Essential information you need to know before embarking on your {trek.title} adventure.
           </p>
         </div>
 
         {/* Info Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 flex justify-center items-center">
-          {trekInfo.map((item, index) => (
+          {dynamicInfo.map((item, index) => (
             <div
               key={index}
               style={{
@@ -180,8 +258,6 @@ const TrekInfoCard = () => {
              flex flex-col justify-center items-center gap-4
              h-52"
             >
-
-              {/* Card Accent Gradient */}
               <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-emerald-50 to-transparent -mr-10 -mt-10 rounded-full transition-transform group-hover:scale-150 duration-700"></div>
 
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform duration-500 overflow-hidden`}>
@@ -197,15 +273,11 @@ const TrekInfoCard = () => {
                 )}
               </div>
 
-              <div className="space-y-1 relative z-10">
-                {/* <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-1">
-                  {item.group}
-                  <div className="w-1 h-1 rounded-full bg-gray-200"></div>
-                </span> */}
+              <div className="space-y-1 relative z-10 text-center">
                 <h3 className="text-xs font-bold text-gray-500 uppercase">
                   {item.title}
                 </h3>
-                <p className="text-lg font-black text-gray-900 leading-tight">
+                <p className="text-sm font-black text-gray-900 leading-tight">
                   {item.value}
                 </p>
               </div>

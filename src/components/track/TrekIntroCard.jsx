@@ -142,73 +142,60 @@ import {
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const TrekIntroCard = ({ onBookNow, price = "12,999" }) => {
+const TrekIntroCard = ({ onBookNow, trek }) => {
   const navigate = useNavigate();
 
-  return (
-    <div className="bg-white border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 py-2">
-        {/* Back Button */}
+  if (!trek) return null;
 
+  return (
+    <div className="bg-white border-b border-gray-100 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 py-4">
 
         <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
           {/* Left Section - Trek Details */}
-          <div className="flex-1 space-y-6">
+          <div className="flex-1 space-y-4">
             <div>
-              <div className="flex flex-wrap items-center gap-2 mb-2">
-                <span className="px-3 py-1 bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase tracking-wider rounded-full border border-emerald-100">
-                  Winter Trek
-                </span>
-                <span className="px-3 py-1 bg-blue-50 text-blue-700 text-[10px] font-bold uppercase tracking-wider rounded-full border border-blue-100">
-                  Snow Trek
-                </span>
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                {trek.tags?.map((tag, index) => (
+                  <span key={index} className="px-3 py-1 bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase tracking-wider rounded-full border border-emerald-100">
+                    {tag}
+                  </span>
+                ))}
                 <span className="px-3 py-1 bg-indigo-50 text-indigo-700 text-[10px] font-bold uppercase tracking-wider rounded-full border border-indigo-100">
-                  Uttarakhand
+                  {trek.location?.split(',').pop().trim()}
                 </span>
               </div>
 
-              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight leading-tight">
-                Brahmatal Trek
+              <h1 className="text-3xl lg:text-4xl font-black text-gray-900 tracking-tight leading-tight">
+                {trek.title}
               </h1>
 
-              <p className="text-gray-500 mt-3 flex items-center text-base">
-                <MapPin size={18} className="mr-2 text-red-500" />
-                <span className="font-medium">Lohajung Base Camp, Chamoli, Uttarakhand</span>
+              <p className="text-gray-500 mt-2 flex items-center text-sm font-medium">
+                <MapPin size={16} className="mr-2 text-red-500" />
+                {trek.location}
               </p>
             </div>
 
             {/* Features/Quick Info Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 flex justify-center text-center">
               <div className="flex flex-col p-2 rounded-2xl bg-gray-50 border border-gray-100">
-                {/* <div className="text-emerald-600 mb-1 flex items-center justify-center">
-                  <Calendar size={18} />
-                </div> */}
                 <span className="text-[10px] text-gray-500 font-bold uppercase">Best Season</span>
-                <span className="text-sm font-semibold text-gray-900">Dec – Mar</span>
+                <span className="text-sm font-semibold text-gray-900">{trek.season}</span>
               </div>
 
               <div className="flex flex-col p-3 rounded-2xl bg-gray-50 border border-gray-100">
-                {/* <div className="text-blue-600 mb-1 flex items-center justify-center">
-                  <Clock size={18} />
-                </div> */}
                 <span className="text-[10px] text-gray-500 font-bold uppercase">Duration</span>
-                <span className="text-sm font-semibold text-gray-900">6 Days</span>
+                <span className="text-sm font-semibold text-gray-900">{trek.duration}</span>
               </div>
 
               <div className="flex flex-col p-3 rounded-2xl bg-gray-50 border border-gray-100">
-                {/* <div className="text-amber-600 mb-1 flex items-center justify-center">
-                  <Zap size={18} />
-                </div> */}
                 <span className="text-[10px] text-gray-500 font-bold uppercase">Difficulty</span>
-                <span className="text-sm font-semibold text-gray-900">Easy-Mod</span>
+                <span className="text-sm font-semibold text-gray-900">{trek.difficulty}</span>
               </div>
 
               <div className="flex flex-col p-3 rounded-2xl bg-gray-50 border border-gray-100">
-                {/* <div className="text-indigo-600 mb-1 flex items-center justify-center">
-                  <Phone size={18} />
-                </div> */}
-                <span className="text-[10px] text-gray-500 font-bold uppercase">Contact</span>
-                <span className="text-sm font-semibold text-gray-900">+91 9356412002</span>
+                <span className="text-[10px] text-gray-500 font-bold uppercase">Altitude</span>
+                <span className="text-sm font-semibold text-gray-900">{trek.altitude}</span>
               </div>
             </div>
 
@@ -217,16 +204,16 @@ const TrekIntroCard = ({ onBookNow, price = "12,999" }) => {
               <div className="flex items-center gap-2">
                 <div className="flex">
                   {[1, 2, 3, 4, 5].map((s) => (
-                    <Star key={s} size={16} className={`${s <= 4 ? "text-amber-400 fill-amber-400" : "text-gray-200"}`} />
+                    <Star key={s} size={16} className={`${s <= Math.floor(trek.rating || 4) ? "text-amber-400 fill-amber-400" : "text-gray-200"}`} />
                   ))}
                 </div>
-                <span className="text-sm font-bold text-gray-900">4.8</span>
-                <span className="text-xs text-gray-400 font-medium">(120 Reviews)</span>
+                <span className="text-sm font-bold text-gray-900">{trek.rating || "4.8"}</span>
+                <span className="text-xs text-gray-400 font-medium">({trek.reviews || "120"} Reviews)</span>
               </div>
               <div className="h-4 w-px bg-gray-200"></div>
               <div className="flex items-center gap-1 text-emerald-600">
                 <CheckCircle2 size={16} />
-                <span className="text-xs font-bold uppercase tracking-wide">Family Choice</span>
+                <span className="text-xs font-bold uppercase tracking-wide">{trek.status || "Ongoing"}</span>
               </div>
             </div>
           </div>
@@ -241,7 +228,7 @@ const TrekIntroCard = ({ onBookNow, price = "12,999" }) => {
                 <div className="my-4">
                   <div className="flex items-baseline gap-1">
                     <span className="text-gray-500 text-sm font-medium">From</span>
-                    <span className="text-2xl font-black text-gray-900">₹{price}</span>
+                    <span className="text-2xl font-black text-gray-900">₹{trek.price?.toLocaleString()}</span>
                   </div>
                   <p className="text-gray-400 text-xs font-medium uppercase tracking-wider mt-1">per person • All inclusive</p>
                 </div>
@@ -254,20 +241,7 @@ const TrekIntroCard = ({ onBookNow, price = "12,999" }) => {
                     <span>Book Your Adventure</span>
                     <ChevronRight size={18} />
                   </button>
-
-                  {/* <div className="grid grid-cols-2 gap-3">
-                    <button className="flex items-center justify-center gap-2 py-3 px-4 border border-gray-200 rounded-xl text-gray-600 font-semibold text-sm hover:bg-gray-50 transition-colors">
-                      <Bookmark size={14} />
-                      Save
-                    </button>
-                    <button className="flex items-center justify-center gap-2 py-3 px-4 border border-gray-200 rounded-xl text-gray-600 font-semibold text-sm hover:bg-gray-50 transition-colors">
-                      <Share2 size={14} />
-                      Share
-                    </button>
-                  </div> */}
                 </div>
-
-
               </div>
             </div>
           </div>

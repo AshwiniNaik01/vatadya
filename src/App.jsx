@@ -10,6 +10,7 @@ import AboutUs from "./components/hero/AboutUs";
 import AboutUsPage from "./pages/AboutUsPage";
 import ContactUsPage from "./pages/ContactUsPage";
 import BookNowPage from "./pages/BookNowPage";
+import TrekDetailPage from "./pages/TrekDetailPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/about" element={<AboutUsPage />} />
           <Route path="/contact" element={<ContactUsPage />} />
           <Route path="/book-now" element={<BookNowPage />} />
+          <Route path="/trek/:id" element={<TrekDetailPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

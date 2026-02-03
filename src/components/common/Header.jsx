@@ -66,7 +66,7 @@ const Header = () => {
       <BookNowModal isOpen={isBookingModalOpen} onClose={() => setIsBookingModalOpen(false)} />
 
       <header
-        className={`${location.pathname === "/treks" ? "absolute" : "fixed"} top-0 left-0 w-full z-50 transition-all duration-300 ${showSolidBackground
+        className={`${location.pathname === "/treks" || location.pathname.startsWith("/trek/") ? "absolute" : "fixed"} top-0 left-0 w-full z-50 transition-all duration-300 ${showSolidBackground
           ? "bg-emerald-900/95 backdrop-blur-md py-3 shadow-lg"
           : "bg-transparent py-5"
           }`}

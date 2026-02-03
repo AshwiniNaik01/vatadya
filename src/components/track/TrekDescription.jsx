@@ -65,7 +65,44 @@ const trekDescription = [
   },
 ];
 
-const TrekPageWithFees = () => {
+const TrekPageWithFees = ({ trek }) => {
+  if (!trek) return null;
+
+  const dynamicDescription = [
+    {
+      type: "paragraph",
+      content: trek.description
+    },
+    {
+      type: "paragraph",
+      content: trek.bestFor
+    },
+    {
+      type: "list",
+      title: "What Makes This Trek Special",
+      items: [
+        {
+          title: "Stunning High Altitude",
+          content: `Reach a peak altitude of ${trek.altitude}, offering breathtaking views of the ${trek.location} range.`,
+          icon: <MountainIcon className="w-6 h-6" />,
+          color: "from-emerald-500 to-teal-500"
+        },
+        {
+          title: "Managed Adventure",
+          content: `Expertly planned ${trek.duration} journey with a group size of ${trek.groupSize} for a personalized experience.`,
+          icon: <Waves className="w-6 h-6" />,
+          color: "from-blue-500 to-cyan-500"
+        },
+        {
+          title: "Seasonal Magic",
+          content: `Experience the best of ${trek.season} with crystal clear views and professional guide support.`,
+          icon: <Trees className="w-6 h-6" />,
+          color: "from-green-500 to-emerald-500"
+        }
+      ]
+    }
+  ];
+
   return (
     <div className="relative overflow-hidden bg-white">
       {/* Visual Background Accents */}
@@ -82,16 +119,13 @@ const TrekPageWithFees = () => {
                 Expert Recommendation
               </div>
               <h2 className="text-3xl md:text-4xl font-black text-gray-900 leading-[1.2] tracking-tight">
-                Trek to a high-altitude lake in{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">
-                  Mt Trishul's Shadow
-                </span>
+                {trek.highlight || `Explore the beauty of ${trek.location}`}
               </h2>
             </div>
 
             <div className="space-y-6">
-              {trekDescription.map((item, index) => {
-                if (item.type === "paragraph") {
+              {dynamicDescription.map((item, index) => {
+                if (item.type === "paragraph" && item.content) {
                   return (
                     <div key={index} className="relative pl-5 border-l-2 border-emerald-100">
                       <p className="text-lg leading-relaxed text-gray-600 font-medium">
@@ -117,7 +151,6 @@ const TrekPageWithFees = () => {
                             key={idx}
                             className="group relative bg-white p-6 rounded-lg border border-gray-100 hover:border-emerald-700 shadow-[0_4px_15px_rgba(0,0,0,0.02)] hover:shadow-[0_15px_30px_rgba(16,185,129,0.08)] transition-all duration-500 hover:-translate-y-1.5 overflow-hidden"
                           >
-                            {/* Card Accent */}
                             <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-emerald-50 to-transparent -mr-10 -mt-10 rounded-full group-hover:scale-150 transition-transform duration-700"></div>
 
                             <div className="relative z-10 flex flex-col gap-4">
@@ -135,10 +168,6 @@ const TrekPageWithFees = () => {
                                   {li.content}
                                 </p>
                               </div>
-
-                              {/* <div className="pt-1 flex items-center gap-1.5 text-emerald-600 font-bold text-[13px] opacity-0 group-hover:opacity-100 -translate-x-3 group-hover:translate-x-0 transition-all duration-500">
-                                Explore Details <ArrowRight size={12} />
-                              </div> */}
                             </div>
                           </div>
                         ))}
@@ -157,11 +186,10 @@ const TrekPageWithFees = () => {
             <div className="sticky top-15 space-y-6">
               <div className="p-0.5 bg-gradient-to-br from-white via-emerald-100 to-blue-100 rounded-[28px] shadow-xl">
                 <div className="bg-white rounded-[26px] p-6 overflow-hidden relative">
-                  {/* Decorative Elements */}
                   <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-50 rounded-full translate-x-12 -translate-y-12 blur-2xl"></div>
 
                   <div className="relative z-10">
-                    <TrekFeeSidebar />
+                    <TrekFeeSidebar trek={trek} />
                   </div>
                 </div>
               </div>

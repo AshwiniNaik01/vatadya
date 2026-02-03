@@ -117,13 +117,26 @@ const AboutUsPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80"></div>
 
         <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-6">
-          <h1 className="text-5xl md:text-5xl font-bold text-white tracking-wide">
+
+          <h1 className="text-5xl md:text-6xl font-extrabold 
+    bg-gradient-to-r from-yellow-300 via-yellow-400 to-amber-500 
+    bg-clip-text text-transparent drop-shadow-lg">
             TrekkVede
           </h1>
-          <p className="text-xl md:text-2xl text-yellow-400  mt-8 font-semibold">
-            Explore The Himalayas With Experts
+
+          <div className="w-24 h-1 rounded-full mt-4 mb-6 
+       bg-gradient-to-r from-transparent via-yellow-400 to-transparent" />
+
+          <p className="text-lg md:text-2xl tracking-widest uppercase font-medium
+          bg-gradient-to-r from-yellow-200 to-yellow-400
+           bg-clip-text text-transparent">
+            Explore the Himalayas with Experts
           </p>
+
+
+
         </div>
+
 
         {/* HERO IMAGE CARDS */}
         <div className="absolute bottom-8 w-full z-20">
