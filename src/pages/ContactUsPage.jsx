@@ -1,7 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import { Phone, Mail, MapPin } from "lucide-react";
+import { addContact } from "../api/contactApi"; // Adjust path as needed
 
 const ContactUsPage = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus({ type: "", message: "" });
+
+    try {
+      const response = await addContact(formData);
+      setSubmitStatus({
+        type: "success",
+        message: "Thank you! Your message has been sent successfully.",
+      });
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        mobile_no: "",
+        message: "",
+      });
+    } catch (error) {
+      setSubmitStatus({
+        type: "error",
+        message:
+          error.response?.data?.message ||
+          "Failed to send message. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="bg-gradient-to-b from-white to-emerald-50 min-h-screen">
       {/* ================= HERO ================= */}
@@ -22,7 +70,7 @@ const ContactUsPage = () => {
             Contact Us
           </h1>
           <p className="mt-5 text-lg md:text-xl max-w-2xl mx-auto text-yellow-400 drop-shadow-sm">
-            Let’s plan your next unforgettable trekking adventure together
+            Let's plan your next unforgettable trekking adventure together
           </p>
         </div>
       </section>
@@ -79,29 +127,70 @@ const ContactUsPage = () => {
               Send Us a Message
             </h3>
 
-            <form className="space-y-5">
-              {["Your Name", "Email Address", "Phone Number"].map(
-                (placeholder, i) => (
-                  <input
-                    key={i}
-                    type="text"
-                    placeholder={placeholder}
-                    className="w-full px-5 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm hover:shadow-md transition"
-                  />
-                )
-              )}
+            {/* Status Message */}
+            {submitStatus.message && (
+              <div
+                className={`mb-6 p-4 rounded-xl ${
+                  submitStatus.type === "success"
+                    ? "bg-green-50 text-green-800 border border-green-200"
+                    : "bg-red-50 text-red-800 border border-red-200"
+                }`}
+              >
+                {submitStatus.message}
+              </div>
+            )}
+
+            <form className="space-y-5" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Your Name"
+                required
+                className="w-full px-5 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm hover:shadow-md transition"
+              />
+
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email Address"
+                required
+                className="w-full px-5 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm hover:shadow-md transition"
+              />
+
+              <input
+                type="tel"
+                name="mobile_no"
+                value={formData.mobile_no}
+                onChange={handleChange}
+                placeholder="Mobile Number"
+                required
+                className="w-full px-5 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm hover:shadow-md transition"
+              />
 
               <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
                 rows="4"
                 placeholder="Your Message"
+                required
                 className="w-full px-5 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm hover:shadow-md transition"
               ></textarea>
 
               <button
                 type="submit"
-                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition"
+                disabled={isSubmitting}
+                className={`w-full font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition ${
+                  isSubmitting
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-emerald-600 hover:bg-emerald-700 text-white"
+                }`}
               >
-                Send Message
+                {isSubmitting ? "Sending..." : "Send Message"}
               </button>
             </form>
           </div>
