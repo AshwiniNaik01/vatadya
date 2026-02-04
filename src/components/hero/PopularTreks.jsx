@@ -14,25 +14,28 @@ import {
   Users
 } from "lucide-react";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { selectAllTreks, fetchTreksAsync } from "../../store/slices/trekSlice";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { HiKey } from "react-icons/hi";
 import BookNowModal from "../modals/BookNowModal";
 import { API_BASE_URL, DIR } from "../../config/constants";
-import { fetchTreks } from "./trekApi";
 
 const PopularTreks = () => {
+  const dispatch = useDispatch();
+  const allTreks = useSelector(selectAllTreks);
+  const status = useSelector((state) => state.treks.status);
+  const error = useSelector((state) => state.treks.error);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDifficulty, setSelectedDifficulty] = useState("all");
   const [filteredTreks, setFilteredTreks] = useState([]);
-  const [treks, setTreks] = useState([]);
   const [activeFilter, setActiveFilter] = useState("all");
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [animate, setAnimate] = useState(true);
   const [isBookModalOpen, setIsBookModalOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   const placeholders = [
     "Search treks like Kedarkantha, Everest...",
@@ -78,36 +81,17 @@ const PopularTreks = () => {
     }
   }, [activeIndex]);
 
-  // --- Fetch Treks from API dynamically using Axios ---
+  // --- Fetch Treks from Redux ---
   useEffect(() => {
-    const loadTreks = async () => {
-      try {
-        setLoading(true);
-
-        const result = await fetchTreks(); // ✅ using API function
-
-        if (result.success && Array.isArray(result.data)) {
-          setTreks(result.data);
-          setFilteredTreks(result.data);
-        } else {
-          throw new Error(result.message || "Failed to fetch treks.");
-        }
-      } catch (err) {
-        console.error(err);
-        setError(err.message || "Something went wrong");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadTreks();
-  }, []);
+    if (status === 'idle') {
+      dispatch(fetchTreksAsync());
+    }
+  }, [status, dispatch]);
 
   // --- Filtering ---
   useEffect(() => {
-    if (!treks) return;
-
-    let results = treks;
+    // If loading or no treks, don't filter yet, but initializing with empty array is fine
+    let results = allTreks;
 
     if (searchQuery) {
       results = results.filter(
@@ -128,7 +112,7 @@ const PopularTreks = () => {
     }
 
     setFilteredTreks(results);
-  }, [searchQuery, selectedDifficulty, treks]);
+  }, [searchQuery, selectedDifficulty, allTreks]);
 
   const clearFilters = () => {
     setSearchQuery("");
@@ -137,8 +121,8 @@ const PopularTreks = () => {
   };
 
   // --- Render loading/error ---
-  if (loading) return <div className="text-center py-40 text-gray-600 text-xl">Loading Treks...</div>;
-  if (error) return <div className="text-center py-40 text-red-500 text-xl">{error}</div>;
+  if (status === 'loading') return <div className="text-center py-40 text-gray-600 text-xl">Loading Treks...</div>;
+  if (status === 'failed') return <div className="text-center py-40 text-red-500 text-xl">{error}</div>;
 
   // --- Helper functions ---
   const getDifficultyColor = (difficulty) => {
@@ -280,103 +264,115 @@ const PopularTreks = () => {
             </button>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mx-20">
-            {filteredTreks.map((trek) => (
-              <div key={trek._id} className="group relative overflow-hidden rounded-2xl transition-all duration-500 hover:scale-[1.02]">
-                <button title="Add/Remove from wishlist" className="absolute top-4 right-4 z-50 p-2 rounded-full backdrop-blur-md bg-black/40 border border-white/20 transition-all duration-300 hover:bg-red-500/20 hover:border-red-400">
-                  <Heart className="w-6 h-6 text-red-500" />
-                </button>
+          <>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mx-20">
+              {filteredTreks.slice(0, 6).map((trek) => (
+                <div key={trek._id} className="group relative overflow-hidden rounded-2xl transition-all duration-500 hover:scale-[1.02]">
+                  <button title="Add/Remove from wishlist" className="absolute top-4 right-4 z-50 p-2 rounded-full backdrop-blur-md bg-black/40 border border-white/20 transition-all duration-300 hover:bg-red-500/20 hover:border-red-400">
+                    <Heart className="w-6 h-6 text-red-500" />
+                  </button>
 
-                {/* Background Image */}
-                <div className="absolute inset-0">
-                  <img
-                    src={trek.image?.cdnUrl}
-                    alt={trek.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
+                  {/* Background Image */}
+                  <div className="absolute inset-0">
+                    <img
+                      src={trek.image?.cdnUrl}
+                      alt={trek.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-                </div>
-
-                <div className="relative z-10 h-full flex flex-col justify-end p-6 min-h-[500px]">
-                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-amber-300 transition-colors">
-                    {trek.title}
-                  </h3>
-                  <div className="flex items-center text-gray-300 mb-4">
-                    <MapPin className="w-5 h-5 text-amber-400 mr-2" />
-                    <span className="font-medium">{trek.location}</span>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3">
-                      <div className="flex items-center">
-                        <Calendar className="w-4 h-4 text-emerald-400 mr-2" />
-                        <span className="text-xs text-gray-300">DURATION</span>
-                      </div>
-                      <div className="text-white font-bold">{trek.duration}</div>
+                  <div className="relative z-10 h-full flex flex-col justify-end p-6 min-h-[500px]">
+                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-amber-300 transition-colors">
+                      {trek.title}
+                    </h3>
+                    <div className="flex items-center text-gray-300 mb-4">
+                      <MapPin className="w-5 h-5 text-amber-400 mr-2" />
+                      <span className="font-medium">{trek.location}</span>
                     </div>
 
-                    <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3">
-                      <div className="flex items-center">
-                        <Users className="w-4 h-4 text-blue-400 mr-2" />
-                        <span className="text-xs text-gray-300">GROUP</span>
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3">
+                        <div className="flex items-center">
+                          <Calendar className="w-4 h-4 text-emerald-400 mr-2" />
+                          <span className="text-xs text-gray-300">DURATION</span>
+                        </div>
+                        <div className="text-white font-bold">{trek.duration}</div>
                       </div>
-                      <div className="text-white font-bold">{trek.groupSize}</div>
-                    </div>
 
-                    <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3">
-                      <div className="flex items-center">
-                        <Sunrise className="w-4 h-4 text-orange-400 mr-2" />
-                        <span className="text-xs text-gray-300">ALTITUDE</span>
+                      <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3">
+                        <div className="flex items-center">
+                          <Users className="w-4 h-4 text-blue-400 mr-2" />
+                          <span className="text-xs text-gray-300">GROUP</span>
+                        </div>
+                        <div className="text-white font-bold">{trek.groupSize}</div>
                       </div>
-                      <div className={`text-white font-bold text-sm px-2 py-1 rounded`}>
-                        {trek.altitude}
-                      </div>
-                    </div>
 
-                    <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3">
-                      <span className="text-yellow-400 mr-2">📅</span>
-                      <div>
-                        <div className="text-xs text-gray-300">SEASON</div>
-                        <div className="text-white font-bold text-sm">{trek.season}</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col gap-3 pt-4 border-t border-gray-700/50">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="text-xs text-gray-300">FROM</div>
-                        <div className="flex items-baseline">
-                          <span className="text-2xl font-bold text-white">
-                            ${trek.price.toLocaleString()}
-                          </span>
+                      <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3">
+                        <div className="flex items-center">
+                          <Sunrise className="w-4 h-4 text-orange-400 mr-2" />
+                          <span className="text-xs text-gray-300">ALTITUDE</span>
+                        </div>
+                        <div className={`text-white font-bold text-sm px-2 py-1 rounded`}>
+                          {trek.altitude}
                         </div>
                       </div>
-                      <div className="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-lg text-xs font-bold border border-emerald-500/30">
-                        {trek.difficulty}
+
+                      <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3">
+                        <span className="text-yellow-400 mr-2">📅</span>
+                        <div>
+                          <div className="text-xs text-gray-300">SEASON</div>
+                          <div className="text-white font-bold text-sm">{trek.season}</div>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3">
-                      <Link
-                        to={`/trek/${trek._id}`}
-                        className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-3 rounded-xl font-bold text-sm transition-all duration-300 hover:bg-white/20 text-center flex items-center justify-center"
-                      >
-                        View Trek
-                      </Link>
-                      <button
-                        onClick={() => setIsBookModalOpen(true)}
-                        className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-4 py-3 rounded-xl font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl"
-                      >
-                        Book Now
-                      </button>
+                    <div className="flex flex-col gap-3 pt-4 border-t border-gray-700/50">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="text-xs text-gray-300">FROM</div>
+                          <div className="flex items-baseline">
+                            <span className="text-2xl font-bold text-white">
+                              ${trek.price.toLocaleString()}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-lg text-xs font-bold border border-emerald-500/30">
+                          {trek.difficulty}
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <Link
+                          to={`/trek/${trek._id}`}
+                          className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-3 rounded-xl font-bold text-sm transition-all duration-300 hover:bg-white/20 text-center flex items-center justify-center"
+                        >
+                          View Trek
+                        </Link>
+                        <button
+                          onClick={() => setIsBookModalOpen(true)}
+                          className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-4 py-3 rounded-xl font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl"
+                        >
+                          Book Now
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+
+            <div className="text-center mt-12">
+              <Link
+                to="/treks"
+                className="inline-flex items-center justify-center gap-2 bg-white text-emerald-900 border border-emerald-200 px-8 py-4 rounded-full font-bold text-lg hover:bg-emerald-50 hover:border-emerald-300 transition-all duration-300 shadow-sm hover:shadow-md"
+              >
+                Explore Treks
+                <ChevronRight className="w-5 h-5" />
+              </Link>
+            </div>
+          </>
         )}
       </div>
     </section>

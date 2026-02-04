@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE_URL } from "../../config/constants";
+import { API_BASE_URL } from "../config/constants";
 
 
 // Single function to fetch treks
@@ -21,5 +21,16 @@ export const fetchTrekById = async (id) => {
     } catch (error) {
         console.error(`Error fetching trek with ID ${id}:`, error);
         return { success: false, data: null, error: error.message };
+    }
+};
+
+// Function to fetch filtered treks
+export const fetchFilteredTreks = async (categoryId) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/api/trek/filter?difficulty=${categoryId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching filtered treks:", error);
+        return { success: false, data: [], error: error.message };
     }
 };

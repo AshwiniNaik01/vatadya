@@ -261,6 +261,7 @@
 
 // export default TrekCategories;
 
+import { useNavigate } from "react-router-dom";
 import {
   ArrowRight,
   Clock,
@@ -269,9 +270,10 @@ import {
 import { useState, useEffect } from "react";
 // import { fetchTrekCategories } from "../../api/trekCategoryApi";
 import { DIR } from "../../config/constants";
-import { fetchTrekCategories } from "./trekCategoryApi";
+import { fetchTrekCategories } from "../../api/trekCategoryApi";
 
 const TrekCategories = () => {
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("all");
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -296,7 +298,7 @@ const TrekCategories = () => {
           textColor: "text-green-700",
           duration: "1-3 Days",
           difficulty: cat.difficulty || "Easy",
-          image: `${DIR.CategoryImage}${cat.catImage}`,
+          image: cat.catImage?.cdnUrl || (typeof cat.catImage === 'string' ? `${DIR.CategoryImage}${cat.catImage}` : "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3"),
         }));
 
         setCategories(mappedCategories);
@@ -377,7 +379,7 @@ const TrekCategories = () => {
               <div
                 key={category.id}
                 className={`group relative bg-emerald-50 rounded-lg overflow-hidden shadow-lg border-4 border-emerald-700 transition-all duration-500 transform hover:-translate-y-1 hover:shadow-xl cursor-pointer`}
-                onClick={() => setActiveCategory(category.id)}
+                onClick={() => navigate(`/treks?difficulty=${category.id}`)}
               >
                 {/* Category Image */}
                 <div className="h-50 relative overflow-hidden">
