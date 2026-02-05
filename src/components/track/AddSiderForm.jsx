@@ -45,7 +45,7 @@ const AddSiderForm = ({ trek }) => {
               <div className="relative w-full h-full">
                 <img
                   src={s.img}
-                  className="w-full h-full object-cover"
+                  className="w-full h-[50] object-fill"
                   alt=""
                 />
                 <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white">

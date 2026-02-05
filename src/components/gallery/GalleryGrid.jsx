@@ -65,95 +65,95 @@
 import React, { useState, useEffect } from "react";
 import { Maximize2, MapPin, Calendar } from "lucide-react";
 import { DIR } from "../../config/constants";
-import { fetchTrekGallery } from "./galleryApi";
+import { fetchTrekGallery } from "../../api/galleryApi";
 // import { fetchTrekGallery } from "../../api/galleryApi";
 
 const GalleryGrid = () => {
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+    const [images, setImages] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const loadGallery = async () => {
-      try {
-        setLoading(true);
+    useEffect(() => {
+        const loadGallery = async () => {
+            try {
+                setLoading(true);
 
-        const result = await fetchTrekGallery();
+                const result = await fetchTrekGallery();
 
-        if (Array.isArray(result.data) && result.data.length > 0) {
-          const galleryItems = result.data.map((item, index) => ({
-            id: `${item.photo}-${index}`,
-            url: item.photo.cdnUrl || "", // ✅ CDN image URL
-            title: item.title,
-            month: item.month,
-            year: item.year,
-            season: item.season,
-            experience: item.experience,
-            region: item.region,
-          }));
+                if (Array.isArray(result.data) && result.data.length > 0) {
+                    const galleryItems = result.data.map((item, index) => ({
+                        id: `${item.photo}-${index}`,
+                        url: item.photo.cdnUrl || "", // ✅ CDN image URL
+                        title: item.title,
+                        month: item.month,
+                        year: item.year,
+                        season: item.season,
+                        experience: item.experience,
+                        region: item.region,
+                    }));
 
-          setImages(galleryItems);
-        } else {
-          setError("No gallery items found");
-        }
-      } catch (err) {
-        console.error(err);
-        setError("Failed to load gallery");
-      } finally {
-        setLoading(false);
-      }
-    };
+                    setImages(galleryItems);
+                } else {
+                    setError("No gallery items found");
+                }
+            } catch (err) {
+                console.error(err);
+                setError("Failed to load gallery");
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    loadGallery();
-  }, []);
+        loadGallery();
+    }, []);
 
-  if (loading) return <p className="text-center text-gray-500">Loading gallery...</p>;
-  if (error) return <p className="text-center text-red-500">{error}</p>;
+    if (loading) return <p className="text-center text-gray-500">Loading gallery...</p>;
+    if (error) return <p className="text-center text-red-500">{error}</p>;
 
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-      {images.map((img) => (
-        <div
-          key={img.id}
-          className="group relative bg-white rounded-3xl overflow-hidden border border-gray-100 shadow hover:shadow-xl transition-all"
-        >
-          <div className="relative aspect-[4/5] overflow-hidden">
-            <img
-              src={img.url}
-              alt={img.title}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-            />
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            {images.map((img) => (
+                <div
+                    key={img.id}
+                    className="group relative bg-white rounded-3xl overflow-hidden border border-gray-100 shadow hover:shadow-xl transition-all"
+                >
+                    <div className="relative aspect-[4/5] overflow-hidden">
+                        <img
+                            src={img.url}
+                            alt={img.title}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition">
-              <div className="absolute bottom-6 left-6 right-6 text-white space-y-2">
-                <div className="flex items-center gap-2 text-xs text-emerald-400">
-                  <MapPin size={12} /> {img.region}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition">
+                            <div className="absolute bottom-6 left-6 right-6 text-white space-y-2">
+                                <div className="flex items-center gap-2 text-xs text-emerald-400">
+                                    <MapPin size={12} /> {img.region}
+                                </div>
+                                <h3 className="text-xl font-bold">{img.title}</h3>
+                                <div className="flex items-center gap-3 text-xs">
+                                    <Calendar size={12} /> {img.month} {img.year}
+                                </div>
+                            </div>
+                        </div>
+
+                        <button className="absolute top-4 right-4 w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100">
+                            <Maximize2 size={18} />
+                        </button>
+                    </div>
+
+                    <div className="p-4 flex justify-between items-center">
+                        <div>
+                            <p className="text-xs text-emerald-600 font-semibold">
+                                {img.season} Season
+                            </p>
+                            <p className="text-sm font-bold truncate">{img.title}</p>
+                        </div>
+                        <span className="text-xs text-gray-400 font-bold">{img.year}</span>
+                    </div>
                 </div>
-                <h3 className="text-xl font-bold">{img.title}</h3>
-                <div className="flex items-center gap-3 text-xs">
-                  <Calendar size={12} /> {img.month} {img.year}
-                </div>
-              </div>
-            </div>
-
-            <button className="absolute top-4 right-4 w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100">
-              <Maximize2 size={18} />
-            </button>
-          </div>
-
-          <div className="p-4 flex justify-between items-center">
-            <div>
-              <p className="text-xs text-emerald-600 font-semibold">
-                {img.season} Season
-              </p>
-              <p className="text-sm font-bold truncate">{img.title}</p>
-            </div>
-            <span className="text-xs text-gray-400 font-bold">{img.year}</span>
-          </div>
+            ))}
         </div>
-      ))}
-    </div>
-  );
+    );
 };
 
 export default GalleryGrid;

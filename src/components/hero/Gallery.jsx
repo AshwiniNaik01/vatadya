@@ -1,42 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Sparkles, X, ArrowRight, Image as ImageIcon } from 'lucide-react';
+import { fetchTrekGallery } from '../../api/galleryApi';
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const galleryImages = [
-    {
-      url: "https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070",
-      category: "Mountain Views",
-      title: "Majestic Peaks"
-    },
-    {
-      url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070",
-      category: "Summit",
-      title: "The Final Ascent"
-    },
-    {
-      url: "https://images.unsplash.com/photo-1526392060635-9d6019884377?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070",
-      category: "Trails",
-      title: "Valley Walk"
-    },
-    {
-      url: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070",
-      category: "Camping",
-      title: "Starry Nights"
-    },
-    {
-      url: "https://images.unsplash.com/photo-1580137189272-c9379f8864fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070",
-      category: "Base Camp",
-      title: "Climbers Rest"
-    },
-    {
-      url: "https://images.pexels.com/photos/914128/pexels-photo-914128.jpeg?cs=srgb&dl=pexels-saikat-ghosh-323099-914128.jpg&fm=jpg",
-      category: "Himalayas",
-      title: "Everest Mist"
-    }
-  ];
+  useEffect(() => {
+    const loadGallery = async () => {
+      try {
+        const result = await fetchTrekGallery();
+        if (result && Array.isArray(result.data)) {
+          // Take only the first 6 images for the hero section
+          const mappedImages = result.data.slice(0, 6).map((item) => ({
+            url: item.photo?.cdnUrl || "https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3",
+            category: item.season || item.region || "Adventure",
+            title: item.title || "Trek Moment"
+          }));
+          setGalleryImages(mappedImages);
+        }
+      } catch (error) {
+        console.error("Failed to load gallery images:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadGallery();
+  }, []);
+
+  if (loading) {
+    return <div className="py-24 text-center">Loading Visual Stories...</div>;
+  }
+
+  // Fallback if no images found
+  if (galleryImages.length === 0) {
+    return null;
+  }
 
   return (
     <section id="gallery" className="py-24 bg-white relative overflow-hidden">
