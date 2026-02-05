@@ -147,7 +147,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
   const requiredAdditionalMembers = formData.numberOfPeople - 1;
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm overflow-y-auto custom-scrollbar">
+    <div className="fixed inset-0 z-100 bg-black/50 backdrop-blur-sm overflow-y-auto custom-scrollbar">
       {/* Overlay click to close */}
       <div className="absolute inset-0" onClick={onClose}></div>
 
@@ -644,7 +644,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-emerald-500/30 transform transition-all duration-300 active:scale-[0.98]"
+              className="w-full bg-linear-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-emerald-500/30 transform transition-all duration-300 active:scale-[0.98]"
             >
               Confirm Booking
             </button>

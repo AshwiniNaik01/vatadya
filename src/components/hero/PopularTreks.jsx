@@ -52,34 +52,34 @@ const PopularTreks = () => {
       value: "all",
       label: "All Adventures",
       icon: <Compass className="w-4 h-4" />,
-      color: "bg-gradient-to-r from-gray-800 to-gray-600",
+      color: "bg-linear-to-r from-gray-800 to-gray-600",
     },
     {
       value: "moderate",
       label: "Moderate",
       icon: <TrendingUp className="w-4 h-4" />,
-      color: "bg-gradient-to-r from-emerald-600 to-emerald-800",
+      color: "bg-linear-to-r from-emerald-600 to-emerald-800",
       description: "Good fitness required",
     },
     {
       value: "challenging",
       label: "Challenging",
       icon: <Mountain className="w-4 h-4" />,
-      color: "bg-gradient-to-r from-orange-600 to-amber-700",
+      color: "bg-linear-to-r from-orange-600 to-amber-700",
       description: "For experienced trekkers",
     },
     {
       value: "difficult",
       label: "Difficult",
       icon: <Award className="w-4 h-4" />,
-      color: "bg-gradient-to-r from-red-600 to-orange-700",
+      color: "bg-linear-to-r from-red-600 to-orange-700",
       description: "High altitude experience",
     },
     {
       value: "extreme",
       label: "Extreme",
       icon: <Target className="w-4 h-4" />,
-      color: "bg-gradient-to-r from-purple-700 to-pink-600",
+      color: "bg-linear-to-r from-purple-700 to-pink-600",
       description: "Mountaineering skills needed",
     },
   ];
@@ -190,7 +190,7 @@ const PopularTreks = () => {
   return (
     <section
       id="treks"
-      className="relative min-h-screen py-6 overflow-hidden bg-gradient-to-br from-emerald-50 via-white to-amber-50"
+      className="relative min-h-screen py-6 overflow-hidden bg-linear-to-br from-emerald-50 via-white to-amber-50"
     >
       <BookNowModal
         isOpen={isBookModalOpen}
@@ -199,8 +199,8 @@ const PopularTreks = () => {
       />
 
       {/* Background Effects */}
-      <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-emerald-200/20 to-transparent"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-t from-amber-200/20 to-transparent rounded-full translate-x-48 translate-y-48"></div>
+      <div className="absolute top-0 left-0 w-full h-96 bg-linear-to-b from-emerald-200/20 to-transparent"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-linear-to-t from-amber-200/20 to-transparent rounded-full translate-x-48 translate-y-48"></div>
 
       {/* Floating Elements */}
       <div className="absolute top-20 left-10 animate-float">
@@ -213,7 +213,7 @@ const PopularTreks = () => {
       <div className="relative container mx-auto px-4 z-10">
         {/* Header */}
         <div className="text-center mb-6">
-          <div className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-amber-500 text-white px-6 py-2 rounded-full mb-6 shadow-lg">
+          <div className="inline-flex items-center gap-3 bg-linear-to-r from-emerald-500 to-amber-500 text-white px-6 py-2 rounded-full mb-6 shadow-lg">
             <Sparkles className="w-6 h-6" />
             <span className="font-bold tracking-wide text-sm">
               UNCHARTED ADVENTURES AWAIT
@@ -222,7 +222,7 @@ const PopularTreks = () => {
 
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Conquer{" "}
-            <span className="bg-gradient-to-r from-emerald-600 to-amber-600 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-emerald-600 to-amber-600 bg-clip-text text-transparent">
               EPIC PEAKS
             </span>
           </h1>
@@ -265,7 +265,7 @@ const PopularTreks = () => {
               />
             </div>
 
-            <button className="bg-gradient-to-r from-amber-600 to-amber-500 text-white px-6 py-3 rounded-xl font-bold hover:scale-105 transition">
+            <button className="bg-linear-to-r from-amber-600 to-amber-500 text-white px-6 py-3 rounded-xl font-bold hover:scale-105 transition">
               Find Adventures
             </button>
           </div>
@@ -317,7 +317,7 @@ const PopularTreks = () => {
 
         {/* Treks Grid */}
         {filteredTreks.length === 0 ? (
-          <div className="text-center py-20 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-lg rounded-lg border border-gray-700/50">
+          <div className="text-center py-20 bg-linear-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-lg rounded-lg border border-gray-700/50">
             <Compass className="w-20 h-20 text-amber-400 mx-auto mb-6 opacity-50" />
             <h3 className="text-3xl font-bold text-white mb-4">
               No Adventures Found
@@ -328,7 +328,7 @@ const PopularTreks = () => {
             </p>
             <button
               onClick={clearFilters}
-              className="inline-flex items-center gap-3 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 group"
+              className="inline-flex items-center gap-3 bg-linear-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 group"
             >
               EXPLORE ALL TREKS
               <ChevronRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
@@ -357,10 +357,10 @@ const PopularTreks = () => {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent" />
                   </div>
 
-                  <div className="relative z-10 h-full flex flex-col justify-end p-6 min-h-[500px]">
+                  <div className="relative z-10 h-full flex flex-col justify-end p-6 min-h-125">
                     <h3 className="text-xl font-bold text-white mb-2 group-hover:text-amber-300 transition-colors">
                       {trek.title}
                     </h3>
@@ -441,7 +441,7 @@ const PopularTreks = () => {
                         </Link>
                         <button
                           onClick={() => handleBookNow(trek)} // ✅ CHANGED THIS LINE
-                          className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-4 py-3 rounded-xl font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl"
+                          className="bg-linear-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-4 py-3 rounded-xl font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl"
                         >
                           Book Now
                         </button>

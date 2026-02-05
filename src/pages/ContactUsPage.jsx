@@ -51,7 +51,7 @@ const ContactUsPage = () => {
   };
 
   return (
-    <div className="bg-gradient-to-b from-white to-emerald-50 min-h-screen">
+    <div className="bg-linear-to-b from-white to-emerald-50 min-h-screen">
       {/* ================= HERO ================= */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         {/* Background Hero Image */}
@@ -62,7 +62,7 @@ const ContactUsPage = () => {
         />
 
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/50"></div>
+        <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/20 to-black/50"></div>
 
         {/* Hero Text */}
         <div className="relative text-center text-white px-6">
@@ -206,7 +206,7 @@ const ContactUsPage = () => {
           Visit us at our office or plan your trekking adventure with our team
         </p>
 
-        <div className="w-full h-[450px] rounded-3xl overflow-hidden shadow-lg">
+        <div className="w-full h-112.5 rounded-3xl overflow-hidden shadow-lg">
           <iframe
             title="TrekVede Location"
             src="https://www.google.com/maps?q=Pune,Maharashtra,India&output=embed"
