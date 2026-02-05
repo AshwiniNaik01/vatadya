@@ -61,7 +61,6 @@
 
 // export default GalleryGrid;
 
-
 import React, { useState, useEffect } from "react";
 import { Maximize2, MapPin, Calendar } from "lucide-react";
 import { DIR } from "../../config/constants";
