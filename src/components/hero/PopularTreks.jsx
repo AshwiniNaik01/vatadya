@@ -11,7 +11,7 @@ import {
   Sunrise,
   Target,
   TrendingUp,
-  Users
+  Users,
 } from "lucide-react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -36,6 +36,7 @@ const PopularTreks = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [animate, setAnimate] = useState(true);
   const [isBookModalOpen, setIsBookModalOpen] = useState(false);
+  const [selectedTrek, setSelectedTrek] = useState(null); // ✅ ADD THIS LINE
 
   const placeholders = [
     "Search treks like Kedarkantha, Everest...",
@@ -47,11 +48,40 @@ const PopularTreks = () => {
   const ITEM_HEIGHT = 56;
 
   const difficultyOptions = [
-    { value: "all", label: "All Adventures", icon: <Compass className="w-4 h-4" />, color: "bg-gradient-to-r from-gray-800 to-gray-600" },
-    { value: "moderate", label: "Moderate", icon: <TrendingUp className="w-4 h-4" />, color: "bg-gradient-to-r from-emerald-600 to-emerald-800", description: "Good fitness required" },
-    { value: "challenging", label: "Challenging", icon: <Mountain className="w-4 h-4" />, color: "bg-gradient-to-r from-orange-600 to-amber-700", description: "For experienced trekkers" },
-    { value: "difficult", label: "Difficult", icon: <Award className="w-4 h-4" />, color: "bg-gradient-to-r from-red-600 to-orange-700", description: "High altitude experience" },
-    { value: "extreme", label: "Extreme", icon: <Target className="w-4 h-4" />, color: "bg-gradient-to-r from-purple-700 to-pink-600", description: "Mountaineering skills needed" },
+    {
+      value: "all",
+      label: "All Adventures",
+      icon: <Compass className="w-4 h-4" />,
+      color: "bg-gradient-to-r from-gray-800 to-gray-600",
+    },
+    {
+      value: "moderate",
+      label: "Moderate",
+      icon: <TrendingUp className="w-4 h-4" />,
+      color: "bg-gradient-to-r from-emerald-600 to-emerald-800",
+      description: "Good fitness required",
+    },
+    {
+      value: "challenging",
+      label: "Challenging",
+      icon: <Mountain className="w-4 h-4" />,
+      color: "bg-gradient-to-r from-orange-600 to-amber-700",
+      description: "For experienced trekkers",
+    },
+    {
+      value: "difficult",
+      label: "Difficult",
+      icon: <Award className="w-4 h-4" />,
+      color: "bg-gradient-to-r from-red-600 to-orange-700",
+      description: "High altitude experience",
+    },
+    {
+      value: "extreme",
+      label: "Extreme",
+      icon: <Target className="w-4 h-4" />,
+      color: "bg-gradient-to-r from-purple-700 to-pink-600",
+      description: "Mountaineering skills needed",
+    },
   ];
 
   const quickFilters = [
@@ -62,6 +92,19 @@ const PopularTreks = () => {
     { id: "solo", label: "Solo Friendly", icon: "👤" },
     { id: "family", label: "Family Adventure", icon: "👨‍👩‍👧‍👦" },
   ];
+
+  const handleBookNow = (trek) => {
+    setSelectedTrek({
+      title: trek.title,
+      bookingType: trek.bookingType,
+      difficulty: trek.difficulty,
+      duration: trek.duration,
+      location: trek.location,
+      price: trek.price,
+      altitude: trek.altitude,
+    });
+    setIsBookModalOpen(true);
+  };
 
   // --- Carousel placeholder animation ---
   useEffect(() => {
@@ -83,7 +126,7 @@ const PopularTreks = () => {
 
   // --- Fetch Treks from Redux ---
   useEffect(() => {
-    if (status === 'idle') {
+    if (status === "idle") {
       dispatch(fetchTreksAsync());
     }
   }, [status, dispatch]);
@@ -99,15 +142,15 @@ const PopularTreks = () => {
           trek.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           trek.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
           trek.tags?.some((tag) =>
-            tag.toLowerCase().includes(searchQuery.toLowerCase())
-          )
+            tag.toLowerCase().includes(searchQuery.toLowerCase()),
+          ),
       );
     }
 
     if (selectedDifficulty !== "all") {
       results = results.filter(
         (trek) =>
-          trek.difficulty.toLowerCase() === selectedDifficulty.toLowerCase()
+          trek.difficulty.toLowerCase() === selectedDifficulty.toLowerCase(),
       );
     }
 
@@ -121,8 +164,16 @@ const PopularTreks = () => {
   };
 
   // --- Render loading/error ---
-  if (status === 'loading') return <div className="text-center py-40 text-gray-600 text-xl">Loading Treks...</div>;
-  if (status === 'failed') return <div className="text-center py-40 text-red-500 text-xl">{error}</div>;
+  if (status === "loading")
+    return (
+      <div className="text-center py-40 text-gray-600 text-xl">
+        Loading Treks...
+      </div>
+    );
+  if (status === "failed")
+    return (
+      <div className="text-center py-40 text-red-500 text-xl">{error}</div>
+    );
 
   // --- Helper functions ---
   const getDifficultyColor = (difficulty) => {
@@ -131,7 +182,7 @@ const PopularTreks = () => {
       challenging: "from-orange-500 to-amber-600",
       difficult: "from-red-500 to-orange-600",
       extreme: "from-purple-600 to-pink-500",
-      easy: "from-green-400 to-emerald-600"
+      easy: "from-green-400 to-emerald-600",
     };
     return colors[difficulty.toLowerCase()] || "from-gray-500 to-gray-700";
   };
@@ -141,7 +192,11 @@ const PopularTreks = () => {
       id="treks"
       className="relative min-h-screen py-6 overflow-hidden bg-gradient-to-br from-emerald-50 via-white to-amber-50"
     >
-      <BookNowModal isOpen={isBookModalOpen} onClose={() => setIsBookModalOpen(false)} />
+      <BookNowModal
+        isOpen={isBookModalOpen}
+        trekData={selectedTrek}
+        onClose={() => setIsBookModalOpen(false)}
+      />
 
       {/* Background Effects */}
       <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-emerald-200/20 to-transparent"></div>
@@ -192,7 +247,10 @@ const PopularTreks = () => {
                     }}
                   >
                     {[...placeholders, placeholders[0]].map((text, index) => (
-                      <div key={index} className="h-14 flex items-center text-gray-400 text-base whitespace-nowrap">
+                      <div
+                        key={index}
+                        className="h-14 flex items-center text-gray-400 text-base whitespace-nowrap"
+                      >
                         {text}
                       </div>
                     ))}
@@ -213,16 +271,27 @@ const PopularTreks = () => {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            {["All", "Easy", "Moderate", "Challenging", "Difficult", "Extreme"].map((level) => (
+            {[
+              "All",
+              "Easy",
+              "Moderate",
+              "Challenging",
+              "Difficult",
+              "Extreme",
+            ].map((level) => (
               <button
                 key={level}
                 onClick={() =>
-                  setSelectedDifficulty(level.toLowerCase() === "all" ? "all" : level.toLowerCase())
+                  setSelectedDifficulty(
+                    level.toLowerCase() === "all" ? "all" : level.toLowerCase(),
+                  )
                 }
-                className={`px-5 py-2 rounded-lg font-medium transition ${selectedDifficulty === (level.toLowerCase() === "all" ? "all" : level.toLowerCase())
-                  ? "bg-emerald-500 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
+                className={`px-5 py-2 rounded-lg font-medium transition ${
+                  selectedDifficulty ===
+                  (level.toLowerCase() === "all" ? "all" : level.toLowerCase())
+                    ? "bg-emerald-500 text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
               >
                 {level}
               </button>
@@ -233,7 +302,8 @@ const PopularTreks = () => {
         {/* Results Counter */}
         <div className="flex justify-between items-center mb-8 mx-20">
           <h2 className="text-2xl font-bold text-gray-900">
-            <span className="text-emerald-600">{filteredTreks.length}</span> Adventures Found
+            <span className="text-emerald-600">{filteredTreks.length}</span>{" "}
+            Adventures Found
           </h2>
           {(searchQuery || selectedDifficulty !== "all") && (
             <button
@@ -253,7 +323,8 @@ const PopularTreks = () => {
               No Adventures Found
             </h3>
             <p className="text-gray-400 mb-8 max-w-md mx-auto text-lg">
-              The wilderness is vast! Try a different search or explore all our epic journeys.
+              The wilderness is vast! Try a different search or explore all our
+              epic journeys.
             </p>
             <button
               onClick={clearFilters}
@@ -267,8 +338,14 @@ const PopularTreks = () => {
           <>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mx-20">
               {filteredTreks.slice(0, 6).map((trek) => (
-                <div key={trek._id} className="group relative overflow-hidden rounded-2xl transition-all duration-500 hover:scale-[1.02]">
-                  <button title="Add/Remove from wishlist" className="absolute top-4 right-4 z-50 p-2 rounded-full backdrop-blur-md bg-black/40 border border-white/20 transition-all duration-300 hover:bg-red-500/20 hover:border-red-400">
+                <div
+                  key={trek._id}
+                  className="group relative overflow-hidden rounded-2xl transition-all duration-500 hover:scale-[1.02]"
+                >
+                  <button
+                    title="Add/Remove from wishlist"
+                    className="absolute top-4 right-4 z-50 p-2 rounded-full backdrop-blur-md bg-black/40 border border-white/20 transition-all duration-300 hover:bg-red-500/20 hover:border-red-400"
+                  >
                     <Heart className="w-6 h-6 text-red-500" />
                   </button>
 
@@ -296,9 +373,13 @@ const PopularTreks = () => {
                       <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3">
                         <div className="flex items-center">
                           <Calendar className="w-4 h-4 text-emerald-400 mr-2" />
-                          <span className="text-xs text-gray-300">DURATION</span>
+                          <span className="text-xs text-gray-300">
+                            DURATION
+                          </span>
                         </div>
-                        <div className="text-white font-bold">{trek.duration}</div>
+                        <div className="text-white font-bold">
+                          {trek.duration}
+                        </div>
                       </div>
 
                       <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3">
@@ -306,15 +387,21 @@ const PopularTreks = () => {
                           <Users className="w-4 h-4 text-blue-400 mr-2" />
                           <span className="text-xs text-gray-300">GROUP</span>
                         </div>
-                        <div className="text-white font-bold">{trek.groupSize}</div>
+                        <div className="text-white font-bold">
+                          {trek.groupSize}
+                        </div>
                       </div>
 
                       <div className="bg-black/40 backdrop-blur-sm rounded-lg p-3">
                         <div className="flex items-center">
                           <Sunrise className="w-4 h-4 text-orange-400 mr-2" />
-                          <span className="text-xs text-gray-300">ALTITUDE</span>
+                          <span className="text-xs text-gray-300">
+                            ALTITUDE
+                          </span>
                         </div>
-                        <div className={`text-white font-bold text-sm px-2 py-1 rounded`}>
+                        <div
+                          className={`text-white font-bold text-sm px-2 py-1 rounded`}
+                        >
                           {trek.altitude}
                         </div>
                       </div>
@@ -323,7 +410,9 @@ const PopularTreks = () => {
                         <span className="text-yellow-400 mr-2">📅</span>
                         <div>
                           <div className="text-xs text-gray-300">SEASON</div>
-                          <div className="text-white font-bold text-sm">{trek.season}</div>
+                          <div className="text-white font-bold text-sm">
+                            {trek.season}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -351,7 +440,7 @@ const PopularTreks = () => {
                           View Trek
                         </Link>
                         <button
-                          onClick={() => setIsBookModalOpen(true)}
+                          onClick={() => handleBookNow(trek)} // ✅ CHANGED THIS LINE
                           className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-4 py-3 rounded-xl font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl"
                         >
                           Book Now

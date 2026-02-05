@@ -1,117 +1,11 @@
-// import React from "react";
-// import { X } from "lucide-react";
-
-// const BookNowModal = ({ isOpen, onClose }) => {
-//     if (!isOpen) return null;
-
-//     const treks = ["Kedarkantha", "Har Ki Dun", "Valley of Flowers", "Triund"];
-
-//     return (
-//         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-//             {/* Overlay click to close */}
-//             <div className="absolute inset-0" onClick={onClose}></div>
-
-//             <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-10 max-w-4xl w-full relative z-10 animate-fadeIn">
-//                 <button
-//                     onClick={onClose}
-//                     className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 hover:bg-gray-100 p-2 rounded-full transition-all"
-//                 >
-//                     <X size={24} />
-//                 </button>
-
-//                 <h2 className="text-3xl font-bold text-emerald-800 mb-2 text-center">
-//                     Book Your Adventure
-//                 </h2>
-//                 <p className="text-center text-gray-500 mb-8">Fill in your details below to secure your spot</p>
-
-//                 <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
-//                     <div className="space-y-1">
-//                         <label className="text-sm font-semibold text-gray-700 ml-1">Full Name</label>
-//                         <input
-//                             type="text"
-//                             placeholder="John Doe"
-//                             className="w-full px-5 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 shadow-sm hover:shadow-md transition-all bg-gray-50 focus:bg-white"
-//                         />
-//                     </div>
-
-//                     <div className="space-y-1">
-//                         <label className="text-sm font-semibold text-gray-700 ml-1">Email Address</label>
-//                         <input
-//                             type="email"
-//                             placeholder="john@example.com"
-//                             className="w-full px-5 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 shadow-sm hover:shadow-md transition-all bg-gray-50 focus:bg-white"
-//                         />
-//                     </div>
-
-//                     <div className="space-y-1">
-//                         <label className="text-sm font-semibold text-gray-700 ml-1">Phone Number</label>
-//                         <input
-//                             type="tel"
-//                             placeholder="+91 98765 43210"
-//                             className="w-full px-5 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 shadow-sm hover:shadow-md transition-all bg-gray-50 focus:bg-white"
-//                         />
-//                     </div>
-
-//                     <div className="space-y-1">
-//                         <label className="text-sm font-semibold text-gray-700 ml-1">Select Trek</label>
-//                         <select className="w-full px-5 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 shadow-sm hover:shadow-md transition-all bg-gray-50 focus:bg-white appearance-none">
-//                             <option value="" disabled selected>
-//                                 Choose your destination
-//                             </option>
-//                             {treks.map((trek, i) => (
-//                                 <option key={i} value={trek}>{trek}</option>
-//                             ))}
-//                         </select>
-//                     </div>
-
-//                     <div className="space-y-1">
-//                         <label className="text-sm font-semibold text-gray-700 ml-1">Date</label>
-//                         <input
-//                             type="date"
-//                             className="w-full px-5 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 shadow-sm hover:shadow-md transition-all bg-gray-50 focus:bg-white"
-//                         />
-//                     </div>
-
-//                     <div className="space-y-1">
-//                         <label className="text-sm font-semibold text-gray-700 ml-1">Participants</label>
-//                         <input
-//                             type="number"
-//                             min="1"
-//                             placeholder="1"
-//                             className="w-full px-5 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 shadow-sm hover:shadow-md transition-all bg-gray-50 focus:bg-white"
-//                         />
-//                     </div>
-
-//                     <button
-//                         type="submit"
-//                         className="md:col-span-2 w-full bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-emerald-500/30 transform transition-all duration-300 active:scale-[0.98] mt-2"
-//                     >
-//                         Confirm Booking
-//                     </button>
-//                 </form>
-//             </div>
-
-//             <style>{`
-//           @keyframes fadeIn {
-//             from { opacity: 0; transform: scale(0.95); }
-//             to { opacity: 1; transform: scale(1); }
-//           }
-//           .animate-fadeIn { animation: fadeIn 0.2s ease-out forwards; }
-//         `}</style>
-//         </div>
-//     );
-// };
-
-// export default BookNowModal;
-
 import React, { useState } from "react";
 import { X, Plus, Trash2 } from "lucide-react";
 
 const BookNowModal = ({ isOpen, onClose, trekData }) => {
   if (!isOpen) return null;
 
-  // Determine booking type from trekData
-  const bookingType = trekData?.bookingType || "Trek"; // "Trek", "Trek + Camping", "Trip"
+  // Determine booking type from trekData with fallback
+  const bookingType = trekData?.bookingType; // Default to "Trek" if not provided
 
   const [formData, setFormData] = useState({
     name: "",
@@ -239,8 +133,6 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
     };
 
     console.log("Booking Data:", bookingData);
-    // TODO: Call your booking API here
-    // await submitBooking(bookingData);
 
     // Close modal on success
     alert("Booking submitted successfully!");
@@ -273,13 +165,20 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
             <h2 className="text-3xl font-bold text-emerald-800 mb-2 text-center">
               Book Your Adventure
             </h2>
-            <p className="text-center text-gray-500 mb-2">
-              {trekData?.title ||
-                "Fill in your details below to secure your spot"}
+            <p className="text-center text-gray-500 mb-3">
+              Fill in your details below to secure your spot
             </p>
-            <p className="text-center text-sm font-semibold text-emerald-600">
-              Booking Type: {bookingType}
-            </p>
+
+            <div className="flex justify-center">
+              <div className="inline-flex items-center gap-2 bg-emerald-100 border border-emerald-300 px-4 py-2 rounded-full">
+                <span className="text-sm font-medium text-gray-600">
+                  Booking Type:
+                </span>
+                <span className="text-sm font-bold text-emerald-700">
+                  {bookingType}
+                </span>
+              </div>
+            </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-8">
@@ -298,7 +197,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="John Doe"
+                    placeholder="Enter your full name"
                     className={`w-full px-5 py-3 rounded-xl border ${
                       errors.name ? "border-red-500" : "border-gray-200"
                     } focus:outline-none focus:ring-2 focus:ring-emerald-500/50 shadow-sm hover:shadow-md transition-all bg-gray-50 focus:bg-white`}
@@ -317,7 +216,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                     name="whatsappNumber"
                     value={formData.whatsappNumber}
                     onChange={handleChange}
-                    placeholder="+91 98765 43210"
+                    placeholder="Enter your WhatsApp number"
                     className={`w-full px-5 py-3 rounded-xl border ${
                       errors.whatsappNumber
                         ? "border-red-500"
@@ -340,7 +239,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="john@example.com"
+                    placeholder="Enter your email address"
                     className={`w-full px-5 py-3 rounded-xl border ${
                       errors.email ? "border-red-500" : "border-gray-200"
                     } focus:outline-none focus:ring-2 focus:ring-emerald-500/50 shadow-sm hover:shadow-md transition-all bg-gray-50 focus:bg-white`}
@@ -359,7 +258,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                     name="pickupPoint"
                     value={formData.pickupPoint}
                     onChange={handleChange}
-                    placeholder="Pune Railway Station"
+                    placeholder="Enter your pickup location"
                     className={`w-full px-5 py-3 rounded-xl border ${
                       errors.pickupPoint ? "border-red-500" : "border-gray-200"
                     } focus:outline-none focus:ring-2 focus:ring-emerald-500/50 shadow-sm hover:shadow-md transition-all bg-gray-50 focus:bg-white`}
@@ -479,7 +378,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                     name="alternativeContact"
                     value={formData.alternativeContact}
                     onChange={handleChange}
-                    placeholder="+91 98765 43210"
+                    placeholder="Enter an alternative contact number"
                     className={`w-full px-5 py-3 rounded-xl border ${
                       errors.alternativeContact
                         ? "border-red-500"
@@ -503,7 +402,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                     name="emergencyContact"
                     value={formData.emergencyContact}
                     onChange={handleChange}
-                    placeholder="+91 98765 43210"
+                    placeholder="Enter an emergency contact number"
                     className={`w-full px-5 py-3 rounded-xl border ${
                       errors.emergencyContact
                         ? "border-red-500"
