@@ -147,20 +147,21 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
   const requiredAdditionalMembers = formData.numberOfPeople - 1;
 
   return (
-    <div className="fixed inset-0 z-100 bg-black/50 backdrop-blur-sm overflow-y-auto custom-scrollbar">
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center px-4">
       {/* Overlay click to close */}
       <div className="absolute inset-0" onClick={onClose}></div>
 
       {/* Center container with padding */}
       <div className="min-h-screen flex items-center justify-center p-4 py-8">
-        <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-10 max-w-5xl w-full relative z-10 animate-fadeIn">
+        <div className="relative bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[90vh] flex flex-col animate-fadeIn z-10">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 hover:bg-gray-100 p-2 rounded-full transition-all"
+            className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 hover:bg-gray-100 p-2 rounded-full transition-all z-20"
           >
             <X size={24} />
           </button>
 
+ <div className="overflow-y-auto custom-scrollbar p-6 md:p-10 flex-1">
           <div className="mb-8">
             <h2 className="text-3xl font-bold text-emerald-800 mb-2 text-center">
               Book Your Adventure
@@ -180,6 +181,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
               </div>
             </div>
           </div>
+         
 
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Personal Details Section */}
@@ -650,6 +652,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
             </button>
           </form>
         </div>
+      </div>
       </div>
 
       <style>{`
