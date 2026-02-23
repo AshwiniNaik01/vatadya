@@ -30,33 +30,48 @@
 
 
 // components/Testimonials.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Quote, Star } from 'lucide-react';
+import { fetchTrekReviews } from '../../api/trekReviewApi';
+import { DIR } from '../../config/constants';
 
 const Testimonials = () => {
-  const testimonials = [
-    {
-      name: "Sarah Johnson",
-      role: "Adventure Photographer",
-      content: "The Everest Base Camp trek was the most transformative experience of my life. The guides were incredibly knowledgeable and supportive.",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000"
-    },
-    {
-      name: "Michael Chen",
-      role: "Mountain Enthusiast",
-      content: "Professional, safe, and absolutely breathtaking. The Annapurna Circuit exceeded all my expectations. Can't wait for my next adventure!",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000"
-    },
-    {
-      name: "Emma Rodriguez",
-      role: "First-time Trekker",
-      content: "As someone new to trekking, I was nervous. But the team made me feel safe and supported every step of the way. Life-changing experience!",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000"
-    }
-  ];
+  const [testimonials, setTestimonials] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadReviews = async () => {
+      try {
+        setLoading(true);
+        const result = await fetchTrekReviews();
+
+        if (result && Array.isArray(result.message)) {
+          // Map API response to Component state
+          const mappedReviews = result.message.map(review => ({
+            id: review._id,
+            name: review.name,
+            role: "Adventure Enthusiast", // Default role
+            content: review.description,
+            rating: review.rating,
+            image: review.profilePhoto
+              ? (review.profilePhoto.startsWith('http') ? review.profilePhoto : `${DIR.TrekImage || ''}${review.profilePhoto}`)
+              : "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3"
+          }));
+          setTestimonials(mappedReviews);
+        }
+      } catch (err) {
+        console.error("Failed to load testimonials:", err);
+        setError("Failed to load testimonials");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadReviews();
+  }, []);
+
+  if (loading) return <div className="py-20 text-center text-gray-500">Loading stories...</div>;
 
   return (
     <section className="py-20 bg-gradient-to-b from-white to-emerald-50">
@@ -71,41 +86,45 @@ const Testimonials = () => {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100"
-            >
-              <Quote className="w-12 h-12 text-emerald-100 mb-6" />
-              
-              <p className="text-gray-600 italic mb-6 text-lg">
-                "{testimonial.content}"
-              </p>
-              
-              <div className="flex mb-6">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-5 h-5 text-amber-500 fill-amber-500"
+        {testimonials.length === 0 ? (
+          <div className="text-center text-gray-500">No stories shared yet.</div>
+        ) : (
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.slice(0, 3).map((testimonial, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100"
+              >
+                <Quote className="w-12 h-12 text-emerald-100 mb-6" />
+
+                <p className="text-gray-600 italic mb-6 text-lg line-clamp-4">
+                  "{testimonial.content}"
+                </p>
+
+                <div className="flex mb-6">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className="w-5 h-5 text-amber-500 fill-amber-500"
+                    />
+                  ))}
+                </div>
+
+                <div className="flex items-center">
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="w-12 h-12 rounded-full object-cover mr-4 border-2 border-emerald-100"
                   />
-                ))}
-              </div>
-              
-              <div className="flex items-center">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover mr-4 border-2 border-emerald-100"
-                />
-                <div>
-                  <h4 className="font-bold text-gray-900">{testimonial.name}</h4>
-                  <p className="text-sm text-gray-600">{testimonial.role}</p>
+                  <div>
+                    <h4 className="font-bold text-gray-900">{testimonial.name}</h4>
+                    <p className="text-sm text-gray-600">{testimonial.role}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Stats Banner */}
         <div className="mt-20 bg-gradient-to-r from-emerald-700 to-emerald-600 rounded-2xl p-8 text-white">

@@ -1,7 +1,7 @@
 // components/Hero.jsx
-import React from 'react';
-import { Play, ArrowRight, Shield, Users, Star } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { Play, ArrowRight, Shield, Users, Star } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const Hero = () => {
     >
       {/* Background Video */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute backdrop-blur-sm inset-0 bg-gradient-to-r from-black/20 to-black/60 z-10"></div>
+        <div className="absolute backdrop-blur-sm inset-0 bg-linear-to-r from-black/20 to-black/60 z-10"></div>
         <video
           autoPlay
           loop
@@ -46,9 +46,9 @@ const Hero = () => {
 
           {/* Subheading */}
           <p className="text-xl text-emerald-100 mb-10 max-w-2xl mx-auto">
-            Experience breathtaking landscapes, challenge your limits, and create
-            unforgettable memories with our expert-guided treks across the world's
-            most spectacular mountains.
+            Experience breathtaking landscapes, challenge your limits, and
+            create unforgettable memories with our expert-guided treks across
+            the world's most spectacular mountains.
           </p>
 
           {/* CTA Buttons */}
@@ -66,13 +66,13 @@ const Hero = () => {
             </button>
 
             <button
-              onClick={() => navigate('/trek-gallery')}
-              className="border-2 border-amber-300 text-amber-300 hover:bg-amber-300/10 px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2">
+              onClick={() => navigate("/trek-gallery")}
+              className="border-2 border-amber-300 text-amber-300 hover:bg-amber-300/10 px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2"
+            >
               <Play className="w-5 h-5" />
               Watch Adventure
             </button>
           </div>
-
 
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
@@ -107,4 +107,3 @@ const Hero = () => {
 };
 
 export default Hero;
-
