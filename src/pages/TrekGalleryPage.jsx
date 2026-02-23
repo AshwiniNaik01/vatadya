@@ -230,7 +230,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import GalleryFilters from "../components/gallery/GalleryFilters";
 import GalleryGrid from "../components/gallery/GalleryGrid";
 import { Filter, SlidersHorizontal, LayoutGrid } from "lucide-react";
-import { fetchTrekGallery } from "../components/gallery/galleryApi";
+import { fetchTrekGallery } from "../api/galleryApi";
 import { DIR } from "../config/constants";
 // import { fetchTrekGallery } from "../api/galleryApi";
 // import { DIR } from "../config/constants";

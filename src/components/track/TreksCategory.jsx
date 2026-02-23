@@ -140,7 +140,7 @@ const TreksByCategory = () => {
         <h2 className="text-4xl font-bold text-gray-900">
           Treks by Categories
         </h2>
-        <div className="w-full h-[2px] bg-yellow-400 mt-4"></div>
+        <div className="w-full h-0.5 bg-yellow-400 mt-4"></div>
       </div>
 
       {/* Grid */}
@@ -148,7 +148,7 @@ const TreksByCategory = () => {
         {categories.map((cat, idx) => (
           <div
             key={idx}
-            className="relative bg-white rounded-3xl shadow-lg p-6 min-h-[330px] overflow-hidden"
+            className="relative bg-white rounded-3xl shadow-lg p-6 min-h-82.5 overflow-hidden"
           >
             {/* Background Icon */}
             <img
@@ -173,7 +173,7 @@ const TreksByCategory = () => {
                 {cat.title}
               </h3>
 
-              <div className="w-12 h-[2px] bg-yellow-300 mb-4"></div>
+              <div className="w-12 h-0.5 bg-yellow-300 mb-4"></div>
 
               <ul
                 className={`text-sm text-gray-700 ${

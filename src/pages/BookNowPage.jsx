@@ -6,8 +6,11 @@ const BookNowPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className="bg-gradient-to-b from-white to-emerald-50 min-h-screen">
-      <BookNowModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    <div className="bg-linear-to-b from-white to-emerald-50 min-h-screen">
+      <BookNowModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
 
       {/* ================= HERO ================= */}
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">

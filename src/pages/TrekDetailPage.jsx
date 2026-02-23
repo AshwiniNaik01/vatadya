@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ChevronLeft, XCircle } from "lucide-react";
-import { fetchTrekById } from "../components/hero/trekApi";
+import { fetchTrekById } from "../api/trekApi";
 import TrekIntroCard from "../components/track/TrekIntroCard";
 import TrekInfoCard from "../components/track/TrekInfoCard";
 import TrekPageWithFees from "../components/track/TrekDescription";
 import AddSiderForm from "../components/track/AddSiderForm";
-import TrackReview from "../components/track/TrackReview";
+import TrackReview from "../components/track/TrekReview";
 import TrekGallery from "../components/track/TrekGallery";
 import BookNowModal from "../components/modals/BookNowModal";
 
@@ -151,7 +151,7 @@ const TrekDetailPage = () => {
             {/* Dynamic Sticky Tabs */}
             <div
                 ref={tabsRef}
-                className="bg-white border-b border-gray-200 z-30 sticky top-[280px] lg:top-[290px] transition-all duration-300 shadow-sm"
+                className="bg-white border-b border-gray-200 z-60 sticky top-[190px] lg:top-[210px] transition-all duration-300 shadow-sm"
             >
                 <div className="max-w-7xl mx-auto px-4">
                     <div className="flex gap-6 overflow-x-auto scrollbar-hide py-3">

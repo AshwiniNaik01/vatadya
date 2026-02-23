@@ -15,7 +15,14 @@ import {
   Sparkles,
 } from "lucide-react";
 
+import { useSelector, useDispatch } from "react-redux";
+import { selectUpcomingTreks, fetchTreksAsync } from "../../store/slices/trekSlice";
+
 const UpcomingDepartures = () => {
+  const dispatch = useDispatch();
+  const upcomingTreks = useSelector(selectUpcomingTreks);
+  const status = useSelector((state) => state.treks.status);
+
   const [activeSlide, setActiveSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -25,112 +32,76 @@ const UpcomingDepartures = () => {
 
   const sliderRef = useRef(null);
   const timerRef = useRef(null);
+  const activeSlideRef = useRef(activeSlide); // Moved up
 
-  const departures = [
-    {
-      id: 1,
-      name: "Kedarkantha Summit",
-      location: "Uttarakhand, India",
-      date: "2024-01-15",
-      duration: "6 Days",
-      groupSize: "12 Trekkers",
-      slotsLeft: 5,
-      price: "$299",
-      rating: 4.9,
-      reviews: 128,
-      difficulty: "Moderate",
-      image: "http://cdn.tourradar.com/s3/serp/original/212205_8TGGd7HZ.jpg",
-      highlights: ["Summit Sunrise", "Snow Camping", "Bonfire Nights"],
-      discount: "20% OFF",
-      featured: true,
-    },
-    {
-      id: 2,
-      name: "Everest Base Camp",
-      location: "Nepal Himalayas",
-      date: "2024-01-25",
-      duration: "14 Days",
-      groupSize: "10 Trekkers",
-      slotsLeft: 3,
-      price: "$1899",
-      rating: 4.8,
-      reviews: 342,
-      difficulty: "Challenging",
-      image:
-        "https://images.unsplash.com/photo-1580137189272-c9379f8864fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070",
-      highlights: ["Kala Patthar View", "Sherpa Culture", "High Altitude"],
-      earlyBird: true,
-    },
-    {
-      id: 3,
-      name: "Roopkund Mystery Lake",
-      location: "Garhwal Himalayas",
-      date: "2024-02-05",
-      duration: "8 Days",
-      groupSize: "15 Trekkers",
-      slotsLeft: 8,
-      price: "$499",
-      rating: 4.7,
-      reviews: 95,
-      difficulty: "Moderate-Difficult",
-      image:
-        "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070",
-      highlights: ["Mystery Lake", "Alpine Meadows", "Ancient Skeleton"],
-      popular: true,
-    },
-    {
-      id: 4,
-      name: "Valley of Flowers",
-      location: "Uttarakhand, India",
-      date: "2024-02-12",
-      duration: "7 Days",
-      groupSize: "18 Trekkers",
-      slotsLeft: 12,
-      price: "$399",
-      rating: 4.9,
-      reviews: 167,
-      difficulty: "Easy-Moderate",
-      image:
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070",
-      highlights: ["Floral Paradise", "Hemkund Sahib", "Waterfalls"],
-      new: true,
-    },
-    {
-      id: 5,
-      name: "Hampta Pass Trek",
-      location: "Himachal Pradesh",
-      date: "2024-02-20",
-      duration: "5 Days",
-      groupSize: "14 Trekkers",
-      slotsLeft: 6,
-      price: "$349",
-      rating: 4.6,
-      reviews: 89,
-      difficulty: "Moderate",
-      image:
-        "https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070",
-      highlights: ["Cross Pass", "Chandratal Lake", "Mountain Views"],
-    },
-    {
-      id: 6,
-      name: "Annapurna Base Camp",
-      location: "Nepal",
-      date: "2024-03-01",
-      duration: "12 Days",
-      groupSize: "12 Trekkers",
-      slotsLeft: 4,
-      price: "$1299",
-      rating: 4.9,
-      reviews: 234,
-      difficulty: "Challenging",
-      image:
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070",
-      highlights: ["Annapurna Range", "Machhapuchhre", "Hot Springs"],
-    },
-  ];
+  // Update ref whenever activeSlide changes
+  useEffect(() => {
+    activeSlideRef.current = activeSlide;
+  }, [activeSlide]);
+
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchTreksAsync());
+    }
+  }, [status, dispatch]);
+
+  const departures = upcomingTreks.length > 0 ? upcomingTreks.map(trek => ({
+    id: trek._id,
+    name: trek.title,
+    location: trek.location,
+    date: trek.startDate || "TBA",
+    duration: trek.duration,
+    groupSize: trek.groupSize,
+    slotsLeft: 5, // Placeholder as schema doesn't have exact slots count per date easily accessible
+    price: `$${trek.price}`,
+    rating: trek.rating || 0,
+    reviews: trek.reviews || 0,
+    difficulty: trek.difficulty,
+    image: trek.image?.cdnUrl || "https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3",
+    highlights: trek.tags || [],
+    discount: trek.discount ? `${trek.discount}% OFF` : null,
+    featured: trek.featured
+  })) : [];
+
+  console.log(departures.image, "image from response");
+
+  // Auto-play effect
+  useEffect(() => {
+    if (!isPlaying) {
+      if (timerRef.current) clearInterval(timerRef.current);
+      return;
+    }
+
+    const slideDuration = 6000;
+    const interval = 50;
+    const steps = slideDuration / interval;
+    let step = 0;
+
+    // Only set interval if we have departures
+    if (departures.length > 0) {
+      timerRef.current = setInterval(() => {
+        step++;
+        setProgress((step / steps) * 100);
+
+        if (step >= steps) {
+          step = 0;
+          setProgress(0);
+
+          // Use ref to get latest slide
+          slideTransition(
+            (activeSlideRef.current + 1) % departures.length,
+            "next"
+          );
+        }
+      }, interval);
+    }
+
+    return () => clearInterval(timerRef.current);
+  }, [isPlaying, departures.length]); // Re-run if data length changes
 
   // Calculate days left
   const getDaysLeft = (dateStr) => {
+    if (!dateStr || dateStr === "TBA") return "TBA";
     const targetDate = new Date(dateStr);
     const today = new Date();
     const diffTime = targetDate - today;
@@ -152,7 +123,7 @@ const UpcomingDepartures = () => {
     });
   };
 
-  // Enhanced slide transition with portal effect
+  // Enhanced slide transition with portal effect - Define this BEFORE any return
   const slideTransition = (targetSlide, direction = "next") => {
     if (isAnimating) return;
 
@@ -173,10 +144,10 @@ const UpcomingDepartures = () => {
     slideTransition(next, "next");
   };
   const prevSlides = () => {
-  const prev =
-    (activeSlide - 1 + departures.length) % departures.length;
-  slideTransition(prev, "prev");
-};
+    const prev =
+      (activeSlide - 1 + departures.length) % departures.length;
+    slideTransition(prev, "prev");
+  };
 
 
   const goToSlide = (index) => {
@@ -184,76 +155,25 @@ const UpcomingDepartures = () => {
     slideTransition(index, direction);
   };
 
-  // Auto-play with progress bar
-  // useEffect(() => {
-  //   if (!isPlaying) {
-  //     if (timerRef.current) {
-  //       clearInterval(timerRef.current);
-  //     }
-  //     return;
-  //   }
-
-  //   const slideDuration = 6000;
-  //   const interval = 50;
-  //   let step = 0;
-  //   const steps = slideDuration / interval;
-
-  //   timerRef.current = setInterval(() => {
-  //     step++;
-  //     setProgress((step / steps) * 100);
-  //     if (step >= steps) {
-  //       step = 0;
-  //       setProgress(0);
-  //       nextSlide();
-  //     }
-  //   }, interval);
-
-  //   return () => {
-  //     if (timerRef.current) {
-  //       clearInterval(timerRef.current);
-  //     }
-  //   };
-  // }, [isPlaying, activeSlide]);
-
-  const activeSlideRef = useRef(activeSlide);
-
-  // Update ref whenever activeSlide changes
-  useEffect(() => {
-    activeSlideRef.current = activeSlide;
-  }, [activeSlide]);
-
-  // Auto-play effect
-  useEffect(() => {
-    if (!isPlaying) {
-      if (timerRef.current) clearInterval(timerRef.current);
-      return;
-    }
-
-    const slideDuration = 6000;
-    const interval = 50;
-    const steps = slideDuration / interval;
-    let step = 0;
-
-    timerRef.current = setInterval(() => {
-      step++;
-      setProgress((step / steps) * 100);
-
-      if (step >= steps) {
-        step = 0;
-        setProgress(0);
-
-        // Use ref to get latest slide
-        slideTransition(
-          (activeSlideRef.current + 1) % departures.length,
-          "next"
-        );
-      }
-    }, interval);
-
-    return () => clearInterval(timerRef.current);
-  }, [isPlaying]); // Note: no activeSlide dependency
-
   const toggleAutoPlay = () => setIsPlaying(!isPlaying);
+
+  // --- CONDITIONAL RENDERS MUST BE LAST ---
+
+  // If loading, show a loader or nothing
+  if (status === 'loading') {
+    return <div className="py-20 text-center text-emerald-600">Loading upcoming departures...</div>;
+  }
+
+  // If no upcoming treks, show a placeholder message instead of null
+  if (departures.length === 0) {
+    return (
+      <section className="py-20 bg-gray-50 text-center">
+        <h2 className="text-2xl font-bold text-gray-400">No Upcoming Departures</h2>
+        <p className="text-gray-500">Check back later for new adventure dates!</p>
+      </section>
+    );
+  }
+
 
   return (
     <section className="py-8 bg-gradient-to-b from-gray-50 to-emerald-50 relative overflow-hidden">
@@ -295,7 +215,7 @@ const UpcomingDepartures = () => {
                   <div className="absolute inset-8 border-4 border-emerald-300/20 rounded-2xl -rotate-45 animate-spin-slow-reverse"></div>
 
                   {/* Mountain Silhouette */}
-                  
+
                 </div>
               </div>
 
@@ -435,11 +355,10 @@ const UpcomingDepartures = () => {
                 {/* PREVIOUS SLIDE (slides OUT) */}
                 {prevSlide !== null && (
                   <div
-                    className={`absolute inset-0 ${
-                      slideDirection === "next"
-                        ? "animate-slideOutLeft"
-                        : "animate-slideOutRight"
-                    }`}
+                    className={`absolute inset-0 ${slideDirection === "next"
+                      ? "animate-slideOutLeft"
+                      : "animate-slideOutRight"
+                      }`}
                   >
                     <div className="relative bg-white rounded-lg overflow-hidden shadow-2xl w-full max-w-7xl mx-auto">
                       <div className="grid md:grid-cols-2">
@@ -470,7 +389,7 @@ const UpcomingDepartures = () => {
                             <div className="text-xs text-emerald-300">Departing in</div>
                             <div className="text-xl font-bold">{getDaysLeft(departures[activeSlide].date)}</div>
                           </div>
-                        </div> 
+                        </div>
 
                         {/* Content Side */}
                         <div className="p-6">
@@ -485,13 +404,12 @@ const UpcomingDepartures = () => {
 
                 {/* CURRENT SLIDE (slides IN) */}
                 <div
-                  className={`absolute inset-0 ${
-                    isAnimating
-                      ? slideDirection === "next"
-                        ? "animate-slideInRight"
-                        : "animate-slideInLeft"
-                      : ""
-                  }`}
+                  className={`absolute inset-0 ${isAnimating
+                    ? slideDirection === "next"
+                      ? "animate-slideInRight"
+                      : "animate-slideInLeft"
+                    : ""
+                    }`}
                 >
                   <div className="relative bg-white rounded-lg overflow-hidden shadow-2xl w-full max-w-7xl mx-auto">
                     <div className="grid md:grid-cols-2">
@@ -532,78 +450,78 @@ const UpcomingDepartures = () => {
                       <div className="p-6">
                         {/* Header */}
                         <div className="mb-4">
-                            <h3 className="text-2xl font-bold text-gray-900 mb-1">
-                              {departures[activeSlide].name}
-                            </h3>
-                            <div className="flex items-center text-gray-600">
-                              <MapPin className="w-4 h-4 mr-2" />
-                              <span>{departures[activeSlide].location}</span>
-                            </div>
+                          <h3 className="text-2xl font-bold text-gray-900 mb-1">
+                            {departures[activeSlide].name}
+                          </h3>
+                          <div className="flex items-center text-gray-600">
+                            <MapPin className="w-4 h-4 mr-2" />
+                            <span>{departures[activeSlide].location}</span>
                           </div>
+                        </div>
 
                         {/* Location */}
-                 <div className="flex items-center mb-4">
-                            <div className="flex">
-                              {[...Array(5)].map((_, i) => (
-                                <Star 
-                                  key={i} 
-                                  className={`w-4 h-4 ${i < Math.floor(departures[activeSlide].rating) ? 'text-amber-500 fill-amber-500' : 'text-gray-300'}`} 
-                                />
-                              ))}
-                            </div>
-                            <span className="ml-2 font-semibold text-gray-700">
-                              {departures[activeSlide].rating} ({departures[activeSlide].reviews} reviews)
-                            </span>
+                        <div className="flex items-center mb-4">
+                          <div className="flex">
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`w-4 h-4 ${i < Math.floor(departures[activeSlide].rating) ? 'text-amber-500 fill-amber-500' : 'text-gray-300'}`}
+                              />
+                            ))}
                           </div>
-                          <div className="grid grid-cols-2 gap-4 mb-6">
-                            <div className="flex items-center">
-                              <Calendar className="w-5 h-5 text-emerald-600 mr-3" />
-                              <div>
-                                <div className="text-sm text-gray-500">Date</div>
-                                <div className="font-semibold">{getFormattedDate(departures[activeSlide].date)}</div>
-                              </div>
+                          <span className="ml-2 font-semibold text-gray-700">
+                            {departures[activeSlide].rating} ({departures[activeSlide].reviews} reviews)
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 mb-6">
+                          <div className="flex items-center">
+                            <Calendar className="w-5 h-5 text-emerald-600 mr-3" />
+                            <div>
+                              <div className="text-sm text-gray-500">Date</div>
+                              <div className="font-semibold">{getFormattedDate(departures[activeSlide].date)}</div>
                             </div>
-                            <div className="flex items-center">
-                              <Clock className="w-5 h-5 text-emerald-600 mr-3" />
-                              <div>
-                                <div className="text-sm text-gray-500">Duration</div>
-                                <div className="font-semibold">{departures[activeSlide].duration}</div>
-                              </div>
+                          </div>
+                          <div className="flex items-center">
+                            <Clock className="w-5 h-5 text-emerald-600 mr-3" />
+                            <div>
+                              <div className="text-sm text-gray-500">Duration</div>
+                              <div className="font-semibold">{departures[activeSlide].duration}</div>
                             </div>
-                            <div className="flex items-center">
-                              <Users className="w-5 h-5 text-emerald-600 mr-3" />
-                              <div>
-                                <div className="text-sm text-gray-500">Group</div>
-                                <div className="font-semibold">{departures[activeSlide].groupSize}</div>
-                              </div>
+                          </div>
+                          <div className="flex items-center">
+                            <Users className="w-5 h-5 text-emerald-600 mr-3" />
+                            <div>
+                              <div className="text-sm text-gray-500">Group</div>
+                              <div className="font-semibold">{departures[activeSlide].groupSize}</div>
                             </div>
-                            <div className="text-right">
-                              <div className="text-sm text-gray-500">Starting from</div>
-                              <div className="text-2xl font-bold text-emerald-700">
-                                {departures[activeSlide].price}
-                                <span className="text-sm text-gray-500 font-normal"> /person</span>
-                              </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-sm text-gray-500">Starting from</div>
+                            <div className="text-2xl font-bold text-emerald-700">
+                              {departures[activeSlide].price}
+                              <span className="text-sm text-gray-500 font-normal"> /person</span>
                             </div>
-                          </div> 
-                          <div className="mb-6">
-                            <div className="text-sm text-gray-500 mb-2">Highlights</div>
-                            <div className="flex flex-wrap gap-2">
-                              {departures[activeSlide].highlights.map((highlight, idx) => (
-                                <span
-                                  key={idx}
-                                  className="px-3 py-1 bg-gradient-to-r from-emerald-50 to-emerald-100 text-emerald-700 rounded-full text-sm"
-                                >
-                                  {highlight}
-                                </span>
-                              ))}
-                            </div>
-                          </div> 
+                          </div>
+                        </div>
+                        <div className="mb-6">
+                          <div className="text-sm text-gray-500 mb-2">Highlights</div>
+                          <div className="flex flex-wrap gap-2">
+                            {departures[activeSlide].highlights.map((highlight, idx) => (
+                              <span
+                                key={idx}
+                                className="px-3 py-1 bg-gradient-to-r from-emerald-50 to-emerald-100 text-emerald-700 rounded-full text-sm"
+                              >
+                                {highlight}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
 
                         {/* CTA */}
                         <button className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl flex items-center justify-center">
-                            <CheckCircle className="w-5 h-5 mr-2" />
-                            Secure Your Spot
-                          </button>
+                          <CheckCircle className="w-5 h-5 mr-2" />
+                          Secure Your Spot
+                        </button>
                       </div>
                     </div>
                   </div>
