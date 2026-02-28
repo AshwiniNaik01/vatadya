@@ -56,7 +56,8 @@ import TrekPageWithFees from "./TrekDescription";
 import TrackReview from "./TrackReview";
 import TrekGallery from "./TrekGallery";
 
-const tabs = ["Overview", "Fees", "Reviews", "Photos"];
+const tabs = ["Overview", "Fees", "Photos"];
+// "Reviews",
 
 const Tabs = () => {
   const [activeTab, setActiveTab] = useState("Overview");
@@ -77,8 +78,8 @@ const Tabs = () => {
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`relative py-4 text-sm font-semibold whitespace-nowrap transition ${activeTab === tab
-                ? "text-emerald-600"
-                : "text-gray-500 hover:text-gray-900"
+              ? "text-emerald-600"
+              : "text-gray-500 hover:text-gray-900"
               }`}
           >
             {tab}

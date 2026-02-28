@@ -5,6 +5,12 @@ import {
   ChevronLeft,
   ChevronRight,
   CheckCircle2,
+  Terminal,
+  Activity,
+  Zap,
+  ShieldCheck,
+  TrendingUp,
+  Globe
 } from "lucide-react";
 import { getAllReviews } from "./../../api/reviewApi";
 import { API_BASE_URL } from "../../config/constants";
@@ -22,26 +28,23 @@ const TrackReview = () => {
         setLoading(true);
         const data = await getAllReviews();
 
-        // Handle different API response structures
         if (Array.isArray(data)) {
           setReviews(data);
         } else if (data && Array.isArray(data.message)) {
-          // Your API returns reviews in the 'message' property
           setReviews(data.message);
         } else if (data && Array.isArray(data.reviews)) {
           setReviews(data.reviews);
         } else if (data && Array.isArray(data.data)) {
           setReviews(data.data);
         } else {
-          console.warn("Unexpected API response format:", data);
           setReviews([]);
         }
 
         setError(null);
       } catch (err) {
         console.error("Error fetching reviews:", err);
-        setError("Failed to load reviews. Please try again later.");
-        setReviews([]); // Set to empty array on error
+        setError("Failed to load mission logs. Recalibrating feeds...");
+        setReviews([]);
       } finally {
         setLoading(false);
       }
@@ -50,7 +53,6 @@ const TrackReview = () => {
     fetchReviews();
   }, []);
 
-  // Pagination logic
   const reviewsArray = Array.isArray(reviews) ? reviews : [];
   const totalPages = Math.ceil(reviewsArray.length / reviewsPerPage);
   const startIndex = currentPage * reviewsPerPage;
@@ -65,181 +67,136 @@ const TrackReview = () => {
     setCurrentPage((prev) => (prev < totalPages - 1 ? prev + 1 : 0));
   };
 
+  if (loading) {
+    return (
+      <div className="py-20 flex flex-col items-center justify-center gap-6">
+        <Activity className="text-primary animate-pulse w-10 h-10" />
+        <span className="data-text text-[9px] text-primary animate-pulse uppercase tracking-[0.4em]">FILTERING_ECHOES...</span>
+      </div>
+    );
+  }
+
   return (
-    <section className="relative py-20 bg-gradient-to-b from-white to-gray-50 overflow-hidden">
-      {/* Background Decorative Blobs */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-60"></div>
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-50 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 opacity-60"></div>
-
-      <div className="max-w-8xl mx-auto px-6 md:px-15 relative z-10">
-        {/* Header Section */}
-        <div className="text-center mb-16 space-y-4">
-          <span className="inline-block px-4 py-2 bg-emerald-50 text-emerald-700 rounded-full text-xs font-bold uppercase tracking-widest border border-emerald-100">
-            TESTIMONIALS
-          </span>
-          <h2 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">
-            Stories from <span className="text-emerald-600">Our Trekkers</span>
-          </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto text-lg font-medium">
-            Real experiences from travelers who witnessed the majestic beauty of
-            the Himalayas with us.
-          </p>
-        </div>
-
-        {/* Loading State */}
-        {loading && (
-          <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+    <section className="relative py-20 bg-transparent overflow-hidden">
+      <div className="max-w-8xl mx-auto px-6 relative z-10">
+        {/* Technical Header */}
+        <div className="flex flex-col md:flex-row items-end justify-between gap-12 mb-20 animate-fade-in">
+          <div className="max-w-xl">
+            <div className="inline-flex items-center gap-4 bg-primary/5 border border-primary/20 rounded-sm px-4 py-2 mb-8 hud-corners">
+              <Terminal size={14} className="text-primary" />
+              <span className="data-text text-primary text-[10px] font-black tracking-[0.4em]">INTEL_ARCHIVE_REPORTS</span>
+            </div>
+            <h2 className="text-3xl md:text-6xl font-black text-white mb-6 uppercase tracking-tighter italic">
+              After Action <span className="command-gradient">Debriefs</span>
+            </h2>
+            <p className="data-text text-primary/40 text-[11px] leading-relaxed uppercase tracking-widest">
+              [RECON_INTEL] {">"} Verified mission reflections from previous high-altitude
+              deployments. Validating sector atmosphere and unit performance metrics.
+            </p>
           </div>
-        )}
 
-        {/* Error State */}
-        {error && (
-          <div className="text-center py-20">
-            <p className="text-red-500 font-medium">{error}</p>
-          </div>
-        )}
-
-        {/* Reviews Grid */}
-        {!loading && !error && (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {currentReviews.map((review, index) => (
-                <div
-                  key={review._id || index}
-                  className="group bg-white rounded-3xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] transition-all duration-500 transform hover:-translate-y-3 border border-gray-100 flex flex-col h-full"
-                >
-                  <div className="flex justify-between items-start mb-6">
-                    <Quote className="w-10 h-10 text-emerald-50 group-hover:text-emerald-100 transition-colors duration-500" />
-                    <div className="flex">
-                      {[...Array(review.rating || 5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className="w-4 h-4 text-amber-500 fill-amber-500"
-                        />
-                      ))}
-                    </div>
-                  </div>
-
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 min-h-[3.5rem] group-hover:text-emerald-600 transition-colors">
-                    "{review.title || "Amazing Trek Experience"}"
-                  </h3>
-
-                  <p className="text-gray-600 leading-relaxed mb-8 flex-grow italic text-sm">
-                    {review.description}
-                  </p>
-
-                  <div className="pt-6 border-t border-gray-50 mt-auto flex items-center gap-4">
-                    <div className="relative">
-                      <img
-                        src={
-                          review.profilePhoto
-                            ? `${API_BASE_URL || ""}/uploads/${review.profilePhoto}`
-                            : "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000"
-                        }
-                        alt={review.name}
-                        className="w-12 h-12 rounded-full object-cover border-2 border-emerald-50"
-                        onError={(e) => {
-                          e.target.src =
-                            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000";
-                        }}
-                      />
-                      <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-white flex items-center justify-center">
-                        <CheckCircle2 size={8} className="text-white" />
-                      </div>
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-gray-900 text-sm leading-tight">
-                        {review.name}
-                      </h4>
-                      <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mt-0.5">
-                        {review.role || "Trekker"}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+          <div className="flex items-center gap-4 group">
+            <button onClick={handlePrevPage} className="w-14 h-14 hud-panel border-white/5 bg-white/[0.02] flex items-center justify-center text-white/30 hover:border-primary/40 hover:text-primary transition-all">
+              <ChevronLeft size={20} />
+            </button>
+            <div className="flex gap-1.5 px-4 h-14 items-center bg-white/[0.01] hud-panel border-white/5">
+              {[...Array(totalPages)].map((_, i) => (
+                <div key={i} className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${i === currentPage ? 'bg-primary glow-primary' : 'bg-white/10'}`}></div>
               ))}
             </div>
+            <button onClick={handleNextPage} className="w-14 h-14 hud-panel border-white/5 bg-white/[0.02] flex items-center justify-center text-white/30 hover:border-primary/40 hover:text-primary transition-all">
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        </div>
 
-            {/* Empty State */}
-            {reviewsArray.length === 0 && (
-              <div className="text-center py-20">
-                <p className="text-gray-500 font-medium">
-                  No reviews available yet.
-                </p>
-              </div>
-            )}
-          </>
+        {/* Error Overlay */}
+        {error && (
+          <div className="text-center py-20 hud-panel border-red-500/20 bg-red-500/5">
+            <p className="data-text text-red-500 text-[10px] font-black uppercase tracking-widest">[SYS_ERR] {">"} {error}</p>
+          </div>
         )}
 
-        {/* Navigation & Stats */}
-        {!loading && !error && reviewsArray.length > 0 && (
-          <div className="mt-16 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={handlePrevPage}
-                disabled={reviewsArray.length <= reviewsPerPage}
-                className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-emerald-500 hover:text-emerald-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+        {/* Tactical Review Matrix */}
+        {!error && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {currentReviews.map((review, index) => (
+              <div
+                key={review._id || index}
+                className="group relative hud-panel p-10 bg-white/[0.01] border-white/5 hover:border-primary/20 transition-all duration-700 hover-lift flex flex-col h-full min-h-[400px]"
               >
-                <ChevronLeft size={20} />
-              </button>
-              <div className="flex gap-2">
-                {[...Array(totalPages)].map((_, i) => (
-                  <span
-                    key={i}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      i === currentPage
-                        ? "bg-emerald-500 shadow-sm shadow-emerald-200"
-                        : "bg-emerald-100"
-                    }`}
-                  ></span>
-                ))}
-              </div>
-              <button
-                onClick={handleNextPage}
-                disabled={reviewsArray.length <= reviewsPerPage}
-                className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-emerald-500 hover:text-emerald-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <ChevronRight size={20} />
-              </button>
-            </div>
+                {/* Visual Marker */}
+                <div className="absolute top-2 right-4 opacity-10">
+                  <span className="data-text text-[7px] text-white">LOG_SEC_{index + 100}</span>
+                </div>
 
-            <div className="bg-emerald-700 rounded-3xl p-6 md:p-8 text-white flex-grow md:ml-12 shadow-2xl relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full translate-x-16 -translate-y-16 blur-2xl group-hover:scale-150 transition-transform duration-1000"></div>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
-                <div className="text-center md:text-left">
-                  <div className="text-3xl font-black mb-1">10K+</div>
-                  <div className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest leading-tight">
-                    Trekkers
-                    <br />
-                    Served
+                <div className="flex justify-between items-start mb-8">
+                  <Quote className="w-10 h-10 text-primary opacity-10 group-hover:opacity-30 transition-opacity" />
+                  <div className="flex gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <div key={i} className={`w-3 h-1 ${i < (review.rating || 5) ? 'bg-secondary' : 'bg-white/5'}`}></div>
+                    ))}
                   </div>
                 </div>
-                <div className="text-center md:text-left">
-                  <div className="text-3xl font-black mb-1">4.9/5</div>
-                  <div className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest leading-tight">
-                    Average
-                    <br />
-                    Rating
+
+                <h3 className="data-text text-[11px] font-black text-white mb-6 uppercase tracking-wider group-hover:text-primary transition-colors line-clamp-2">
+                  {review.title || "MISSION_SUCCESS_REPORT"}
+                </h3>
+
+                <p className="data-text text-[10px] text-white/30 leading-relaxed mb-10 italic uppercase tracking-widest flex-grow">
+                  "{review.description}"
+                </p>
+
+                <div className="pt-8 border-t border-white/5 mt-auto flex items-center gap-5">
+                  <div className="relative">
+                    <img
+                      src={
+                        review.profilePhoto
+                          ? `${API_BASE_URL || ""}/uploads/${review.profilePhoto}`
+                          : "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3"
+                      }
+                      alt={review.name}
+                      className="w-12 h-12 hud-panel border-white/10 grayscale group-hover:grayscale-0 transition-all"
+                    />
+                    <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-primary text-obsidian rounded-sm flex items-center justify-center border border-obsidian">
+                      <ShieldCheck size={10} />
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="data-text font-black text-white text-[11px] uppercase tracking-tight">
+                      {review.name}
+                    </h4>
+                    <p className="data-text text-[7px] text-primary/40 font-black uppercase tracking-widest mt-1">
+                      {review.role || "VERIFIED_EXPLORER"}
+                    </p>
                   </div>
                 </div>
-                <div className="text-center md:text-left">
-                  <div className="text-3xl font-black mb-1">150+</div>
-                  <div className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest leading-tight">
-                    Destinations
-                    <br />
-                    Covered
-                  </div>
-                </div>
-                <div className="text-center md:text-left">
-                  <div className="text-3xl font-black mb-1">15+</div>
-                  <div className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest leading-tight">
-                    Years Of
-                    <br />
-                    Excellence
-                  </div>
-                </div>
+
+                {/* HUD Scan Line micro-animation */}
+                <div className="absolute inset-0 pointer-events-none bg-linear-to-b from-transparent via-primary/5 to-transparent h-12 w-full animate-scanline opacity-0 group-hover:opacity-100"></div>
               </div>
+            ))}
+          </div>
+        )}
+
+        {/* Tactical Feed Counter (Stats Bar) */}
+        {!error && reviewsArray.length > 0 && (
+          <div className="mt-24">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 hud-panel overflow-hidden border-white/5">
+              {[
+                { label: "UNITS_CLEARED", val: "10K+", icon: <Users size={14} /> },
+                { label: "RANK_INDEX", val: "4.9/5", icon: <TrendingUp size={14} /> },
+                { label: "ACTIVE_NODES", val: "150+", icon: <Globe size={14} /> },
+                { label: "LEGACY_CYCLES", val: "15Y+", icon: <Zap size={14} /> }
+              ].map((stat, i) => (
+                <div key={i} className="bg-obsidian/60 p-10 flex flex-col items-center text-center group hover:bg-primary/5 transition-all">
+                  <div className="text-primary/20 mb-6 group-hover:text-primary group-hover:scale-110 transition-all">
+                    {stat.icon}
+                  </div>
+                  <div className="data-text text-4xl font-black text-white mb-2 leading-none">{stat.val}</div>
+                  <div className="data-text text-[8px] text-white/30 tracking-[0.3em] font-black uppercase">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </div>
         )}
@@ -248,4 +205,5 @@ const TrackReview = () => {
   );
 };
 
+import { Users } from "lucide-react";
 export default TrackReview;
