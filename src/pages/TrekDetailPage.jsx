@@ -111,7 +111,7 @@ const TrekDetailPage = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-blue-50">
-            <BookNowModal isOpen={isBookModalOpen} onClose={() => setIsBookModalOpen(false)} />
+            <BookNowModal isOpen={isBookModalOpen} trekData={trek} onClose={() => setIsBookModalOpen(false)} />
 
             {/* ══ Navbar spacer ══ */}
             <div className="h-[72px] lg:h-[80px]" />

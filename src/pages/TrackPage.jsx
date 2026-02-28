@@ -21,8 +21,14 @@ const TrackPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDifficulty, setSelectedDifficulty] = useState("all");
   const [isBookModalOpen, setIsBookModalOpen] = useState(false);
+  const [selectedTrek, setSelectedTrek] = useState(null);
   const [hoveredCard, setHoveredCard] = useState(null);
   const [likedTreks, setLikedTreks] = useState({});
+
+  const handleBookNow = (trek) => {
+    setSelectedTrek(trek);
+    setIsBookModalOpen(true);
+  };
 
   useEffect(() => {
     const param = difficultyParam || categoryIdParam;
@@ -74,7 +80,7 @@ const TrackPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-300 via-white to-blue-300 overflow-x-hidden">
 
-      <BookNowModal isOpen={isBookModalOpen} onClose={() => setIsBookModalOpen(false)} />
+      <BookNowModal isOpen={isBookModalOpen} trekData={selectedTrek} onClose={() => setIsBookModalOpen(false)} />
 
       {/* ══════════ HERO (PRESERVED) ══════════ */}
       <section className="relative h-[45vh] min-h-[400px] flex items-center justify-center overflow-hidden">
@@ -296,7 +302,7 @@ const TrackPage = () => {
                           <Eye className="w-4 h-4 text-sky-500 group-hover/l:text-sky-700 transition-colors" />
                         </Link>
                         <button
-                          onClick={() => setIsBookModalOpen(true)}
+                          onClick={() => handleBookNow(trek)}
                           className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs text-white uppercase tracking-wide
                                      bg-gradient-to-r from-sky-500 to-blue-500
                                      hover:from-sky-600 hover:to-blue-600 hover:shadow-lg hover:shadow-sky-200 transition-all group/b"
