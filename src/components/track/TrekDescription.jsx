@@ -1,212 +1,187 @@
 import React from "react";
 import {
-  CheckCircle2,
-  Map,
-  Waves,
-  Mountain as MountainIcon,
-  Trees,
-  Tent as TentIcon,
-  Sparkles,
-  ArrowRight
+  Mountain as MountainIcon, Trees, Users, CheckCircle, Info,
+  MapPin, ArrowRight, Zap, Leaf, Shield
 } from "lucide-react";
 import TrekFeeSidebar from "./TrekFeeSidebar";
-
-const trekDescription = [
-  {
-    type: "paragraph",
-    content:
-      "Some of our top treks are favourites because of the breathtaking mountain views they offer. Think of Chaukhambha from Deoriatal Chandrashila or Bandarpoonch from Dayara Bugyal.",
-  },
-  {
-    type: "paragraph",
-    content:
-      "Brahmatal, however, takes the cake. You are surrounded by the majestic Mt Trishul and Mt Nanda Ghunti. The scenery here is unparalleled in its beauty.",
-  },
-  {
-    type: "paragraph",
-    content:
-      "The trek takes you through serene forests and meadows, leading to a peaceful high-altitude lake. The views of the Trishul massif and surrounding peaks will leave you spellbound.",
-  },
-  {
-    type: "list",
-    title: "5 Things We Love About the Brahmatal Trek",
-    items: [
-      {
-        title: "High-Altitude Lakes",
-        content: "Visit two magical high-altitude lakes along this trek – rare and stunning.",
-        icon: <Waves className="w-6 h-6" />,
-        color: "from-blue-500 to-cyan-500"
-      },
-      {
-        title: "Ridge Walk to Jhandi Top",
-        content: "Enjoy the unforgettable ridge walk from Tilandi to Jhandi Top with panoramic peak views.",
-        icon: <MountainIcon className="w-6 h-6" />,
-        color: "from-emerald-500 to-teal-500"
-      },
-      {
-        title: "Legendary Roopkund Trail",
-        content: "Catch glimpses of the famous Roopkund trek trail from the high-altitude ridge.",
-        icon: <Map className="w-6 h-6" />,
-        color: "from-amber-500 to-orange-500"
-      },
-      {
-        title: "Enchanting Forests",
-        content: "Walk through some of the most vibrant and beautiful Rhododendron forests in the Himalayas.",
-        icon: <Trees className="w-6 h-6" />,
-        color: "from-green-500 to-emerald-500"
-      },
-      {
-        title: "Gujreni Campsite",
-        content: "Stay at Gujreni, a perfect blend of seclusion and open grassy clearings.",
-        icon: <TentIcon className="w-6 h-6" />,
-        color: "from-rose-500 to-pink-500"
-      },
-    ],
-  },
-];
 
 const TrekPageWithFees = ({ trek }) => {
   if (!trek) return null;
 
-  const dynamicDescription = [
+  const highlights = [
     {
-      type: "paragraph",
-      content: trek.description
+      icon: MountainIcon,
+      title: "Peak Altitude",
+      content: `Reach a peak altitude of ${trek.altitude} in the stunning ${trek.location} range — a milestone in alpine trekking.`,
+      color: "text-sky-600", bg: "bg-sky-50", border: "border-sky-100", gradient: "from-sky-400 to-blue-500"
     },
     {
-      type: "paragraph",
-      content: trek.bestFor
+      icon: Users,
+      title: "Group & Duration",
+      content: `A ${trek.duration} journey with a curated group size of ${trek.groupSize} — balanced for camaraderie and safety.`,
+      color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100", gradient: "from-emerald-400 to-teal-500"
     },
     {
-      type: "list",
-      title: "What Makes This Trek Special",
-      items: [
-        {
-          title: "Stunning High Altitude",
-          content: `Reach a peak altitude of ${trek.altitude}, offering breathtaking views of the ${trek.location} range.`,
-          icon: <MountainIcon className="w-6 h-6" />,
-          color: "from-emerald-500 to-teal-500"
-        },
-        {
-          title: "Managed Adventure",
-          content: `Expertly planned ${trek.duration} journey with a group size of ${trek.groupSize} for a personalized experience.`,
-          icon: <Waves className="w-6 h-6" />,
-          color: "from-blue-500 to-cyan-500"
-        },
-        {
-          title: "Seasonal Magic",
-          content: `Experience the best of ${trek.season} with crystal clear views and professional guide support.`,
-          icon: <Trees className="w-6 h-6" />,
-          color: "from-green-500 to-emerald-500"
-        }
-      ]
-    }
+      icon: Trees,
+      title: "Best Season",
+      content: `Optimized for ${trek.season} with verified meteorological stability — ideal conditions guaranteed.`,
+      color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-100", gradient: "from-amber-400 to-orange-400"
+    },
+  ];
+
+  const inclusions = [
+    "Expert certified mountain guides",
+    "All meals during the trek",
+    "Accommodation at campsites",
+    "Emergency first-aid & medical support",
+    "Porter & mule support for gear",
+    "Forest & camping permits",
+  ];
+
+  const exclusions = [
+    "Personal trekking gear & clothing",
+    "Travel insurance (recommended)",
+    "Travel to/from base camp",
+    "Personal expenses",
   ];
 
   return (
-    <div className="relative overflow-hidden bg-white">
-      {/* Visual Background Accents */}
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-emerald-50/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-50/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
+    <div className="relative">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-      <div className="max-w-8xl mx-auto px-4 py-12 lg:py-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* LEFT CONTENT */}
-          <section className="lg:col-span-2 space-y-10">
-            <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[9px] font-bold uppercase tracking-widest border border-emerald-100">
-                <Sparkles size={10} className="animate-pulse" />
-                Expert Recommendation
+        {/* ── LEFT CONTENT ── */}
+        <section className="lg:col-span-8 space-y-12">
+
+          {/* Description */}
+          {trek.description && (
+            <div className="bg-gradient-to-br from-sky-50 to-blue-50/50 rounded-2xl border border-sky-100 p-8">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-8 h-8 rounded-xl bg-sky-500 flex items-center justify-center">
+                  <Info className="w-4 h-4 text-white" />
+                </div>
+                <h3 className="text-sky-900 font-bold text-base">About This Trek</h3>
               </div>
-              <h2 className="text-3xl md:text-4xl font-black text-gray-900 leading-[1.2] tracking-tight">
-                {trek.highlight || `Explore the beauty of ${trek.location}`}
-              </h2>
+              <p className="text-sky-700/70 leading-relaxed text-[15px]">{trek.description}</p>
             </div>
+          )}
 
-            <div className="space-y-6">
-              {dynamicDescription.map((item, index) => {
-                if (item.type === "paragraph" && item.content) {
-                  return (
-                    <div key={index} className="relative pl-5 border-l-2 border-emerald-100">
-                      <p className="text-lg leading-relaxed text-gray-600 font-medium">
-                        {item.content}
-                      </p>
-                    </div>
-                  );
-                }
+          {/* Best For */}
+          {trek.bestFor && (
+            <div className="bg-white rounded-2xl border border-sky-100 shadow-sm p-8">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-8 h-8 rounded-xl bg-emerald-500 flex items-center justify-center">
+                  <Zap className="w-4 h-4 text-white" />
+                </div>
+                <h3 className="text-sky-900 font-bold">Best Suited For</h3>
+              </div>
+              <p className="text-sky-700/70 leading-relaxed">{trek.bestFor}</p>
+            </div>
+          )}
 
-                if (item.type === "list") {
-                  return (
-                    <div key={index} className="pt-4 space-y-8">
-                      <div className="flex items-center gap-3">
-                        <div className="h-[2px] w-10 bg-emerald-500 rounded-full"></div>
-                        <h3 className="text-xl md:text-2xl font-black text-gray-900 tracking-tight">
-                          {item.title}
-                        </h3>
+          {/* Highlight cards */}
+          <div>
+            <h3 className="text-sky-900 font-bold mb-5 flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-sky-500" />
+              Trek Highlights
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {highlights.map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <div key={i}
+                    className="relative bg-white rounded-2xl border border-sky-100 shadow-sm overflow-hidden group
+                               hover:-translate-y-1 hover:shadow-md hover:shadow-sky-100 transition-all duration-300">
+                    {/* Top gradient stripe */}
+                    <div className={`h-1.5 bg-gradient-to-r ${item.gradient}`} />
+                    <div className="p-6">
+                      <div className={`w-10 h-10 rounded-xl ${item.bg} border ${item.border} flex items-center justify-center mb-4
+                        group-hover:scale-110 transition-transform`}>
+                        <Icon className={`w-5 h-5 ${item.color}`} />
                       </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        {item.items.map((li, idx) => (
-                          <div
-                            key={idx}
-                            className="group relative bg-white p-6 rounded-lg border border-gray-100 hover:border-emerald-700 shadow-[0_4px_15px_rgba(0,0,0,0.02)] hover:shadow-[0_15px_30px_rgba(16,185,129,0.08)] transition-all duration-500 hover:-translate-y-1.5 overflow-hidden"
-                          >
-                            <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-emerald-50 to-transparent -mr-10 -mt-10 rounded-full group-hover:scale-150 transition-transform duration-700"></div>
-
-                            <div className="relative z-10 flex flex-col gap-4">
-                              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${li.color} p-0.5 shadow-md group-hover:rotate-3 transition-transform duration-500`}>
-                                <div className="w-full h-full bg-white rounded-[10px] flex items-center justify-center text-gray-800 scale-90">
-                                  {li.icon}
-                                </div>
-                              </div>
-
-                              <div className="space-y-1.5">
-                                <h4 className="text-lg font-bold text-gray-900 group-hover:text-emerald-600 transition-colors">
-                                  {li.title}
-                                </h4>
-                                <p className="text-sm text-gray-500 leading-relaxed font-medium">
-                                  {li.content}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
+                      <h4 className="font-bold text-sky-900 text-sm mb-2">{item.title}</h4>
+                      <p className="text-sky-500/70 text-xs leading-relaxed">{item.content}</p>
                     </div>
-                  );
-                }
-
-                return null;
+                  </div>
+                );
               })}
             </div>
-          </section>
+          </div>
 
-          {/* RIGHT SIDEBAR */}
-          <aside className="relative lg:col-span-1">
-            <div className="sticky top-15 space-y-6">
-              <div className="p-0.5 bg-gradient-to-br from-white via-emerald-100 to-blue-100 rounded-[28px] shadow-xl">
-                <div className="bg-white rounded-[26px] p-6 overflow-hidden relative">
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-50 rounded-full translate-x-12 -translate-y-12 blur-2xl"></div>
-
-                  <div className="relative z-10">
-                    <TrekFeeSidebar trek={trek} />
-                  </div>
+          {/* Inclusions & Exclusions */}
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Inclusions */}
+            <div className="bg-emerald-50 rounded-2xl border border-emerald-100 p-7">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-8 h-8 rounded-xl bg-emerald-500 flex items-center justify-center">
+                  <CheckCircle className="w-4 h-4 text-white" />
                 </div>
+                <h4 className="font-bold text-emerald-800">What's Included</h4>
               </div>
+              <ul className="space-y-3">
+                {inclusions.map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm text-emerald-800">
+                    <CheckCircle className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-              {/* Trust Badge */}
-              <div className="bg-gray-50 rounded-xl p-4 flex items-center gap-3 border border-gray-100">
-                <div className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-emerald-500">
-                  <CheckCircle2 size={20} />
+            {/* Exclusions */}
+            <div className="bg-rose-50 rounded-2xl border border-rose-100 p-7">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-8 h-8 rounded-xl bg-rose-400 flex items-center justify-center">
+                  <Info className="w-4 h-4 text-white" />
                 </div>
-                <div>
-                  <p className="font-bold text-sm text-gray-900">Certified Experts</p>
-                  <p className="text-[10px] text-gray-500">Ensuring safety on every mountain trail</p>
-                </div>
+                <h4 className="font-bold text-rose-800">Not Included</h4>
+              </div>
+              <ul className="space-y-3">
+                {exclusions.map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm text-rose-700">
+                    <div className="w-4 h-4 flex-shrink-0 mt-0.5 text-rose-400">✕</div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+        </section>
+
+        {/* ── RIGHT SIDEBAR ── */}
+        <aside className="relative lg:col-span-4">
+          <div className="sticky top-[140px] lg:top-[160px] space-y-5 z-20">
+            {/* Fee sidebar */}
+            <div className="bg-white rounded-3xl border border-sky-100 shadow-xl shadow-sky-900/[0.04] p-8">
+              <TrekFeeSidebar trek={trek} />
+            </div>
+
+            {/* Verified badge */}
+            <div className="bg-white rounded-2xl border border-sky-100 p-5 flex items-center gap-4
+                            hover:border-sky-200 hover:shadow-md transition-all">
+              <div className="w-11 h-11 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0">
+                <Shield className="w-5 h-5 text-emerald-600" />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-sky-900">Verified & Safe</p>
+                <p className="text-xs text-sky-500/60 leading-tight">Expert-led, safety-certified, fully insured expeditions.</p>
               </div>
             </div>
-          </aside>
-        </div>
+
+            {/* Eco badge */}
+            <div className="bg-white rounded-2xl border border-sky-100 p-5 flex items-center gap-4
+                            hover:border-sky-200 hover:shadow-md transition-all">
+              <div className="w-11 h-11 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0">
+                <Leaf className="w-5 h-5 text-emerald-600" />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-sky-900">Eco-Responsible</p>
+                <p className="text-xs text-sky-500/60 leading-tight">Leave-no-trace policy. Zero-footprint expedition protocols.</p>
+              </div>
+            </div>
+          </div>
+        </aside>
+
       </div>
     </div>
   );

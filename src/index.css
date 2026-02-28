@@ -1,118 +1,120 @@
-/* :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import "tailwindcss";
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@theme {
+  --color-primary: #22d3ee;
+  /* Arctic Cyan */
+  --color-secondary: #818cf8;
+  /* Slate Indigo */
+  --color-obsidian: #020617;
+  /* Deep Midnight */
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  /* Custom Animations in v4 Theme */
+  --animate-gradient-shift: gradient-shift 6s ease infinite;
+  --animate-scanline: scanline 8s linear infinite;
+  --animate-fade-in: fade-in 1s ease-out forwards;
+  --animate-slide-up: slide-up 1s ease-out forwards;
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+  @keyframes gradient-shift {
+    0% {
+      background-position: 0% 50%;
+    }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
+    50% {
+      background-position: 100% 50%;
+    }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+    100% {
+      background-position: 0% 50%;
+    }
   }
-  a:hover {
-    color: #747bff;
+
+  @keyframes scanline {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+
+    50% {
+      opacity: 1;
+    }
+
+    100% {
+      transform: translateY(100vh);
+      opacity: 0;
+    }
   }
-  button {
-    background-color: #f9f9f9;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
   }
-} */
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
-.animate-slideUp {
-  animation: slideUp 1s ease-out forwards;
+@layer base {
+  body {
+    @apply bg-obsidian text-white antialiased selection:bg-primary selection:text-obsidian;
+  }
 }
 
-.delay-0 {
-  animation-delay: 0s;
-}
-.delay-300 {
-  animation-delay: 0.3s;
-}
-.delay-600 {
-  animation-delay: 0.6s;
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0); }
-  50% { transform: translateY(-15px) rotate(2deg); }
-}
+@layer components {
+  .hud-panel {
+    @apply relative border backdrop-blur-md transition-all duration-700;
+  }
 
-@keyframes pulse-slow {
-  0%, 100% { opacity: 0.1; transform: scale(1); }
-  50% { opacity: 0.3; transform: scale(1.1); }
-}
+  .hud-corners {
+    @apply relative;
+  }
 
-@keyframes glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); }
-  50% { box-shadow: 0 0 40px rgba(16, 185, 129, 0.4); }
-}
+  .hud-corners::before,
+  .hud-corners::after {
+    content: '';
+    @apply absolute w-1.5 h-1.5 border-primary opacity-40;
+  }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
+  .hud-corners::before {
+    @apply top-0 left-0 border-t border-l;
+  }
 
-.animate-pulse-slow {
-  animation: pulse-slow 8s ease-in-out infinite;
-}
+  .hud-corners::after {
+    @apply bottom-0 right-0 border-b border-r;
+  }
+ /* Updated font for Inter + Outfit */
+  .data-text {
+    font-family: 'Inter', 'Outfit', sans-serif !important;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
 
-.animate-glow {
-  animation: glow 4s ease-in-out infinite;
+  .command-gradient {
+    @apply bg-linear-to-r from-primary via-secondary to-primary bg-[length:200%_auto] bg-clip-text text-transparent animate-gradient-shift;
+  }
+
+  .glow-primary {
+    filter: drop-shadow(0 0-12px rgba(34, 211, 238, 0.4));
+  }
+
+  .glow-secondary {
+    filter: drop-shadow(0 0 12px rgba(129, 140, 248, 0.4));
+  }
+
+  .hover-lift {
+    @apply hover:-translate-y-2 hover:shadow-2xl transition-all duration-700;
+  }
 }

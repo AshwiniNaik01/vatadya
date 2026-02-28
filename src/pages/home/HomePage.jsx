@@ -7,6 +7,11 @@ import PopularTreks from "../../components/hero/PopularTreks";
 import Testimonials from "../../components/hero/Testimonials";
 import TrekCategories from "../../components/hero/TrekCategories";
 import UpcomingDepartures from "../../components/hero/UpcomingDepartures";
+import Booking from "../../components/hero/Booking";
+import HowItWorks from "../../components/hero/HowItWorks";
+import SafetySection from "../../components/hero/SafetySection";
+import WhyChooseUs from "../../components/hero/WhyChooseUs";
+import CTASection from "../../components/hero/CTASection";
 
 const HomePage = () => {
   return (
@@ -15,18 +20,16 @@ const HomePage = () => {
       <UpcomingDepartures />
       <PopularTreks />
       <TrekCategories />
-      {/* <Booking /> */}
-      <FeaturedTreks />
       <AboutUs />
-
-      {/* <HowItWorks /> */}
+      <FeaturedTreks />
+      <HowItWorks />
       <Gallery />
+      <WhyChooseUs />
+       <SafetySection />
       <Testimonials />
-      {/* <SafetySection /> */}
-      {/* <WhyChooseUs /> */}
-      <FAQs />
-
-      {/*} <CTASection /> */}
+       <FAQs />
+      {/* <Booking /> */}
+      {/* <CTASection />  */}
     </>
   );
 };
