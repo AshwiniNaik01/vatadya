@@ -23,7 +23,7 @@ jobs:
 
             - name: Build Project
               env:
-                VITE_API_BASE_URL: https://api.vatadyaadventures.in
+                VITE_API_BASE_URL: https://api.vatadyaadventures.com
               run: npm run build
 
             - name: Copy to VPS
