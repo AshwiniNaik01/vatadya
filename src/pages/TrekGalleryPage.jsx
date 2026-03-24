@@ -19,7 +19,8 @@ import {
   Clock,
   Star,
   Sparkles,
-  Download
+  Download,
+  ZoomIn
 } from "lucide-react";
 import { fetchTrekGallery } from "../api/galleryApi";
 
@@ -258,8 +259,9 @@ const TrekGalleryPage = () => {
                 {/* View Toggle */}
                 <div className="hidden md:flex p-1.5 bg-sky-50 border border-sky-100 rounded-2xl">
                   {[{ icon: Grid3x3, view: 'grid' },
-                  { icon: LayoutGrid, view: 'compact' },
-                  { icon: Film, view: 'masonry' }].map(({ icon: Icon, view }) => (
+                  { icon: LayoutGrid, view: 'compact' }]
+                  // { icon: Film, view: 'masonry' }]
+                  .map(({ icon: Icon, view }) => (
                     <button
                       key={view}
                       onClick={() => setActiveView(view)}
@@ -331,11 +333,9 @@ const TrekGalleryPage = () => {
 
                                 {/* Center Engagement Overlay */}
                                 <div className={`absolute inset-0 flex items-center justify-center gap-6 transition-all duration-500 z-20 bg-sky-900/20 rounded-[1.5rem] m-2 backdrop-blur-[2px] ${isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-                                  <button onClick={(e) => handleLike(image.id, e)} className="p-4 rounded-full bg-white/95 text-slate-400 hover:text-rose-500 hover:scale-110 transition-all shadow-xl group/btn">
-                                    <Heart className={`w-6 h-6 ${isLiked ? 'fill-rose-500 text-rose-500' : ''}`} />
-                                  </button>
+                                
                                   <div className="p-4 rounded-full bg-white/95 text-sky-600 shadow-xl group-hover:scale-110 transition-all">
-                                    <Eye className="w-6 h-6" />
+                                    <ZoomIn className="w-6 h-6" />
                                   </div>
                                 </div>
                               </div>
@@ -417,20 +417,20 @@ const TrekGalleryPage = () => {
               </h2>
 
               {/* Photographer */}
-              <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 mb-8">
+              {/* <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 mb-8">
                 <img
                   src={selectedImage.photographerAvatar}
                   alt={selectedImage.photographer}
                   className="w-14 h-14 rounded-full border-2 border-white shadow-sm"
                 />
-                <div>
+                {/* <div>
                   <div className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-0.5">Captured By</div>
                   <div className="text-base font-bold text-slate-700">{selectedImage.photographer}</div>
-                </div>
-              </div>
+                </div> 
+              </div> */}
 
               {/* Specs Grid */}
-              <div className="grid grid-cols-2 gap-3 mb-8">
+              {/* <div className="grid grid-cols-2 gap-3 mb-8">
                 {[
                   { label: 'Camera', value: selectedImage.camera, icon: Camera },
                   { label: 'Aperture', value: selectedImage.aperture, icon: Aperture },
@@ -448,7 +448,7 @@ const TrekGalleryPage = () => {
                     </div>
                   );
                 })}
-              </div>
+              </div> */}
 
               {/* Location Data */}
               <div className="space-y-4 mb-10 p-5 rounded-2xl bg-slate-50 border border-slate-100">
@@ -464,17 +464,21 @@ const TrekGalleryPage = () => {
                   <span className="text-slate-500 text-sm font-medium flex items-center gap-2"><Star size={16} className="text-sky-500" /> Prime Season</span>
                   <span className="text-slate-800 font-bold">{selectedImage.season}</span>
                 </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500 text-sm font-medium flex items-center gap-2"><MapPin size={16} className="text-sky-500" /> Location</span>
+                  <span className="text-slate-800 font-bold">{selectedImage.experience}</span>
+                </div>
               </div>
 
               {/* Action Modules */}
-              <div className="flex gap-4 mt-auto">
+              {/* <div className="flex gap-4 mt-auto">
                 <button className="flex-1 bg-sky-500 hover:bg-sky-600 text-white rounded-xl py-4 text-sm font-bold shadow-lg shadow-sky-500/30 transition-all flex items-center justify-center gap-2">
                   <Download size={18} /> Download
                 </button>
                 <button className="px-6 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all flex items-center justify-center">
                   <Share2 size={20} />
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

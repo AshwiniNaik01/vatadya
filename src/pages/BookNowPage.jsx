@@ -73,7 +73,7 @@ const BookNowPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-blue-50 overflow-x-hidden">
+    <div className="min-h-screen bg-linear-gradient-to-b from-sky-50 via-white to-blue-50 overflow-x-hidden">
       {/* Decorative blobs */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-100/60 rounded-full blur-[100px] -translate-y-1/4 translate-x-1/4" />
@@ -93,7 +93,7 @@ const BookNowPage = () => {
             className="w-full h-full object-cover"
             style={{ animation: 'bookZoom 20s ease-in-out infinite' }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-sky-900/70 via-sky-800/60 to-sky-50" />
+          <div className="absolute inset-0 bg-linear-gradient-to-b from-sky-900/70 via-sky-800/60 to-sky-50" />
           <div className="absolute inset-0 opacity-[0.04]"
             style={{ backgroundImage: 'linear-gradient(#facc15 1px, transparent 1px), linear-gradient(90deg, #facc15 1px, transparent 1px)', backgroundSize: '60px 60px' }}
           />
@@ -116,7 +116,7 @@ const BookNowPage = () => {
           >
             Start Your
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400">
+            <span className="text-transparent bg-clip-text bg-linear-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400">
               Journey
             </span>
           </h1>
@@ -132,7 +132,7 @@ const BookNowPage = () => {
           <div style={{ animation: 'bookFadeUp 0.7s ease-out 0.5s both' }}>
             <button
               onClick={() => setIsModalOpen(true)}
-              className="group relative inline-flex items-center gap-4 bg-gradient-to-r from-yellow-400 to-orange-400 text-sky-900
+              className="group relative inline-flex items-center gap-4 bg-linear-gradient-to-r from-yellow-400 to-orange-400 text-sky-900
                          px-12 py-5 rounded-2xl font-bold text-sm uppercase tracking-widest
                          hover:from-yellow-300 hover:to-orange-300 hover:shadow-2xl hover:shadow-yellow-400/30
                          hover:-translate-y-1 transition-all duration-500 overflow-hidden"
@@ -185,7 +185,7 @@ const BookNowPage = () => {
           </div>
           <h2 className="text-4xl md:text-6xl font-bold text-sky-900 leading-tight">
             Expedition
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-blue-600">Assurance</span>
+            <span className="block text-transparent bg-clip-text bg-linear-gradient-to-r from-sky-500 to-blue-600">Assurance</span>
           </h2>
           <p className="text-sky-600/60 text-base mt-4 max-w-xl mx-auto">
             Every booking comes with our full promise of safety, expertise, and unforgettable experience.
@@ -204,7 +204,7 @@ const BookNowPage = () => {
                 onMouseLeave={() => setHoveredCard(null)}
               >
                 {/* Top gradient stripe */}
-                <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${item.gradient} rounded-t-2xl`} />
+                <div className={`absolute top-0 left-0 right-0 h-1.5 bg-linear-gradient-to-r ${item.gradient} rounded-t-2xl`} />
 
                 <div className={`w-16 h-16 rounded-2xl ${item.bg} border ${item.border} flex items-center justify-center mb-6
                   group-hover:scale-110 transition-transform duration-300`}>
@@ -239,7 +239,7 @@ const BookNowPage = () => {
           </div>
 
           {/* CTA Card */}
-          <div className="relative bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-600 rounded-3xl p-10 shadow-2xl shadow-blue-500/30 overflow-hidden flex flex-col justify-between">
+          <div className="relative bg-linear-gradient-to-br from-sky-500 via-blue-600 to-indigo-600 rounded-3xl p-10 shadow-2xl shadow-blue-500/30 overflow-hidden flex flex-col justify-between">
             {/* Decorative circles */}
             <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/5 rounded-full" />
             <div className="absolute -bottom-16 -left-16 w-56 h-56 bg-white/5 rounded-full" />
@@ -263,10 +263,10 @@ const BookNowPage = () => {
                 <Lock className="w-3.5 h-3.5" />
                 <span>Secure payments · SSL encrypted</span>
               </div>
-              <div className="flex items-center gap-3 text-white/60 text-xs">
+              {/* <div className="flex items-center gap-3 text-white/60 text-xs">
                 <Clock className="w-3.5 h-3.5" />
                 <span>Free cancellation within 48 hours</span>
-              </div>
+              </div> */}
             </div>
 
             <button

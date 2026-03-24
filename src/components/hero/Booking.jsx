@@ -253,7 +253,7 @@ const Booking = () => {
                     Real-time field coordinates and gear calibration support 24/7.
                   </p>
                   <div className="flex flex-col gap-4">
-                    <div className="data-text text-3xl md:text-5xl font-black text-primary tracking-tighter italic">+91 9689333996</div>
+                    <div className="data-text text-3xl md:text-5xl font-black text-primary tracking-tighter italic">+91 8806058687</div>
                     <div className="data-text text-[10px] text-secondary font-black tracking-[0.4em] uppercase opacity-40">CHANNEL_SECURE_V8_SSL</div>
                   </div>
                 </div>

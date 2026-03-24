@@ -284,27 +284,16 @@ const TrekGallery = ({ trek }) => {
                                     opacity-60" />
 
                     {/* Top Left - Camera Info */}
-                    <div className="absolute top-4 left-4">
+                    {/* <div className="absolute top-4 left-4">
                       <div className="flex items-center gap-2 bg-black/50 backdrop-blur-sm 
                                       rounded-full px-4 py-2 border border-white/20">
                         <Camera className="w-4 h-4 text-sky-400" />
                         <span className="text-xs font-medium text-white">{img.camera}</span>
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Top Right - Like Button */}
-                    <button
-                      onClick={(e) => handleLike(index, e)}
-                      className="absolute top-4 right-4 w-10 h-10 
-                                 bg-black/50 backdrop-blur-sm rounded-full
-                                 flex items-center justify-center
-                                 hover:bg-rose-500/50 transition-all
-                                 border border-white/20
-                                 z-20"
-                    >
-                      <Heart className={`w-5 h-5 transition-colors
-                                        ${isLiked ? 'fill-rose-500 text-rose-500' : 'text-white'}`} />
-                    </button>
+                   
 
                     {/* Center - Quick View (appears on hover) */}
                     <div className={`absolute inset-0 flex items-center justify-center
@@ -322,13 +311,13 @@ const TrekGallery = ({ trek }) => {
 
                       {/* Title & Tag */}
                       <div className="mb-3">
-                        <div className="flex items-center gap-2 mb-1">
+                        {/* <div className="flex items-center gap-2 mb-1">
                           <span className="text-xs font-bold text-sky-400 tracking-wider">
                             {img.tag}
                           </span>
                           <div className="w-1 h-1 rounded-full bg-sky-400"></div>
                           <span className="text-xs text-white/60">{img.composition}</span>
-                        </div>
+                        </div> */}
                         <h4 className="text-lg font-bold text-white line-clamp-1">
                           {img.title}
                         </h4>

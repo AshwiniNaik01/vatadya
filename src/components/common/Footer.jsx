@@ -291,7 +291,7 @@ const Footer = () => {
                     shadow-lg shadow-sky-500/30">
                   {/* Replace Compass icon with public image */}
                   <img
-                    src="/vatadya_logo.jpeg" // path to your image in public folder
+                    src="/vatadya_logo.png" // path to your image in public folder
                     alt="VataDya Logo"
                     className="w-10 h-10 object-contain group-hover:rotate-180 transition-transform duration-700 rounded-xl"
                   />
@@ -408,7 +408,7 @@ const Footer = () => {
 
             {/* Contact Info */}
             <div className="space-y-4">
-              <a href="tel:+919689333996"
+              <a href="tel:+918806058687"
                 className="flex items-center gap-4 group hover:bg-white/5 p-3 rounded-xl transition-all">
                 <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-sky-500 to-blue-500 
                               flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -416,11 +416,11 @@ const Footer = () => {
                 </div>
                 <div>
                   <div className="text-[8px] text-white/40 uppercase tracking-wider">SECURE VOICE</div>
-                  <div className="text-lg font-bold text-white">+91 9689333996</div>
+                  <div className="text-lg font-bold text-white">+91 8806058687</div>
                 </div>
               </a>
 
-              <a href="mailto:hq@vatadya.com"
+              <a href="mailto:vatadyaadventures@gmail.com"
                 className="flex items-center gap-4 group hover:bg-white/5 p-3 rounded-xl transition-all">
                 <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-sky-500 to-blue-500 
                               flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -430,7 +430,7 @@ const Footer = () => {
                   <div className="text-[8px] text-white/40 uppercase tracking-wider">DATA TRANSFER</div>
                   <div className="text-lg font-bold text-white underline underline-offset-4 
                                  decoration-sky-400/30 group-hover:decoration-sky-400 transition-all">
-                    hq@vatadya.com
+                    vatadyaadventures@gmail.com
                   </div>
                 </div>
               </a>
