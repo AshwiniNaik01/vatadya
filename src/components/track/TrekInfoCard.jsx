@@ -30,103 +30,46 @@ const TrekInfoCard = ({ trek }) => {
 
   if (!trek) return null;
 
-  const infoGrid = [
-    {
-      title: "Complexity",
-      value: trek.difficulty || "MODERATE",
-      lottie: barChartData,
-      color: "from-sky-500 to-blue-600",
-      bg: "bg-sky-50/50",
-      accent: "text-sky-600",
-      tag: "Terrain_Profile"
-    },
-    {
-      title: "Duration",
-      value: trek.duration || "6 DAYS",
-      lottie: clockData,
-      color: "from-amber-400 to-orange-500",
-      bg: "bg-amber-50/50",
-      accent: "text-orange-600",
-      tag: "Mission_Tenure"
-    },
-    {
-      title: "Altitude",
-      value: trek.altitude || "N/A",
-      lottie: mountainData,
-      color: "from-emerald-400 to-teal-500",
-      bg: "bg-emerald-50/50",
-      accent: "text-emerald-600",
-      tag: "Apex_Elevation"
-    },
-    {
-      title: "Base Camp",
-      value: (trek.location?.split(',')[0] || "ZENITH").toUpperCase(),
-      lottie: mapPinData,
-      color: "from-rose-400 to-red-500",
-      bg: "bg-rose-50/50",
-      accent: "text-rose-600",
-      tag: "Start_Node"
-    },
-    {
-      title: "Deployment",
-      value: trek.startDate ? new Date(trek.startDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }).toUpperCase() : "TBA",
-      lottie: timerData,
-      color: "from-indigo-400 to-violet-500",
-      bg: "bg-indigo-50/50",
-      accent: "text-indigo-600",
-      tag: "Launch_Window"
-    },
-    {
-      title: "Lodging",
-      value: "ALPINE TENTS",
-      lottie: tentData,
-      color: "from-teal-400 to-emerald-500",
-      bg: "bg-teal-50/50",
-      accent: "text-teal-600",
-      tag: "Field_Shelter"
-    },
-    {
-      title: "Gear Staging",
-      value: "ON_SITE",
-      lottie: shoppingCartData,
-      color: "from-pink-400 to-rose-500",
-      bg: "bg-pink-50/50",
-      accent: "text-pink-600",
-      tag: "Pro_Equipment"
-    },
-    {
-      title: "Transport",
-      value: "SECTOR_SYNC",
-      lottie: airplaneData,
-      color: "from-cyan-400 to-blue-500",
-      bg: "bg-cyan-50/50",
-      accent: "text-cyan-600",
-      tag: "Rapid_Transit"
-    },
-    {
-      title: "Pro Pack",
-      value: "READY_STATE",
-      lottie: backPackData,
-      color: "from-yellow-400 to-amber-600",
-      bg: "bg-yellow-50/50",
-      accent: "text-amber-700",
-      tag: "Survival_Kit"
-    },
-    {
-      title: "Squad Max",
-      value: trek.groupSize || "15 UNITS",
-      lottie: timerData,
-      color: "from-orange-400 to-amber-500",
-      bg: "bg-orange-50/50",
-      accent: "text-orange-600",
-      tag: "Unit_Capacity"
-    }
-  ];
+  // Icons and colors map for common titles
+  const assetMap = {
+    "TREK DIFFICULTY": { lottie: barChartData, color: "from-sky-500 to-blue-600", accent: "text-sky-600", tag: "Complexity" },
+    "TREK DURATION": { lottie: clockData, color: "from-amber-400 to-orange-500", accent: "text-orange-600", tag: "Duration" },
+    "HIGHEST ALTITUDE": { lottie: mountainData, color: "from-emerald-400 to-teal-500", accent: "text-emerald-600", tag: "Altitude" },
+    "BASECAMP": { lottie: mapPinData, color: "from-rose-400 to-red-500", accent: "text-rose-600", tag: "Start Node" },
+    "GEAR RENTAL": { lottie: shoppingCartData, color: "from-teal-400 to-emerald-500", accent: "text-teal-600", tag: "Equipment" },
+    "FITNESS CRITERIA": { lottie: backPackData, color: "from-indigo-400 to-blue-500", accent: "text-indigo-600", tag: "Fitness" },
+    "TREK TYPE": { lottie: timerData, color: "from-purple-400 to-pink-500", accent: "text-purple-600", tag: "Category" }
+  };
+
+  const defaultAsset = { lottie: timerData, color: "from-gray-400 to-gray-500", accent: "text-gray-600", tag: "Info" };
+
+  // Exclude these as they are handled elsewhere in TrekDetailPage
+  const excludeTitles = ["PICKUP", "DROPOFF", "ACCOMMODATION", "SUITABLE FOR"];
+
+  // Filter trekInfo for only single-value items (where item.value is present and non-empty)
+  const infoGrid = (trek?.trekInfo || [])
+    .filter(item => {
+      // Show only if value is non-empty AND it's not in the exclude list AND values is empty or not present
+      const isSingleValue = item.value && item.value.trim() !== "";
+      const isNotExcluded = !excludeTitles.includes(item.title ? item.title.toUpperCase() : "");
+      return isSingleValue && isNotExcluded;
+    })
+    .map(item => {
+      const assets = assetMap[item.title?.toUpperCase()] || assetMap[item.title] || defaultAsset;
+      return {
+        title: item.title,
+        value: item.value,
+        lottie: assets.lottie,
+        color: assets.color,
+        accent: assets.accent,
+        tag: assets.tag
+      };
+    });
 
   return (
     <section className="w-full bg-transparent">
       {/* Visual background elements */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-3 gap-6">
         {infoGrid.map((item, index) => (
           <div
             key={index}

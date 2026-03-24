@@ -512,12 +512,25 @@ import { selectAllTreks, fetchTreksAsync } from "../../store/slices/trekSlice";
 import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import BookNowModal from "../modals/BookNowModal";
+import { openLoginModal } from "../../store/slices/authSlice";
+import { toggleWishlistAsync } from "../../store/slices/wishlistSlice";
 
 const PopularTreks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const allTreks = useSelector(selectAllTreks);
   const status = useSelector((state) => state.treks.status);
+  const { isLoggedIn } = useSelector((state) => state.auth);
+
+  const handleWishlist = (e, trek) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!isLoggedIn) {
+      dispatch(openLoginModal());
+      return;
+    }
+    dispatch(toggleWishlistAsync({ trekId: trek._id, isWishlisted: trek.isWishlisted }));
+  };
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDifficulty, setSelectedDifficulty] = useState("all");
@@ -559,11 +572,6 @@ const PopularTreks = () => {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchTreksAsync());
-    }
-  }, [status, dispatch]);
 
   useEffect(() => {
     let results = allTreks;
@@ -602,24 +610,24 @@ const PopularTreks = () => {
       icon: Wind,
       color: "from-amber-400 to-yellow-400",
     },
-    {
-      name: "Challenging",
-      label: "Challenging",
-      icon: Mountain,
-      color: "from-orange-400 to-red-400",
-    },
+    // {
+    //   name: "Challenging",
+    //   label: "Challenging",
+    //   icon: Mountain,
+    //   color: "from-orange-400 to-red-400",
+    // },
     {
       name: "Difficult",
       label: "Difficult",
       icon: Zap,
       color: "from-red-400 to-rose-400",
     },
-    {
-      name: "Extreme",
-      label: "Extreme",
-      icon: Target,
-      color: "from-purple-400 to-pink-400",
-    },
+    // {
+    //   name: "Extreme",
+    //   label: "Extreme",
+    //   icon: Target,
+    //   color: "from-purple-400 to-pink-400",
+    // },
   ];
 
   const getDifficultyIcon = (difficulty) => {
@@ -962,13 +970,15 @@ const PopularTreks = () => {
                 {trek.difficulty || "Moderate"}
               </div>
             </div>
-
             {/* Save Button */}
-            <button className="absolute top-6 right-6 w-12 h-12 flex items-center justify-center
-                               rounded-xl border border-white/20 bg-white/5 text-white/70
-                               hover:text-pink-400 hover:shadow-[0_0_10px_rgba(255,105,180,0.7)]
-                               transition-all duration-300">
-              <Heart className="w-5 h-5"/>
+            <button 
+              onClick={(e) => handleWishlist(e, trek)}
+              className={`absolute top-6 right-6 w-12 h-12 flex items-center justify-center
+                                rounded-xl border border-white/20 bg-white/5 transition-all duration-300
+                                ${trek.isWishlisted ? 'text-pink-500 shadow-[0_0_15px_rgba(236,72,153,0.4)] border-pink-500/50' : 'text-white/70 hover:text-pink-400'}
+                                hover:shadow-[0_0_10px_rgba(255,105,180,0.7)]`}
+            >
+              <Heart className={`w-5 h-5 ${trek.isWishlisted ? 'fill-current' : ''}`}/>
             </button>
 
             {/* Bottom Content */}
@@ -990,7 +1000,7 @@ const PopularTreks = () => {
                 <div>
                   <div className="text-[12px] text-white">Starting From</div>
                   <div className="text-xl font-bold">
-                    ₹{trek.price?.toLocaleString()}
+                    ₹{trek?.feeDetails?.totalFee?.toLocaleString()}
                     <span className="text-xs text-white ml-1">/person</span>
                   </div>
                 </div>

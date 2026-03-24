@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import BookNowModal from "../components/modals/BookNowModal";
 import { selectAllTreks, fetchTreksAsync, fetchFilteredTreksAsync } from "../store/slices/trekSlice";
+import { openLoginModal } from "../store/slices/authSlice";
+import { toggleWishlistAsync } from "../store/slices/wishlistSlice";
 
 const TrackPage = () => {
   const dispatch = useDispatch();
@@ -17,13 +19,13 @@ const TrackPage = () => {
 
   const allTreks = useSelector(selectAllTreks);
   const status = useSelector((state) => state.treks.status);
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDifficulty, setSelectedDifficulty] = useState("all");
   const [isBookModalOpen, setIsBookModalOpen] = useState(false);
   const [selectedTrek, setSelectedTrek] = useState(null);
   const [hoveredCard, setHoveredCard] = useState(null);
-  const [likedTreks, setLikedTreks] = useState({});
 
   const handleBookNow = (trek) => {
     setSelectedTrek(trek);
@@ -36,11 +38,13 @@ const TrackPage = () => {
       dispatch(fetchFilteredTreksAsync(param));
       const standards = ["easy", "moderate", "challenging", "difficult", "extreme"];
       setSelectedDifficulty(standards.includes(param?.toLowerCase()) ? param.toLowerCase() : "all");
-    } else {
+    } else if (status === "idle") {
       dispatch(fetchTreksAsync());
       setSelectedDifficulty("all");
+    } else {
+      setSelectedDifficulty("all");
     }
-  }, [dispatch, difficultyParam, categoryIdParam]);
+  }, [dispatch, difficultyParam, categoryIdParam, status]);
 
   const filteredTreks = allTreks.filter((trek) => {
     const matchesSearch =
@@ -51,9 +55,14 @@ const TrackPage = () => {
     return matchesSearch && matchesDifficulty;
   });
 
-  const handleLike = (id, e) => {
+  const handleWishlist = (e, trek) => {
+    e.preventDefault();
     e.stopPropagation();
-    setLikedTreks(prev => ({ ...prev, [id]: !prev[id] }));
+    if (!isLoggedIn) {
+      dispatch(openLoginModal());
+      return;
+    }
+    dispatch(toggleWishlistAsync({ trekId: trek._id, isWishlisted: trek.isWishlisted }));
   };
 
   const difficultyConfig = {
@@ -114,11 +123,8 @@ const TrackPage = () => {
 
       {/* ══════════ FILTER BAR — UPDATED ══════════ */}
       <div className="sticky top-0 z-40">
-        {/* White glass bar */}
         <div className="bg-white/90 backdrop-blur-xl border-b border-sky-100 shadow-sm shadow-sky-100/50">
           <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col lg:flex-row gap-4 items-center justify-between">
-
-            {/* Search */}
             <div className="relative w-full lg:w-[380px] group">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-sky-400 group-focus-within:text-sky-600 transition-colors" />
               <input
@@ -137,9 +143,8 @@ const TrackPage = () => {
               )}
             </div>
 
-            {/* Difficulty filters */}
             <div className="flex flex-wrap items-center gap-2">
-              {["All", "Easy", "Moderate", "Challenging", "Difficult", "Extreme"].map((level) => {
+              {["All", "Easy", "Moderate", "Difficult"].map((level) => {
                 const val = level.toLowerCase() === "all" ? "all" : level.toLowerCase();
                 const isActive = selectedDifficulty === val;
                 const cfg = getDiff(level);
@@ -160,7 +165,6 @@ const TrackPage = () => {
               })}
             </div>
 
-            {/* Count + Clear */}
             <div className="flex items-center gap-3 ml-auto">
               <span className="text-sky-600 text-sm font-medium hidden lg:block">
                 <span className="font-bold text-sky-800">{filteredTreks.length}</span> results
@@ -176,19 +180,15 @@ const TrackPage = () => {
         </div>
       </div>
 
-      {/* ══════════ SECTION HEADER ══════════ */}
       <div className="max-w-7xl mx-auto px-6 pt-12 pb-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-sky-900">
-              {filteredTreks.length} {filteredTreks.length === 1 ? 'Expedition' : 'Expeditions'} Found
-            </h2>
-            <p className="text-sky-600/70 text-sm mt-1">Pick your next mountain adventure</p>
-          </div>
+        <div>
+          <h2 className="text-2xl font-bold text-sky-900">
+            {filteredTreks.length} {filteredTreks.length === 1 ? 'Expedition' : 'Expeditions'} Found
+          </h2>
+          <p className="text-sky-600/70 text-sm mt-1">Pick your next mountain adventure</p>
         </div>
       </div>
 
-      {/* ══════════ TREK GRID ══════════ */}
       <section className="max-w-7xl mx-auto px-6 pb-28">
         {filteredTreks.length === 0 ? (
           <div className="bg-white rounded-3xl border border-sky-100 shadow-xl p-24 text-center">
@@ -205,7 +205,6 @@ const TrackPage = () => {
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-7">
             {filteredTreks.map((trek, idx) => {
-              const isLiked = likedTreks[trek._id];
               const diff = getDiff(trek.difficulty);
 
               return (
@@ -217,40 +216,34 @@ const TrackPage = () => {
                   onMouseEnter={() => setHoveredCard(trek._id)}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
-                  {/* Image */}
                   <div className="relative h-[350px] overflow-hidden">
                     <img
                       src={trek.image?.cdnUrl || trek.image || "https://images.unsplash.com/photo-1551632811-561732d1e306"}
                       alt={trek.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                    {/* Gradient */}
                     <div className="absolute inset-0 bg-gradient-to-t from-sky-900/60 via-transparent to-transparent" />
 
-                    {/* Like button */}
                     <button
-                      onClick={(e) => handleLike(trek._id, e)}
+                      onClick={(e) => handleWishlist(e, trek)}
                       className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-xl
                                  bg-white/90 backdrop-blur-sm shadow-lg border border-white/50
                                  hover:bg-rose-50 hover:border-rose-200 transition-all duration-300 z-10"
                     >
-                      <Heart className={`w-4 h-4 transition-all duration-300 ${isLiked ? 'fill-rose-500 text-rose-500' : 'text-sky-400'}`} />
+                      <Heart className={`w-4 h-4 transition-all duration-300 ${trek.isWishlisted ? 'fill-rose-500 text-rose-500' : 'text-sky-400'}`} />
                     </button>
 
-                    {/* Rating */}
                     <div className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-sm shadow-md">
                       <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                       <span className="text-xs font-bold text-sky-900">{trek.rating || "0"}</span>
                     </div>
 
-                    {/* Difficulty */}
                     <div className="absolute bottom-4 left-4">
                       <span className={`px-3 py-1.5 rounded-xl text-[11px] font-bold uppercase tracking-wide ${diff.bg} ${diff.text} shadow-sm`}>
                         {trek.difficulty || "Moderate"}
                       </span>
                     </div>
 
-                    {/* Duration */}
                     {trek.duration && (
                       <div className="absolute bottom-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-sm text-xs font-bold text-sky-800 shadow-sm">
                         <Clock className="w-3.5 h-3.5 text-sky-500" />
@@ -259,20 +252,16 @@ const TrackPage = () => {
                     )}
                   </div>
 
-                  {/* Content */}
                   <div className="p-6">
-                    {/* Location */}
                     <div className="flex items-center gap-1.5 text-sky-500 text-xs font-semibold mb-2">
                       <MapPin className="w-3.5 h-3.5" />
                       {trek.location}
                     </div>
 
-                    {/* Title */}
                     <h3 className="text-lg font-bold text-sky-900 mb-4 leading-snug group-hover:text-sky-600 transition-colors">
                       {trek.title}
                     </h3>
 
-                    {/* Stats */}
                     <div className="grid grid-cols-3 gap-2 mb-2">
                       {[
                         { label: "Altitude", val: trek.altitude || "N/A", icon: Mountain },
@@ -287,11 +276,10 @@ const TrackPage = () => {
                       ))}
                     </div>
 
-                    {/* Price + CTAs */}
                     <div className="flex items-center justify-between pt-4 border-t border-sky-100">
                       <div>
                         <div className="text-[10px] text-sky-500 uppercase tracking-wider mb-0.5">Starting from</div>
-                        <div className="text-xl font-bold text-sky-900">₹{trek.price?.toLocaleString()}</div>
+                        <div className="text-xl font-bold text-sky-900">₹{trek?.feeDetails?.totalFee?.toLocaleString()}</div>
                       </div>
                       <div className="flex gap-2">
                         <Link
@@ -313,8 +301,6 @@ const TrackPage = () => {
                       </div>
                     </div>
                   </div>
-
-                  {/* Bottom color bar */}
                   <div className="h-1 bg-gradient-to-r from-sky-400 via-blue-400 to-sky-400 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 rounded-b-3xl" />
                 </div>
               );

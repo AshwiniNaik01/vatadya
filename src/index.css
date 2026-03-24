@@ -95,7 +95,8 @@
   .hud-corners::after {
     @apply bottom-0 right-0 border-b border-r;
   }
- /* Updated font for Inter + Outfit */
+
+  /* Updated font for Inter + Outfit */
   .data-text {
     font-family: 'Inter', 'Outfit', sans-serif !important;
     font-weight: 500;

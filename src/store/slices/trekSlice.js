@@ -1,18 +1,16 @@
 import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
-import { fetchTreks } from '../../api/trekApi';
+import { fetchTreks, fetchFilteredTreks } from '../../api/trekApi';
 
 // Async thunk to fetch treks
 export const fetchTreksAsync = createAsyncThunk(
     'treks/fetchTreks',
     async () => {
         const response = await fetchTreks();
-        // Ensure we return the array. If response has a data property, return that.
         if (response && response.data && Array.isArray(response.data)) {
             return response.data;
         } else if (Array.isArray(response)) {
             return response;
         }
-        // Fallback or if structure is different
         return response.data || [];
     }
 );
@@ -21,9 +19,7 @@ export const fetchTreksAsync = createAsyncThunk(
 export const fetchFilteredTreksAsync = createAsyncThunk(
     'treks/fetchFilteredTreks',
     async (categoryId) => {
-        const { fetchFilteredTreks } = await import('../../api/trekApi');
         const response = await fetchFilteredTreks(categoryId);
-
         if (response && response.data && Array.isArray(response.data)) {
             return response.data;
         } else if (Array.isArray(response)) {
@@ -40,7 +36,15 @@ const trekSlice = createSlice({
         status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
         error: null,
     },
-    reducers: {},
+    reducers: {
+        updateTrekWishlistStatus: (state, action) => {
+            const { trekId, isWishlisted } = action.payload;
+            const trek = state.items.find(t => t._id === trekId);
+            if (trek) {
+                trek.isWishlisted = isWishlisted;
+            }
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchTreksAsync.pending, (state) => {
@@ -54,7 +58,6 @@ const trekSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message;
             })
-            // Filtered Treks Handlers
             .addCase(fetchFilteredTreksAsync.pending, (state) => {
                 state.status = 'loading';
             })
@@ -68,6 +71,8 @@ const trekSlice = createSlice({
             });
     },
 });
+
+export const { updateTrekWishlistStatus } = trekSlice.actions;
 
 export const selectAllTreks = (state) => state.treks.items;
 

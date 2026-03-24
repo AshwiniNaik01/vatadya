@@ -151,43 +151,42 @@
 
 // export default SafetySection;
 
-import React from "react";
-import {
-  Radio,
-  HeartPulse,
-  Activity,
-  MapPin,
-  ShieldCheck,
-  Sparkles,
-} from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Sparkles } from "lucide-react";
+import axiosInstance from "../../api/axiosInstance";
 
 const SafetySection = () => {
-  const protocols = [
-    {
-      title: "Satellite Uplink",
-      desc: "Persistent satellite tethering ensures secure communication across all zones.",
-      image:
-        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1200",
-    },
-    {
-      title: "Medical Response",
-      desc: "Certified responders and oxygen staging at every critical node.",
-      image:
-        "https://i.pinimg.com/736x/b1/03/6c/b1036c468d7064587999c10b537a4293.jpg",
-    },
-    {
-      title: "Air Recon",
-      desc: "Established air-evacuation corridors and altitude rotorcraft.",
-      image:
-        "https://images.unsplash.com/photo-1473186578172-c141e6798cf4?auto=format&fit=crop&q=80&w=1200",
-    },
-    {
-      title: "Navigation Backup",
-      desc: "Fail-safe GPS redundancy and analog orientation systems.",
-      image:
-        "https://i.pinimg.com/236x/ac/22/3e/ac223e523e19242e80fa7cfdcea79a9e.jpg",
-    },
-  ];
+  const [protocols, setProtocols] = useState([]);
+  const [protocolsHeader, setProtocolsHeader] = useState({ title: "", description: "" }); // Added state
+
+  useEffect(() => {
+    const fetchSafetyStandards = async () => {
+      try {
+        const response = await axiosInstance("/api/safety-standards");
+        const result = response.data;
+
+        if (result.success && result.data) {
+          // MAIN TITLE & DESCRIPTION FROM BACKEND
+          setProtocolsHeader({
+            title: result.data.title,
+            description: result.data.description,
+          });
+
+          // CARDS FROM BACKEND
+          const formattedProtocols = result.data.standards.map((item) => ({
+            title: item.title,
+            desc: item.description,
+            image: item.image?.cdnUrl || "",
+          }));
+          setProtocols(formattedProtocols);
+        }
+      } catch (error) {
+        console.error("Error fetching safety standards:", error);
+      }
+    };
+
+    fetchSafetyStandards();
+  }, []);
 
   return (
     <section className="relative py-12 overflow-hidden bg-gradient-to-b from-sky-900 via-sky-800 to-sky-700">
@@ -224,49 +223,71 @@ const SafetySection = () => {
 
       <div className="container mx-auto px-6 relative z-20">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
-            Core{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400 italic">
-              Safety Protocols
-            </span>
-          </h2>
-          <p className="text-white/70 max-w-2xl mx-auto">
-            Engineered with precision, resilience, and mission-critical
-            intelligence.
-          </p>
-        </div>
+       <div className="text-center mb-16">
+  <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
+    {protocolsHeader.title ? (
+      protocolsHeader.title.split(" ").map((word, index) => {
+        const isGradient = index === 1; // apply gradient to 2nd word
+        return (
+          <span
+            key={index}
+            className={
+              isGradient
+                ? "text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400 italic"
+                : ""
+            }
+          >
+            {word}{" "}
+          </span>
+        );
+      })
+    ) : (
+      <>
+        Core{" "}
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400 italic">
+          Safety Protocols
+        </span>
+      </>
+    )}
+  </h2>
+  <p className="text-white/70 max-w-2xl mx-auto">
+    {protocolsHeader.description ||
+      "Engineered with precision, resilience, and mission-critical intelligence."}
+  </p>
+</div>
 
         {/* Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {protocols.map((item, index) => (
-            <div
-              key={index}
-              className="relative rounded-2xl overflow-hidden group shadow-xl"
-            >
-              {/* Card Image */}
-              <img
-                src={item.image}
-                alt={item.title}
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-              />
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+  {protocols.map((item, index) => {
+    // Dark gray shades for cards
+    const cardShades = [
+      "bg-gray-800",
+      "bg-gray-700",
+      "bg-gray-900",
+      "bg-gray-800",
+    ];
+    const bgClass = cardShades[index % cardShades.length];
 
-              {/* Dark Overlay */}
-              <div className="absolute inset-0 bg-black/60 group-hover:bg-black/70 transition-all"></div>
+    return (
+      <div
+        key={index}
+        className={`relative rounded-2xl overflow-hidden group shadow-xl ${bgClass}`}
+      >
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-all"></div>
 
-              {/* Left Accent Border */}
-              <div className="absolute left-0 top-0 h-full w-2 bg-gradient-to-b from-yellow-300 to-orange-400"></div>
+        {/* Left Accent Border */}
+        <div className="absolute left-0 top-0 h-full w-2 bg-gradient-to-b from-yellow-300 to-orange-400"></div>
 
-              {/* Content */}
-              <div className="relative z-10 p-8 text-white h-full flex flex-col justify-end">
-                <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
-                <p className="text-sm text-white/80 leading-relaxed">
-                  {item.desc}
-                </p>
-              </div>
-            </div>
-          ))}
+        {/* Content */}
+        <div className="relative z-10 p-8 text-white h-full flex flex-col justify-end">
+          <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
+          <p className="text-sm text-white/80 leading-relaxed">{item.desc}</p>
         </div>
+      </div>
+    );
+  })}
+</div>
       </div>
     </section>
   );

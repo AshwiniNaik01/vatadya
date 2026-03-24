@@ -178,21 +178,19 @@
 
 // export default Gallery;
 
-
-
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  Sparkles, 
-  X, 
-  ArrowRight, 
-  Image as ImageIcon, 
-  Terminal, 
-  Activity, 
-  Scan, 
-  Target, 
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Sparkles,
+  X,
+  ArrowRight,
+  Image as ImageIcon,
+  Terminal,
+  Activity,
+  Scan,
+  Target,
   Database,
   Camera,
   MapPin,
@@ -204,9 +202,9 @@ import {
   Download,
   Film,
   Clock,
-  Star
-} from 'lucide-react';
-import { fetchTrekGallery } from '../../api/galleryApi';
+  Star,
+} from "lucide-react";
+import { fetchTrekGallery } from "../../api/galleryApi";
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -224,13 +222,25 @@ const Gallery = () => {
           // Take only the first 6 images for the section
           const mappedImages = result.data.slice(0, 6).map((item, index) => ({
             id: index,
-            url: item.photo?.cdnUrl || "https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3",
-            category: (item.season || item.region || "FIELD DATA").toUpperCase(),
+            url:
+              item.photo?.cdnUrl ||
+              "https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3",
+            category: (
+              item.season ||
+              item.region ||
+              "FIELD DATA"
+            ).toUpperCase(),
             title: (item.title || "Trek Moment").toUpperCase(),
             // Generate photography metadata from available data
-            photographer: item.photographer || ["Alex Rivera", "Maya Chen", "James Wilson"][index % 3],
-            handle: item.handle || ["@alex.rivera", "@maya.chen", "@james.wilson"][index % 3],
-            camera: item.camera || ["SONY α7 IV", "FUJIFILM X-T5", "CANON EOS R5"][index % 3],
+            photographer:
+              item.photographer ||
+              ["Alex Rivera", "Maya Chen", "James Wilson"][index % 3],
+            handle:
+              item.handle ||
+              ["@alex.rivera", "@maya.chen", "@james.wilson"][index % 3],
+            camera:
+              item.camera ||
+              ["SONY α7 IV", "FUJIFILM X-T5", "CANON EOS R5"][index % 3],
             aperture: item.aperture || ["f/2.8", "f/4", "f/5.6"][index % 3],
             shutter: item.shutter || ["1/1000s", "1/500s", "1/250s"][index % 3],
             iso: item.iso || ["100", "200", "400"][index % 3],
@@ -240,8 +250,13 @@ const Gallery = () => {
             year: item.year || "2025",
             likes: Math.floor(Math.random() * 300) + 100,
             views: Math.floor(Math.random() * 1000) + 500,
-            composition: ["Leading Lines", "Golden Hour", "Rule of Thirds", "Symmetry"][index % 4],
-            mood: ["Serene", "Epic", "Intimate", "Dramatic"][index % 4]
+            composition: [
+              "Leading Lines",
+              "Golden Hour",
+              "Rule of Thirds",
+              "Symmetry",
+            ][index % 4],
+            mood: ["Serene", "Epic", "Intimate", "Dramatic"][index % 4],
           }));
           setGalleryImages(mappedImages);
         }
@@ -257,9 +272,9 @@ const Gallery = () => {
 
   const handleLike = (index, e) => {
     e.stopPropagation();
-    setLikedImages(prev => ({
+    setLikedImages((prev) => ({
       ...prev,
-      [index]: !prev[index]
+      [index]: !prev[index],
     }));
   };
 
@@ -288,25 +303,28 @@ const Gallery = () => {
   }
 
   return (
-    <section id="gallery" className="relative py-12 overflow-hidden"
+    <section
+      id="gallery"
+      className="relative py-12 overflow-hidden"
       style={{
-        background: 'linear-gradient(135deg, #0B2B4A 0%, #0A3B5E 30%, #0A4B72 70%, #0B5B86 100%)',
-      }}>
-      
+        background:
+          "linear-gradient(135deg, #0B2B4A 0%, #0A3B5E 30%, #0A4B72 70%, #0B5B86 100%)",
+      }}
+    >
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow delay-1000"></div>
-        
+
         {/* Grid Overlay */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage: `
               linear-gradient(to right, rgba(56, 189, 248, 0.2) 1px, transparent 1px),
               linear-gradient(to bottom, rgba(56, 189, 248, 0.2) 1px, transparent 1px)
             `,
-            backgroundSize: '60px 60px'
+            backgroundSize: "60px 60px",
           }}
         />
       </div>
@@ -315,30 +333,36 @@ const Gallery = () => {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row items-end justify-between gap-12 mb-16">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-4 
+            <div
+              className="inline-flex items-center gap-4 
                             bg-white/5 backdrop-blur-sm 
                             border border-sky-400/30 rounded-full 
                             px-6 py-3 mb-6
                             hover:border-sky-400/60 transition-all
-                            shadow-lg shadow-sky-500/10">
+                            shadow-lg shadow-sky-500/10"
+            >
               <Camera size={16} className="text-sky-400 animate-pulse" />
               <span className="text-sky-400 text-xs font-bold tracking-[0.3em] uppercase">
-               MOMENTS & MEMORIES
+                MOMENTS & MEMORIES
               </span>
               <Sparkles size={14} className="text-sky-400 animate-sparkle" />
             </div>
-
-           <h2 className="text-5xl md:text-7xl font-black text-white 
-               leading-none tracking-tight mb-6 flex flex-wrap items-center gap-4">
-  Alpine
-  <span className="text-transparent bg-clip-text 
-                   bg-gradient-to-r from-sky-300 via-sky-400 to-sky-500
-                   animate-gradient">
-    Gallery
-  </span>
-</h2>
-
-            
+            <h2
+              className="text-3xl md:text-5xl font-extrabold text-white 
+               leading-snug tracking-tight mb-4 flex flex-wrap items-center gap-3"
+            >
+              Trek
+              <span
+                className="text-transparent bg-clip-text 
+                   bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600
+                   animate-gradient"
+              >
+                Gallery
+              </span>
+            </h2>
+            <p className="text-sky-200/80 text-sm md:text-base max-w-2xl">
+              Explore breathtaking alpine treks and curated adventure snapshots.
+            </p>
           </div>
 
           <Link
@@ -350,8 +374,13 @@ const Gallery = () => {
                        hover:border-sky-400/60 hover:bg-white/10 
                        transition-all shadow-lg shadow-sky-500/10"
           >
-            <span className="text-white text-sm font-medium tracking-wide">VIEW FULL ARCHIVE</span>
-            <ArrowRight size={16} className="text-sky-400 group-hover:translate-x-1 transition-transform" />
+            <span className="text-white text-sm font-medium tracking-wide">
+              VIEW FULL ARCHIVE
+            </span>
+            <ArrowRight
+              size={16}
+              className="text-sky-400 group-hover:translate-x-1 transition-transform"
+            />
           </Link>
         </div>
 
@@ -368,31 +397,40 @@ const Gallery = () => {
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
                 onClick={() => handleImageClick(image, index)}
-                style={{ animation: `fadeInUp 0.6s ease-out ${index * 0.1}s forwards`, opacity: 0 }}
+                style={{
+                  animation: `fadeInUp 0.6s ease-out ${index * 0.1}s forwards`,
+                  opacity: 0,
+                }}
               >
                 {/* 3D Card Container */}
-                <div className={`relative w-full transition-all duration-700
-                                ${isHovered ? 'rotateY-5 scale-105 z-10' : 'z-0'}`}>
-                  
+                <div
+                  className={`relative w-full transition-all duration-700
+                                ${isHovered ? "rotateY-5 scale-105 z-10" : "z-0"}`}
+                >
                   {/* Glow Effect */}
-                  <div className={`absolute -inset-2 bg-gradient-to-r from-sky-400/30 to-blue-400/30 
+                  <div
+                    className={`absolute -inset-2 bg-gradient-to-r from-sky-400/30 to-blue-400/30 
                                   rounded-2xl blur-xl transition-opacity duration-500
-                                  ${isHovered ? 'opacity-50' : 'opacity-0'}`} />
+                                  ${isHovered ? "opacity-50" : "opacity-0"}`}
+                  />
 
                   {/* Main Card */}
-                  <div className={`relative w-full aspect-[3/4] rounded-xl overflow-hidden
+                  <div
+                    className={`relative w-full aspect-[3/4] rounded-xl overflow-hidden
                                   bg-white/5 backdrop-blur-sm 
                                   border-2 transition-all duration-500
                                   shadow-2xl shadow-sky-500/20
-                                  ${isHovered 
-                                    ? 'border-sky-400 shadow-2xl shadow-sky-500/40' 
-                                    : 'border-sky-400/30'}`}
-                       style={{
-                         transform: isHovered 
-                           ? `perspective(1000px) rotateX(2deg) rotateY(2deg)` 
-                           : 'none'
-                       }}>
-                    
+                                  ${
+                                    isHovered
+                                      ? "border-sky-400 shadow-2xl shadow-sky-500/40"
+                                      : "border-sky-400/30"
+                                  }`}
+                    style={{
+                      transform: isHovered
+                        ? `perspective(1000px) rotateX(2deg) rotateY(2deg)`
+                        : "none",
+                    }}
+                  >
                     {/* Image */}
                     <img
                       src={image.url}
@@ -400,55 +438,62 @@ const Gallery = () => {
                       className="w-full h-full object-cover transition-all duration-1000
                                  group-hover:scale-110"
                       style={{
-                        filter: isHovered ? 'brightness(1.1) contrast(1.1)' : 'brightness(0.9)'
+                        filter: isHovered
+                          ? "brightness(1.1) contrast(1.1)"
+                          : "brightness(0.9)",
                       }}
                     />
 
                     {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t 
+                    <div
+                      className="absolute inset-0 bg-gradient-to-t 
                                     from-[#0A3B5E] via-transparent to-transparent 
-                                    opacity-60" />
+                                    opacity-60"
+                    />
 
                     {/* Top Row - Category & Like */}
                     <div className="absolute top-3 left-3 right-3 flex items-start justify-between">
-                      <span className="px-2 py-1 bg-black/50 backdrop-blur-sm 
+                      <span
+                        className="px-2 py-1 bg-black/50 backdrop-blur-sm 
                                        rounded-full text-[8px] font-bold text-sky-400
-                                       border border-white/20">
+                                       border border-white/20"
+                      >
                         {image.category}
                       </span>
-            
                     </div>
 
                     {/* Center - Quick View Icon (appears on hover) */}
-                    <div className={`absolute inset-0 flex items-center justify-center
+                    <div
+                      className={`absolute inset-0 flex items-center justify-center
                                     transition-opacity duration-500
-                                    ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-                      <div className="bg-black/50 backdrop-blur-md rounded-xl p-3
-                                      border border-white/20">
+                                    ${isHovered ? "opacity-100" : "opacity-0"}`}
+                    >
+                      <div
+                        className="bg-black/50 backdrop-blur-md rounded-xl p-3
+                                      border border-white/20"
+                      >
                         <ZoomIn className="w-5 h-5 text-white" />
                       </div>
                     </div>
 
                     {/* Bottom Info Panel */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 
-                                    bg-gradient-to-t from-black/90 via-black/60 to-transparent">
-                      
+                    <div
+                      className="absolute bottom-0 left-0 right-0 p-4 
+                                    bg-gradient-to-t from-black/90 via-black/60 to-transparent"
+                    >
                       {/* Title */}
                       <h4 className="text-sm font-bold text-white mb-2 line-clamp-1">
                         {image.title}
                       </h4>
-
-                    
-
-
-                   
                     </div>
 
                     {/* Corner Accent */}
                     <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden">
-                      <div className="absolute top-0 right-0 w-6 h-6 
+                      <div
+                        className="absolute top-0 right-0 w-6 h-6 
                                       bg-gradient-to-br from-sky-400/30 to-transparent
-                                      transform rotate-45 translate-x-3 -translate-y-3" />
+                                      transform rotate-45 translate-x-3 -translate-y-3"
+                      />
                     </div>
                   </div>
                 </div>
@@ -460,22 +505,24 @@ const Gallery = () => {
 
       {/* Lightbox Modal */}
       {selectedImage && selectedImageData && (
-        <div className="fixed inset-0 z-[200] bg-black/20 backdrop-blur-2xl flex items-center justify-center p-4 md:p-10"
-             onClick={() => {
-               setSelectedImage(null);
-               setSelectedImageData(null);
-             }}>
-          
+        <div
+          className="fixed inset-0 z-[200] bg-black/20 backdrop-blur-2xl flex items-center justify-center p-4 md:p-10"
+          onClick={() => {
+            setSelectedImage(null);
+            setSelectedImageData(null);
+          }}
+        >
           {/* Background Grid */}
-          <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
+          <div
+            className="absolute inset-0 opacity-[0.02] pointer-events-none"
             style={{
               backgroundImage: `
                 linear-gradient(to right, rgba(56, 189, 248, 0.2) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(56, 189, 248, 0.2) 1px, transparent 1px)
               `,
-              backgroundSize: '60px 60px'
-            }}>
-          </div>
+              backgroundSize: "60px 60px",
+            }}
+          ></div>
 
           {/* Close Button */}
           <button
@@ -500,8 +547,12 @@ const Gallery = () => {
                          border border-white/20"
               onClick={(e) => {
                 e.stopPropagation();
-                const currentIndex = galleryImages.findIndex(img => img.url === selectedImage);
-                const prevIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+                const currentIndex = galleryImages.findIndex(
+                  (img) => img.url === selectedImage,
+                );
+                const prevIndex =
+                  (currentIndex - 1 + galleryImages.length) %
+                  galleryImages.length;
                 setSelectedImage(galleryImages[prevIndex].url);
                 setSelectedImageData(galleryImages[prevIndex]);
               }}
@@ -510,10 +561,11 @@ const Gallery = () => {
             </button>
 
             {/* Image Container */}
-            <div className="flex-1 relative rounded-2xl overflow-hidden
+            <div
+              className="flex-1 relative rounded-2xl overflow-hidden
                             border-2 border-sky-400/30 bg-black/50"
-                 onClick={(e) => e.stopPropagation()}>
-              
+              onClick={(e) => e.stopPropagation()}
+            >
               <img
                 src={selectedImage}
                 alt="Enlarged recon visual"
@@ -521,22 +573,25 @@ const Gallery = () => {
               />
 
               {/* Lightbox Metadata Panel */}
-              <div className="absolute bottom-0 left-0 right-0 
+              <div
+                className="absolute bottom-0 left-0 right-0 
                               bg-gradient-to-t from-black/95 via-black/80 to-transparent
-                              p-6">
+                              p-6"
+              >
                 <div className="flex items-start justify-between">
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
-                      <h3 className="text-xl font-bold text-white">{selectedImageData.title}</h3>
-                      <span className="px-2 py-1 bg-sky-500/20 text-sky-400 
-                                     rounded-full text-[10px] border border-sky-500/30">
+                      <h3 className="text-xl font-bold text-white">
+                        {selectedImageData.title}
+                      </h3>
+                      <span
+                        className="px-2 py-1 bg-sky-500/20 text-sky-400 
+                                     rounded-full text-[10px] border border-sky-500/30"
+                      >
                         {selectedImageData.category}
                       </span>
                     </div>
-
                   </div>
-
-              
                 </div>
               </div>
             </div>
@@ -548,7 +603,9 @@ const Gallery = () => {
                          border border-white/20"
               onClick={(e) => {
                 e.stopPropagation();
-                const currentIndex = galleryImages.findIndex(img => img.url === selectedImage);
+                const currentIndex = galleryImages.findIndex(
+                  (img) => img.url === selectedImage,
+                );
                 const nextIndex = (currentIndex + 1) % galleryImages.length;
                 setSelectedImage(galleryImages[nextIndex].url);
                 setSelectedImageData(galleryImages[nextIndex]);

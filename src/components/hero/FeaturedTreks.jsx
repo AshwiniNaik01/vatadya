@@ -549,27 +549,370 @@
 
 
 
+// import React, { useState, useEffect, useRef } from 'react';
+// import Lottie from 'lottie-react';
+// import {
+//   Shield,
+//   Terminal,
+//   Activity,
+//   Compass,
+//   Zap,
+//   Globe,
+//   Cpu,
+//   Microscope,
+//   Award,
+//   Sparkles,
+//   Target,
+//   Navigation,
+//   Wind,
+//   Star,
+//   CheckCircle
+// } from 'lucide-react';
+// import { Player } from "@lottiefiles/react-lottie-player";
+// // Import Lottie animations with error handling
+
+// import mountainAnimation from "../../lotties/mountain.json";
+// import compassAnimation from "../../lotties/compass.json";
+// import shieldAnimation from "../../lotties/shield.json";
+// import radarAnimation from "../../lotties/radar.json";
+// import zapAnimation from "../../lotties/electricity.json";
+// import awardAnimation from "../../lotties/award.json";
+
+// const Features = () => {
+//   const [activeFeature, setActiveFeature] = useState(null);
+//   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+//   const [lottieError, setLottieError] = useState(false);
+//   const sectionRef = useRef(null);
+
+//   useEffect(() => {
+//     const handleMouseMove = (e) => {
+//       if (sectionRef.current) {
+//         const rect = sectionRef.current.getBoundingClientRect();
+//         setMousePosition({
+//           x: ((e.clientX - rect.left) / rect.width - 0.5) * 10,
+//           y: ((e.clientY - rect.top) / rect.height - 0.5) * 10
+//         });
+//       }
+//     };
+
+//     window.addEventListener('mousemove', handleMouseMove);
+//     return () => window.removeEventListener('mousemove', handleMouseMove);
+//   }, []);
+
+//   const features = [
+//     {
+//       icon: Cpu,
+//       lottie: mountainAnimation,
+//       title: "Command Personnel",
+//       description: "Led by certified mountaineers with elite high-altitude mission credentials.",
+//       stats: "15k+",
+//       statLabel: "MISSIONS",
+//       code: "AUTH_01",
+//       color: "from-sky-400 to-blue-400",
+//       delay: "0s",
+//       metric: "100% success"
+//     },
+//     {
+//       icon: Compass,
+//       lottie: compassAnimation,
+//       title: "GPS Array V4",
+//       description: "Redundant satellite tracking ensures navigational precision in dead zones.",
+//       stats: "99.9%",
+//       statLabel: "SYNC",
+//       code: "NAV_SYS",
+//       color: "from-blue-400 to-indigo-400",
+//       delay: "0.1s",
+//       metric: "0.01ms latency"
+//     },
+//     {
+//       icon: Shield,
+//       lottie: shieldAnimation,
+//       title: "Failsafe Protocols",
+//       description: "Advanced medical synchronization and rapid extraction contingencies.",
+//       stats: "0.0",
+//       statLabel: "INCIDENTS",
+//       code: "SAFE_77",
+//       color: "from-indigo-400 to-purple-400",
+//       delay: "0.2s",
+//       metric: "24/7 monitoring"
+//     },
+//     {
+//       icon: Microscope,
+//       lottie: radarAnimation,
+//       title: "Sector Intelligence",
+//       description: "Deep topographical analysis and real-time environment monitoring.",
+//       stats: "HD",
+//       statLabel: "RECON",
+//       code: "INTEL_99",
+//       color: "from-purple-400 to-pink-400",
+//       delay: "0.3s",
+//       metric: "4K resolution"
+//     },
+//     {
+//       icon: Zap,
+//       lottie: zapAnimation,
+//       title: "Rapid Deployment",
+//       description: "Agile mission architecture allowing for swift sector mobilization.",
+//       stats: "24H",
+//       statLabel: "READY",
+//       code: "OPS_FAST",
+//       color: "from-pink-400 to-rose-400",
+//       delay: "0.4s",
+//       metric: "Instant response"
+//     },
+//     {
+//       icon: Award,
+//       lottie: awardAnimation,
+//       title: "Verified Standards",
+//       description: "Globally recognized operational excellence in high-altitude logistics.",
+//       stats: "TIER 1",
+//       statLabel: "RATING",
+//       code: "STD_PRO",
+//       color: "from-rose-400 to-orange-400",
+//       delay: "0.5s",
+//       metric: "ISO certified"
+//     }
+//   ];
+
+//   // Fallback component when Lottie fails
+//   const LottieFallback = ({ icon: Icon, color }) => (
+//     <div className={`w-full h-full flex items-center justify-center bg-gradient-to-r ${color} rounded-2xl bg-opacity-10`}>
+//       <Icon className="w-10 h-10 text-white" />
+//     </div>
+//   );
+
+//   return (
+//     <section 
+//       ref={sectionRef}
+//       className="relative py-12 overflow-hidden"
+//       style={{
+//         background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #dbeafe 100%)',
+//       }}
+//     >
+//       {/* ===== Light Background Elements ===== */}
+//       <div className="absolute inset-0">
+//         {/* Floating Particles */}
+
+
+//         {/* Soft Grid Overlay */}
+//         <div 
+//           className="absolute inset-0 opacity-[0.08]"
+//           style={{
+//             backgroundImage: `
+//               linear-gradient(to right, rgba(56, 189, 248, 0.2) 1px, transparent 1px),
+//               linear-gradient(to bottom, rgba(56, 189, 248, 0.2) 1px, transparent 1px)
+//             `,
+//             backgroundSize: '40px 40px'
+//           }}
+//         />
+
+//         {/* Gradient Orbs */}
+        
+//       </div>
+
+//       <div className="container mx-auto px-6 relative z-10">
+        
+//         {/* ===== Header Section ===== */}
+//         <div className="text-center max-w-3xl mx-auto mb-16">
+//           <div className="inline-flex items-center gap-3 
+//                           bg-white/80 backdrop-blur-sm 
+//                           border border-sky-200 rounded-full 
+//                           px-6 py-3 mb-6
+//                           shadow-lg shadow-sky-100">
+//             <Sparkles className="w-5 h-5 text-sky-500 animate-sparkle" />
+//             <span className="text-sky-700 text-sm font-medium tracking-wide">
+//               OUR ESSENTIALS
+//             </span>
+//             <Activity className="w-4 h-4 text-sky-400 animate-pulse" />
+//           </div>
+
+//          <h2 className="text-4xl md:text-6xl font-bold text-sky-900 leading-tight mb-4">
+//   <span>System </span>
+//   <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-600">
+//     Parameters
+//   </span>
+// </h2>
+//         </div>
+
+//         {/* ===== Features Grid - Smaller Cards ===== */}
+//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+//           {features.map((feature, index) => {
+//             const Icon = feature.icon;
+//             const isActive = activeFeature === index;
+
+//             return (
+//               <div
+//                 key={index}
+//                 onMouseEnter={() => setActiveFeature(index)}
+//                 onMouseLeave={() => setActiveFeature(null)}
+//                 className="group relative perspective-1000"
+//                 style={{ animation: `fadeInUp 0.6s ease-out ${feature.delay} forwards`, opacity: 0 }}
+//               >
+//                 {/* 3D Card Container */}
+//                 <div 
+//                   className="relative transition-transform duration-500"
+//                   style={{
+//                     transform: isActive 
+//                       ? `rotateX(${mousePosition.y * 0.3}deg) rotateY(${mousePosition.x * 0.3}deg) scale(1.02)` 
+//                       : 'none'
+//                   }}
+//                 >
+//                   {/* Glow Effect */}
+//                   <div className={`absolute -inset-1 bg-gradient-to-r ${feature.color} 
+//                                   rounded-2xl blur-xl transition-opacity duration-500
+//                                   ${isActive ? 'opacity-50' : 'opacity-0'}`} />
+
+//                   {/* Main Card */}
+//                   <div className={`relative bg-white rounded-2xl p-6
+//                                   border-2 transition-all duration-300
+//                                   shadow-lg hover:shadow-xl
+//                                   ${isActive 
+//                                     ? `border-${feature.color.split('-')[1]}-400` 
+//                                     : 'border-sky-100 hover:border-sky-300'}`}>
+                    
+//                     {/* Top Row - Code & Stats */}
+//                     <div className="flex items-center justify-between mb-4">
+//                       <span className="text-xs font-mono text-sky-400 bg-sky-50 
+//                                        px-2 py-1 rounded-md">
+//                         {feature.code}
+//                       </span>
+//                       <div className="flex items-center gap-1">
+//                         <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+//                         <span className="text-xs font-medium text-sky-600">
+//                           {feature.metric}
+//                         </span>
+//                       </div>
+//                     </div>
+
+//                     {/* Animation/Icon Container */}
+//                     <div className="relative w-20 h-20 mx-auto mb-4">
+//                       <div className={`absolute inset-0 bg-gradient-to-r ${feature.color} 
+//                                       rounded-2xl opacity-10 group-hover:opacity-20 
+//                                       transition-opacity`} />
+                      
+//                       {/* Lottie Animation with Error Boundary */}
+//                       {feature.lottie ? (
+//                         <div className="w-full h-full">
+//                           <Player
+//   autoplay
+//   loop
+//   src={feature.lottie}
+//   className="w-full h-full"
+// />
+
+//                         </div>
+//                       ) : (
+//                         <div className="w-full h-full flex items-center justify-center">
+//                           <Icon className={`w-10 h-10 text-${feature.color.split('-')[1]}-400`} />
+//                         </div>
+//                       )}
+//                     </div>
+
+//                     {/* Title */}
+//                     <h3 className="text-lg font-bold text-sky-900 text-center mb-2
+//                                    group-hover:text-sky-600 transition-colors">
+//                       {feature.title}
+//                     </h3>
+
+//                     {/* Description */}
+//                     <p className="text-sm text-sky-600/70 text-center mb-4 leading-relaxed">
+//                       {feature.description}
+//                     </p>
+
+//                     {/* Stats Row */}
+//                     <div className="flex items-center justify-center gap-3 
+//                                     pt-4 border-t border-sky-100">
+//                       <div className="text-center">
+//                         <div className={`text-xl font-bold bg-gradient-to-r ${feature.color} 
+//                                         bg-clip-text text-transparent`}>
+//                           {feature.stats}
+//                         </div>
+//                         <div className="text-xs text-sky-500 mt-1">
+//                           {feature.statLabel}
+//                         </div>
+//                       </div>
+//                     </div>
+
+//                     {/* Hover Progress Indicator */}
+//                     <div className="absolute bottom-0 left-0 right-0 h-1 
+//                                     bg-sky-100 rounded-b-2xl overflow-hidden">
+//                       <div className={`h-full bg-gradient-to-r ${feature.color} 
+//                                       transition-all duration-700 ease-out
+//                                       ${isActive ? 'w-full' : 'w-0'}`} />
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             );
+//           })}
+//         </div>
+
+//       </div>
+
+//       {/* ===== Custom Animations ===== */}
+//       <style>{`
+//         @keyframes floatParticle {
+//           0% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+//           50% { transform: translateY(-100px) rotate(180deg); opacity: 0.7; }
+//           100% { transform: translateY(0) rotate(360deg); opacity: 0.3; }
+//         }
+        
+//         @keyframes fadeInUp {
+//           from {
+//             opacity: 0;
+//             transform: translateY(30px);
+//           }
+//           to {
+//             opacity: 1;
+//             transform: translateY(0);
+//           }
+//         }
+        
+//         @keyframes sparkle {
+//           0%, 100% { opacity: 1; transform: scale(1); }
+//           50% { opacity: 0.5; transform: scale(1.2); }
+//         }
+        
+//         @keyframes pulse-slow {
+//           0%, 100% { opacity: 0.3; transform: scale(1); }
+//           50% { opacity: 0.5; transform: scale(1.1); }
+//         }
+        
+//         .animate-sparkle {
+//           animation: sparkle 2s ease-in-out infinite;
+//         }
+        
+//         .animate-pulse-slow {
+//           animation: pulse-slow 4s ease-in-out infinite;
+//         }
+        
+//         .delay-1000 {
+//           animation-delay: 1s;
+//         }
+        
+//         .perspective-1000 {
+//           perspective: 1000px;
+//         }
+//       `}</style>
+//     </section>
+//   );
+// };
+
+// export default Features;
+
 import React, { useState, useEffect, useRef } from 'react';
-import Lottie from 'lottie-react';
+import { Player } from "@lottiefiles/react-lottie-player";
 import {
-  Shield,
-  Terminal,
-  Activity,
-  Compass,
-  Zap,
-  Globe,
   Cpu,
+  Compass,
+  Shield,
   Microscope,
+  Zap,
   Award,
   Sparkles,
-  Target,
-  Navigation,
-  Wind,
-  Star,
-  CheckCircle
+  Activity
 } from 'lucide-react';
-import { Player } from "@lottiefiles/react-lottie-player";
-// Import Lottie animations with error handling
+import axios from 'axios';
 
 import mountainAnimation from "../../lotties/mountain.json";
 import compassAnimation from "../../lotties/compass.json";
@@ -577,12 +920,24 @@ import shieldAnimation from "../../lotties/shield.json";
 import radarAnimation from "../../lotties/radar.json";
 import zapAnimation from "../../lotties/electricity.json";
 import awardAnimation from "../../lotties/award.json";
+import axiosInstance from '../../api/axiosInstance';
 
 const Features = () => {
   const [activeFeature, setActiveFeature] = useState(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [lottieError, setLottieError] = useState(false);
+  const [features, setFeatures] = useState([]);
+  const [mainTitle, setMainTitle] = useState("");
   const sectionRef = useRef(null);
+
+  // Map titles to Lottie animations dynamically
+  const lottieMap = {
+    "Adventure Treks": mountainAnimation,
+    "GPS Array V4": compassAnimation,
+    "Failsafe Protocols": shieldAnimation,
+    "Sector Intelligence": radarAnimation,
+    "Rapid Deployment": zapAnimation,
+    "Verified Standards": awardAnimation
+  };
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -594,87 +949,61 @@ const Features = () => {
         });
       }
     };
-
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const features = [
-    {
-      icon: Cpu,
-      lottie: mountainAnimation,
-      title: "Command Personnel",
-      description: "Led by certified mountaineers with elite high-altitude mission credentials.",
-      stats: "15k+",
-      statLabel: "MISSIONS",
-      code: "AUTH_01",
-      color: "from-sky-400 to-blue-400",
-      delay: "0s",
-      metric: "100% success"
-    },
-    {
-      icon: Compass,
-      lottie: compassAnimation,
-      title: "GPS Array V4",
-      description: "Redundant satellite tracking ensures navigational precision in dead zones.",
-      stats: "99.9%",
-      statLabel: "SYNC",
-      code: "NAV_SYS",
-      color: "from-blue-400 to-indigo-400",
-      delay: "0.1s",
-      metric: "0.01ms latency"
-    },
-    {
-      icon: Shield,
-      lottie: shieldAnimation,
-      title: "Failsafe Protocols",
-      description: "Advanced medical synchronization and rapid extraction contingencies.",
-      stats: "0.0",
-      statLabel: "INCIDENTS",
-      code: "SAFE_77",
-      color: "from-indigo-400 to-purple-400",
-      delay: "0.2s",
-      metric: "24/7 monitoring"
-    },
-    {
-      icon: Microscope,
-      lottie: radarAnimation,
-      title: "Sector Intelligence",
-      description: "Deep topographical analysis and real-time environment monitoring.",
-      stats: "HD",
-      statLabel: "RECON",
-      code: "INTEL_99",
-      color: "from-purple-400 to-pink-400",
-      delay: "0.3s",
-      metric: "4K resolution"
-    },
-    {
-      icon: Zap,
-      lottie: zapAnimation,
-      title: "Rapid Deployment",
-      description: "Agile mission architecture allowing for swift sector mobilization.",
-      stats: "24H",
-      statLabel: "READY",
-      code: "OPS_FAST",
-      color: "from-pink-400 to-rose-400",
-      delay: "0.4s",
-      metric: "Instant response"
-    },
-    {
-      icon: Award,
-      lottie: awardAnimation,
-      title: "Verified Standards",
-      description: "Globally recognized operational excellence in high-altitude logistics.",
-      stats: "TIER 1",
-      statLabel: "RATING",
-      code: "STD_PRO",
-      color: "from-rose-400 to-orange-400",
-      delay: "0.5s",
-      metric: "ISO certified"
-    }
-  ];
+  // Fetch features from API
+// Fetch features from API
+// Fetch features from API
+useEffect(() => {
+  const fetchFeatures = async () => {
+    try {
+      const res = await axiosInstance.get(`/api/our-features`);
 
-  // Fallback component when Lottie fails
+      const lotties = [
+        mountainAnimation,
+        compassAnimation,
+        shieldAnimation,
+        radarAnimation,
+        zapAnimation,
+        awardAnimation
+      ];
+
+      const colors = [
+        "from-sky-400 to-blue-400",
+        "from-blue-400 to-indigo-400",
+        "from-indigo-400 to-purple-400",
+        "from-purple-400 to-pink-400",
+        "from-pink-400 to-rose-400",
+        "from-rose-400 to-orange-400"
+      ];
+
+      // const mappedFeatures = res.data.data.map((feature, index) => ({
+        const mappedFeatures = res.data.data.features.map((feature, index) => ({
+        title: feature.title,
+        description: feature.description,
+        stats: feature.statValue,
+        statLabel: feature.statLabel,
+        metric: feature.achievementMetric,
+        // Use lottie from map if exists, else pick one from array based on index
+        lottie: lottieMap[feature.title] || lotties[index % lotties.length],
+        icon: Cpu, // fallback icon
+        color: colors[index % colors.length], // rotate colors
+        delay: `${index * 0.1}s`,
+        code: `CODE_${index + 1}` // optional code
+      }));
+
+      setFeatures(mappedFeatures);
+      setMainTitle(res.data.data.mainTitle);
+    } catch (err) {
+      console.error("Error fetching features:", err);
+    }
+  };
+
+  fetchFeatures();
+}, []);
+  // Lottie fallback component
   const LottieFallback = ({ icon: Icon, color }) => (
     <div className={`w-full h-full flex items-center justify-center bg-gradient-to-r ${color} rounded-2xl bg-opacity-10`}>
       <Icon className="w-10 h-10 text-white" />
@@ -685,215 +1014,114 @@ const Features = () => {
     <section 
       ref={sectionRef}
       className="relative py-12 overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #dbeafe 100%)',
-      }}
+      style={{ background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #dbeafe 100%)' }}
     >
-      {/* ===== Light Background Elements ===== */}
       <div className="absolute inset-0">
-        {/* Floating Particles */}
-
-
-        {/* Soft Grid Overlay */}
-        <div 
-          className="absolute inset-0 opacity-[0.08]"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, rgba(56, 189, 248, 0.2) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(56, 189, 248, 0.2) 1px, transparent 1px)
-            `,
-            backgroundSize: '40px 40px'
-          }}
-        />
-
-        {/* Gradient Orbs */}
-        
+        <div className="absolute inset-0 opacity-[0.08]" style={{
+          backgroundImage: `
+            linear-gradient(to right, rgba(56, 189, 248, 0.2) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(56, 189, 248, 0.2) 1px, transparent 1px)
+          `,
+          backgroundSize: '40px 40px'
+        }} />
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
-        
-        {/* ===== Header Section ===== */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-3 
-                          bg-white/80 backdrop-blur-sm 
-                          border border-sky-200 rounded-full 
-                          px-6 py-3 mb-6
-                          shadow-lg shadow-sky-100">
+          <div className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-sm border border-sky-200 rounded-full px-6 py-3 mb-6 shadow-lg shadow-sky-100">
             <Sparkles className="w-5 h-5 text-sky-500 animate-sparkle" />
-            <span className="text-sky-700 text-sm font-medium tracking-wide">
-              OUR ESSENTIALS
-            </span>
+            <span className="text-sky-700 text-sm font-medium tracking-wide">OUR ESSENTIALS</span>
             <Activity className="w-4 h-4 text-sky-400 animate-pulse" />
           </div>
 
-         <h2 className="text-4xl md:text-6xl font-bold text-sky-900 leading-tight mb-4">
-  <span>System </span>
+
+       <h2 className="text-4xl md:text-6xl font-bold text-sky-900 leading-tight mb-4">
+  <span>{mainTitle?.split(" ")[0]} </span>
   <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-600">
-    Parameters
+    {mainTitle?.split(" ").slice(1).join(" ")}
   </span>
 </h2>
+{/* 
+          <h2 className="text-4xl md:text-6xl font-bold text-sky-900 leading-tight mb-4">
+            <span>System </span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-600">
+              Parameters
+            </span>
+          </h2> */}
         </div>
 
-        {/* ===== Features Grid - Smaller Cards ===== */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
-            const isActive = activeFeature === index;
+      {features.map((feature, index) => {
+  const Icon = feature.icon;
+  const isActive = activeFeature === index;
 
-            return (
-              <div
-                key={index}
-                onMouseEnter={() => setActiveFeature(index)}
-                onMouseLeave={() => setActiveFeature(null)}
-                className="group relative perspective-1000"
-                style={{ animation: `fadeInUp 0.6s ease-out ${feature.delay} forwards`, opacity: 0 }}
-              >
-                {/* 3D Card Container */}
-                <div 
-                  className="relative transition-transform duration-500"
-                  style={{
-                    transform: isActive 
-                      ? `rotateX(${mousePosition.y * 0.3}deg) rotateY(${mousePosition.x * 0.3}deg) scale(1.02)` 
-                      : 'none'
-                  }}
-                >
-                  {/* Glow Effect */}
-                  <div className={`absolute -inset-1 bg-gradient-to-r ${feature.color} 
-                                  rounded-2xl blur-xl transition-opacity duration-500
-                                  ${isActive ? 'opacity-50' : 'opacity-0'}`} />
+  // Map colors for border safely
+  const borderColors = [
+    'border-sky-400',
+    'border-blue-400',
+    'border-indigo-400',
+    'border-purple-400',
+    'border-pink-400',
+    'border-rose-400'
+  ];
 
-                  {/* Main Card */}
-                  <div className={`relative bg-white rounded-2xl p-6
-                                  border-2 transition-all duration-300
-                                  shadow-lg hover:shadow-xl
-                                  ${isActive 
-                                    ? `border-${feature.color.split('-')[1]}-400` 
-                                    : 'border-sky-100 hover:border-sky-300'}`}>
-                    
-                    {/* Top Row - Code & Stats */}
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-xs font-mono text-sky-400 bg-sky-50 
-                                       px-2 py-1 rounded-md">
-                        {feature.code}
-                      </span>
-                      <div className="flex items-center gap-1">
-                        <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                        <span className="text-xs font-medium text-sky-600">
-                          {feature.metric}
-                        </span>
-                      </div>
-                    </div>
+  return (
+    <div
+      key={index}
+      onMouseEnter={() => setActiveFeature(index)}
+      onMouseLeave={() => setActiveFeature(null)}
+      className="group relative perspective-1000"
+    >
+      <div className="relative transition-transform duration-500"
+        style={{
+          transform: isActive 
+            ? `rotateX(${mousePosition.y * 0.3}deg) rotateY(${mousePosition.x * 0.3}deg) scale(1.02)` 
+            : 'none'
+        }}
+      >
+        <div className={`absolute -inset-1 bg-gradient-to-r ${feature.color} rounded-2xl blur-xl transition-opacity duration-500 ${isActive ? 'opacity-50' : 'opacity-0'}`} />
 
-                    {/* Animation/Icon Container */}
-                    <div className="relative w-20 h-20 mx-auto mb-4">
-                      <div className={`absolute inset-0 bg-gradient-to-r ${feature.color} 
-                                      rounded-2xl opacity-10 group-hover:opacity-20 
-                                      transition-opacity`} />
-                      
-                      {/* Lottie Animation with Error Boundary */}
-                      {feature.lottie ? (
-                        <div className="w-full h-full">
-                          <Player
-  autoplay
-  loop
-  src={feature.lottie}
-  className="w-full h-full"
-/>
+        <div className={`relative bg-white rounded-2xl p-6 border-2 transition-all duration-300 shadow-lg hover:shadow-xl ${isActive ? borderColors[index % borderColors.length] : 'border-sky-100 hover:border-sky-300'}`}>
+          
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-xs font-mono text-sky-400 bg-sky-50 px-2 py-1 rounded-md">{feature.code}</span>
+            <div className="flex items-center gap-1">
+              <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+              <span className="text-xs font-medium text-sky-600">{feature.metric}</span>
+            </div>
+          </div>
 
-                        </div>
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <Icon className={`w-10 h-10 text-${feature.color.split('-')[1]}-400`} />
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Title */}
-                    <h3 className="text-lg font-bold text-sky-900 text-center mb-2
-                                   group-hover:text-sky-600 transition-colors">
-                      {feature.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-sm text-sky-600/70 text-center mb-4 leading-relaxed">
-                      {feature.description}
-                    </p>
-
-                    {/* Stats Row */}
-                    <div className="flex items-center justify-center gap-3 
-                                    pt-4 border-t border-sky-100">
-                      <div className="text-center">
-                        <div className={`text-xl font-bold bg-gradient-to-r ${feature.color} 
-                                        bg-clip-text text-transparent`}>
-                          {feature.stats}
-                        </div>
-                        <div className="text-xs text-sky-500 mt-1">
-                          {feature.statLabel}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Hover Progress Indicator */}
-                    <div className="absolute bottom-0 left-0 right-0 h-1 
-                                    bg-sky-100 rounded-b-2xl overflow-hidden">
-                      <div className={`h-full bg-gradient-to-r ${feature.color} 
-                                      transition-all duration-700 ease-out
-                                      ${isActive ? 'w-full' : 'w-0'}`} />
-                    </div>
-                  </div>
-                </div>
+          <div className="relative w-20 h-20 mx-auto mb-4">
+            <div className={`absolute inset-0 bg-gradient-to-r ${feature.color} rounded-2xl opacity-10 group-hover:opacity-20 transition-opacity`} />
+            {feature.lottie ? (
+              <Player autoplay loop src={feature.lottie} className="w-full h-full" />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <Icon className={`w-10 h-10 text-sky-400`} />
               </div>
-            );
-          })}
+            )}
+          </div>
+
+          <h3 className="text-lg font-bold text-sky-900 text-center mb-2 group-hover:text-sky-600 transition-colors">{feature.title}</h3>
+          <p className="text-sm text-sky-600/70 text-center mb-4 leading-relaxed">{feature.description}</p>
+
+          <div className="flex items-center justify-center gap-3 pt-4 border-t border-sky-100">
+            <div className="text-center">
+              <div className={`text-xl font-bold bg-gradient-to-r ${feature.color} bg-clip-text text-transparent`}>{feature.stats}</div>
+              <div className="text-xs text-sky-500 mt-1">{feature.statLabel}</div>
+            </div>
+          </div>
+
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-sky-100 rounded-b-2xl overflow-hidden">
+            <div className={`h-full bg-gradient-to-r ${feature.color} transition-all duration-700 ease-out ${isActive ? 'w-full' : 'w-0'}`} />
+          </div>
         </div>
-
       </div>
-
-      {/* ===== Custom Animations ===== */}
-      <style>{`
-        @keyframes floatParticle {
-          0% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
-          50% { transform: translateY(-100px) rotate(180deg); opacity: 0.7; }
-          100% { transform: translateY(0) rotate(360deg); opacity: 0.3; }
-        }
-        
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        @keyframes sparkle {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.5; transform: scale(1.2); }
-        }
-        
-        @keyframes pulse-slow {
-          0%, 100% { opacity: 0.3; transform: scale(1); }
-          50% { opacity: 0.5; transform: scale(1.1); }
-        }
-        
-        .animate-sparkle {
-          animation: sparkle 2s ease-in-out infinite;
-        }
-        
-        .animate-pulse-slow {
-          animation: pulse-slow 4s ease-in-out infinite;
-        }
-        
-        .delay-1000 {
-          animation-delay: 1s;
-        }
-        
-        .perspective-1000 {
-          perspective: 1000px;
-        }
-      `}</style>
+    </div>
+  );
+})}
+        </div>
+      </div>
     </section>
   );
 };
