@@ -20,6 +20,9 @@ import {
   BadgeCheck,
   Flame,
   Layers,
+  MapPinCheck,
+  Navigation,
+  Home,
 } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchTrekById } from "../api/trekApi";
@@ -35,6 +38,7 @@ import { selectAllTreks } from "../store/slices/trekSlice";
 import AvailabilityCalendar from "../components/track/AvailabilityCalendar";
 import DifficultyMeter from "../components/track/DifficultyMeter";
 import MapCard from "../components/track/MapCard";
+import AddOns from "../components/track/AddOns";
 
 const TrekDetailPage = () => {
   const { id } = useParams();
@@ -63,6 +67,13 @@ const TrekDetailPage = () => {
   const overviewRef = useRef(null);
   const feesRef = useRef(null);
   const photosRef = useRef(null);
+
+  const iconMap = {
+    "Pickup Location": MapPinCheck,
+    "Dropoff Location": Navigation,
+    "Suitable For": Users,
+    Accommodation: Home,
+  };
 
   const tabs = useMemo(
     () => [
@@ -250,38 +261,47 @@ const TrekDetailPage = () => {
     trek.image ||
     "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&q=80";
 
-  const SelectorGroup = ({ title, items, selected, setSelected }) => {
+  const SelectorGroup = ({ title, items }) => {
     if (!items?.length) return null;
 
+    const Icon = iconMap[title] || MapPin;
+
     return (
-      <div className="bg-white rounded-3xl border border-sky-100 shadow-lg p-8">
-        <div className="flex items-center gap-2 mb-6">
-          <CircleDot className="w-4 h-4 text-sky-500" />
-          <h3 className="text-sky-900 font-bold text-sm uppercase tracking-wider">
+      <div className="group relative bg-white rounded-xl border border-sky-800 p-6 overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
+        {/* 🔹 Floating Glow */}
+        <div className="absolute -top-10 -right-10 w-24 h-24 bg-sky-200/30 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500" />
+
+        {/* 🔹 Header */}
+        <div className="flex items-center gap-3 mb-5 relative z-2">
+          <div className="p-2 rounded-xl bg-sky-100 text-sky-600 group-hover:scale-110 transition">
+            <Icon className="w-5 h-5" />
+          </div>
+
+          <h3 className="text-sky-900 font-bold text-md uppercase tracking-wider">
             {title}
           </h3>
         </div>
 
-        <div className="flex flex-wrap gap-3">
-          {items.map((item, i) => {
-            const active = selected === item;
+        {/* 🔹 Items */}
+        <div className="grid grid-cols-2 gap-x-4 gap-y-3 relative z-2">
+          {items.map((item, i) => (
+            <div key={i} className="flex items-start gap-2">
+              {/* 🔹 Bullet */}
+              <span className="mt-2 w-2 h-2 rounded-full bg-sky-500 shrink-0" />
 
-            return (
-              <button
-                key={i}
-                onClick={() => setSelected(item)}
-                className={`px-5 py-2 rounded-xl text-sm font-semibold border transition-all duration-300
-              ${
-                active
-                  ? "bg-sky-500 text-white border-sky-500 shadow-md scale-105"
-                  : "bg-white text-sky-600 border-sky-200 hover:border-sky-400 hover:bg-sky-50"
-              }`}
+              {/* 🔹 Text */}
+              <span
+                className="text-sm font-semibold text-sky-700 transition-all duration-300
+                   hover:text-sky-900"
               >
                 {item}
-              </button>
-            );
-          })}
+              </span>
+            </div>
+          ))}
         </div>
+
+        {/* 🔹 Bottom Accent Line */}
+        <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-sky-300 to-transparent opacity-60 group-hover:via-sky-500 transition-all duration-500" />
       </div>
     );
   };
@@ -448,43 +468,57 @@ const TrekDetailPage = () => {
             </div>
           </div> */}
 
-{trek?.description && (
-  <div className="mb-12">
-    {/* Clean Header */}
-    <div className="mb-8 text-center md:text-left">
-   
-      <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-        Trek Overview
-      </h2>
-    </div>
+          {trek?.description && (
+            <div className="mb-12">
+              {/* Clean Header */}
+              <div className="mb-8 text-center md:text-left">
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+                  Trek Overview
+                </h2>
+              </div>
 
-    {/* Description with nice typography */}
-    <div className="max-w-8xl mx-auto md:mx-0">
-      <p className="text-gray-600 text-lg leading-relaxed mb-6">
-        {trek.description}
-      </p>
-    </div>
+              {/* Description with nice typography */}
+              <div className="max-w-8xl mx-auto md:mx-0">
+                <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                  {trek.description}
+                </p>
+              </div>
 
-    {/* Highlights in a clean grid */}
-    {trek?.highlight?.length > 0 && (
-      <div className="mt-10">
-        <h3 className="text-xl font-semibold text-gray-800 mb-6">
-          What Makes This Trek Special
-        </h3>
-        <div className="grid sm:grid-cols-2 gap-4">
-          {trek.highlight.map((item, i) => (
-            <div key={i} className="flex items-start gap-3 p-4 bg-blue-50 rounded-xl">
-              <span className="text-blue-600 font-bold text-lg">✦</span>
-              <span className="text-gray-700">{item}</span>
+              {/* Highlights in a clean grid */}
+              {trek?.highlight?.length > 0 && (
+                <div className="mt-10">
+                  <h3 className="text-xl font-semibold text-gray-800 mb-6">
+                    What Makes This Trek Special
+                  </h3>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {trek.highlight.map((item, i) => (
+                      <div
+                        key={i}
+                        className="flex items-start gap-3 p-4 bg-blue-50 rounded-xl"
+                      >
+                        <span className="text-blue-600 font-bold text-lg">
+                          ✦
+                        </span>
+                        <span className="text-gray-700">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-          ))}
-        </div>
-      </div>
-    )}
-  </div>
-)}
+          )}
 
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
+          <div>
+            <div className="flex items-center gap-3 mb-12">
+              <BarChart2 className="w-5 h-5 text-sky-500" />
+              <h1 className="font-bold text-2xl text-sky-900">
+                Expedition Parameters
+              </h1>
+            </div>
+            <TrekInfoCard trek={trek} />
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 my-12">
             <DifficultyMeter trek={trek} />
 
             <MapCard location={trek?.location} />
@@ -572,42 +606,13 @@ const TrekDetailPage = () => {
             </div>
           )} */}
 
-          <div className="bg-white rounded-3xl border border-sky-100 shadow-lg shadow-sky-100/50 p-8 md:p-10">
-            <div className="flex items-center gap-3 mb-8">
-              <BarChart2 className="w-5 h-5 text-sky-500" />
-              <h3 className="font-bold text-sky-900 text-base">
-                Expedition Parameters
-              </h3>
-            </div>
-            <TrekInfoCard trek={trek} />
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <SelectorGroup title="Pickup Location" items={trek.pickup} />
+            <SelectorGroup title="Dropoff Location" items={trek.dropoff} />
+            <SelectorGroup title="Suitable For" items={trek.suitableFor} />
+            <SelectorGroup title="Accommodation" items={trek.accommodation} />
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-            <SelectorGroup
-              title="Pickup Location"
-              items={trek.pickup}
-              selected={selectedPickup}
-              setSelected={setSelectedPickup}
-            />
-            <SelectorGroup
-              title="Dropoff Location"
-              items={trek.dropoff}
-              selected={selectedDropoff}
-              setSelected={setSelectedDropoff}
-            />
-            <SelectorGroup
-              title="Suitable For"
-              items={trek.suitableFor}
-              selected={selectedSuitable}
-              setSelected={setSelectedSuitable}
-            />
-            <SelectorGroup
-              title="Accommodation"
-              items={trek.accommodation}
-              selected={selectedStay}
-              setSelected={setSelectedStay}
-            />
-          </div>
         </section>
 
         <section ref={feesRef} id="fees" className="scroll-mt-[150px]">
@@ -703,6 +708,8 @@ const TrekDetailPage = () => {
               <TrekPageWithFees trek={trek} />
             </div>
           </div>
+
+          <AddOns addons={trek?.addons} />
         </section>
 
         <section ref={photosRef} id="photos" className="scroll-mt-[150px]">

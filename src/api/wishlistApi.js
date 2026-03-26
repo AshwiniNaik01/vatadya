@@ -12,7 +12,7 @@ export const addToWishlist = async (trekId) => {
 
 export const removeFromWishlist = async (trekId) => {
   const userId = Cookies.get("userId");
-  const response = await axiosInstance.delete(`/api/wishlist`, {
+  const response = await axiosInstance.delete(`/api/wishlist/${trekId}`, {
     data: { userId, trekId },
   });
   return response.data;

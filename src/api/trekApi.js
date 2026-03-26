@@ -1,10 +1,11 @@
 import axios from "axios";
 import { API_BASE_URL } from "../config/constants";
+import axiosInstance from "./axiosInstance";
 
 // Single function to fetch treks
 export const fetchTreks = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/api/trek`);
+    const response = await axiosInstance.get(`/api/trek`);
     return response.data; // returns the whole response object
   } catch (error) {
     console.error("Error fetching treks:", error);
@@ -15,7 +16,7 @@ export const fetchTreks = async () => {
 // Function to fetch a single trek by ID
 export const fetchTrekById = async (id) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/api/trek/${id}`);
+    const response = await axiosInstance.get(`/api/trek/${id}`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching trek with ID ${id}:`, error);
@@ -26,8 +27,8 @@ export const fetchTrekById = async (id) => {
 // Function to fetch filtered treks
 export const fetchFilteredTreks = async (categoryId) => {
   try {
-    const response = await axios.get(
-      `${API_BASE_URL}/api/trek/filter?categoryId=${categoryId}`,
+    const response = await  axiosInstance.get(
+      `/api/trek/filter?categoryId=${categoryId}`,
     );
     return response.data;
   } catch (error) {
