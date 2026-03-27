@@ -84,7 +84,7 @@ const Header = () => {
               className="w-10 h-10 object-contain"
             />
             <h1 className="text-xl font-black text-white uppercase tracking-tighter">
-              VATA<span className="text-primary italic">DYA</span>
+              VATADYA
             </h1>
           </Link>
 

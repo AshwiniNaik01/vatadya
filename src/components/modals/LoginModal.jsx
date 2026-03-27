@@ -108,12 +108,19 @@ const LoginModal = ({ isOpen, onClose }) => {
         <div className="absolute bottom-0 left-0 w-24 h-24 bg-rose-50/50 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
         
         {/* Close Button */}
-        <button 
+        {/* <button 
           onClick={onClose}
           className="absolute top-6 right-6 p-2 text-sky-400 hover:text-sky-600 hover:bg-sky-50 rounded-xl transition-all z-10"
         >
           <X size={20} />
-        </button>
+        </button> */}
+
+         <button
+    onClick={() => onClose && onClose()}
+    className="absolute top-6 right-6 p-2 text-sky-400 hover:text-sky-600 hover:bg-sky-50 rounded-xl transition-all z-20"
+  >
+    <X size={20} />
+  </button>
 
         <div className="p-10 sm:p-12 relative z-10">
           {/* Header */}

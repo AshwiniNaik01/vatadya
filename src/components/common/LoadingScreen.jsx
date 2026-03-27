@@ -30,11 +30,13 @@ const LoadingScreen = ({ onLoadingComplete }) => {
 
           {/* Logo Image */}
           <div className="relative w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border-2 border-white/20 shadow-2xl animate-logo-reveal">
+            {/* <div className='p-5 rounded-full' > */}
             <img
               src="/vatadya_logo.png"
               alt="Vatadya Logo"
-              className="w-full h-full object-cover scale-110 hover:scale-100 transition-transform duration-1000"
+              className="w-full h-full object-cover scale-110 p-6 bg-white rounded-full hover:scale-100 transition-transform duration-1000"
             />
+{/* </div> */}
             {/* Glossy Overlay */}
             <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent"></div>
           </div>
@@ -43,7 +45,7 @@ const LoadingScreen = ({ onLoadingComplete }) => {
         {/* Brand Name & Loading Bar */}
         <div className="mt-12 text-center space-y-6">
           <h1 className="text-white text-3xl md:text-5xl font-black tracking-[0.3em] uppercase italic animate-text-slide-up">
-            VATA<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-300">DYA</span>
+            VATADYA
           </h1>
 
           <div className="w-48 md:w-64 h-[2px] bg-white/10 mx-auto relative overflow-hidden rounded-full">

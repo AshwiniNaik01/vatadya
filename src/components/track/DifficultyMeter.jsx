@@ -291,7 +291,7 @@ const DifficultyMeter = ({ trek }) => {
 
           {/* Needle Container */}
           <div 
-            className="absolute bottom-0 left-1/2 origin-bottom transition-transform duration-1000 ease-out z-20"
+            className="absolute bottom-0 left-1/2 origin-bottom transition-transform duration-1000 ease-out z-2"
             style={{ 
               transform: `translateX(-50%) rotate(${needleRotation - 90}deg)`,
               bottom: '0px',
@@ -308,7 +308,7 @@ const DifficultyMeter = ({ trek }) => {
           </div>
 
           {/* Center Pivot */}
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/3 w-5 h-5 bg-white border-2 border-gray-800 rounded-full shadow-md z-30"></div>
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/3 w-5 h-5 bg-white border-2 border-gray-800 rounded-full shadow-md z-3"></div>
 
           {/* Percentage Display */}
           <div className="absolute inset-x-0 bottom-0 text-center mb-2">
