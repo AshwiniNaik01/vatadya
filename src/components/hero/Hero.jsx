@@ -324,7 +324,7 @@ const Hero = () => {
       </div>
 
       {/* ===== MAIN CONTENT ===== */}
-      <div className="relative z-20 text-center px-6 pt-20 max-w-6xl mx-auto">
+      <div className="relative z-20 text-center px-6 pt-20 mx-auto max-w-8xl">
 
         {/* Floating Badge */}
         {/* <div
@@ -339,7 +339,7 @@ const Hero = () => {
 
         {/* Main Title with 3D Letter Effect */}
         <h1
-          className="text-6xl md:text-8xl font-black mb-8 leading-[0.9] tracking-tighter"
+          className="text-5xl md:text-6xl font-black mb-8 leading-[0.9] tracking-tighter"
           style={{ animation: 'fadeUp 0.8s ease-out 0.2s both' }}
         >
           {heroData?.title ? (
