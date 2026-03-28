@@ -195,8 +195,7 @@
 
 // export default Footer;
 
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Heart,
   MapPin,
@@ -218,9 +217,9 @@ import {
   Award,
   Users,
   Target,
-  Navigation
-} from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+  Navigation,
+} from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 const Footer = () => {
   const [isNewsletterHovered, setIsNewsletterHovered] = useState(false);
@@ -244,19 +243,28 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: Facebook, href: "#", label: "FACEBOOK", color: "hover:text-blue-500" },
-    { icon: Instagram, href: "#", label: "INSTAGRAM", color: "hover:text-pink-500" },
+    {
+      icon: Facebook,
+      href: "#",
+      label: "FACEBOOK",
+      color: "hover:text-blue-500",
+    },
+    {
+      icon: Instagram,
+      href: "#",
+      label: "INSTAGRAM",
+      color: "hover:text-pink-500",
+    },
     { icon: Twitter, href: "#", label: "TWITTER", color: "hover:text-sky-400" },
     { icon: Youtube, href: "#", label: "YOUTUBE", color: "hover:text-red-500" },
   ];
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
     <footer className="relative bg-gradient-to-b from-[#0B2B4A] to-[#0A3B5E] text-white pt-20 pb-8 overflow-hidden border-t border-sky-400/20">
-
       {/* ===== Background Elements ===== */}
       <div className="absolute inset-0">
         {/* Gradient Orbs */}
@@ -271,24 +279,24 @@ const Footer = () => {
               linear-gradient(to right, rgba(56, 189, 248, 0.2) 1px, transparent 1px),
               linear-gradient(to bottom, rgba(56, 189, 248, 0.2) 1px, transparent 1px)
             `,
-            backgroundSize: '60px 60px'
+            backgroundSize: "60px 60px",
           }}
         />
       </div>
 
       <div className="container px-6 relative z-10  mx-auto max-w-7xl">
-
         {/* ===== Main Footer Content ===== */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
-
           {/* Brand Section - ColSpan 4 */}
           <div className="lg:col-span-4 space-y-6">
             <Link to="/" className="flex items-center gap-4 group">
               <div className="relative">
                 <div className="absolute inset-0 bg-sky-400/20 rounded-xl blur-lg group-hover:opacity-100 transition-opacity"></div>
-                <div className="relative w-14 h-14 rounded-xl  
+                <div
+                  className="relative w-14 h-14 rounded-xl  
                     flex items-center justify-center group-hover:scale-110 transition-transform
-                    shadow-lg shadow-sky-500/30">
+                    shadow-lg shadow-sky-500/30"
+                >
                   {/* Replace Compass icon with public image */}
                   <img
                     src="/vatadya_logo.png" // path to your image in public folder
@@ -299,7 +307,7 @@ const Footer = () => {
               </div>
               <div>
                 <h2 className="text-2xl font-black text-white tracking-tight">
-                  VATA<span className="text-sky-400">DYA</span>
+                  VATADYA
                 </h2>
                 <div className="flex items-center gap-2 mt-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
@@ -316,8 +324,6 @@ const Footer = () => {
               every story, every adventure.
             </p>
 
-
-
             {/* Social Links */}
             <div className="flex gap-3 pt-4">
               {socialLinks.map((social, idx) => {
@@ -330,12 +336,16 @@ const Footer = () => {
                     aria-label={social.label}
                   >
                     <div className="absolute inset-0 bg-sky-400/20 rounded-lg blur-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div className="relative w-10 h-10 rounded-lg bg-white/5 
+                    <div
+                      className="relative w-10 h-10 rounded-lg bg-white/5 
                                   border border-sky-400/30 flex items-center justify-center
                                   hover:border-sky-400/60 hover:bg-white/10 
-                                  transition-all group/icon">
-                      <Icon className={`w-5 h-5 text-white/60 group-hover/icon:scale-110 
-                                      transition-transform ${social.color}`} />
+                                  transition-all group/icon"
+                    >
+                      <Icon
+                        className={`w-5 h-5 text-white/60 group-hover/icon:scale-110 
+                                      transition-transform ${social.color}`}
+                      />
                     </div>
                   </a>
                 );
@@ -347,7 +357,9 @@ const Footer = () => {
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-center gap-3">
               <Terminal className="w-4 h-4 text-sky-400" />
-              <h3 className="text-xs font-bold text-white/80 uppercase tracking-[0.3em]">QUICK LINKS</h3>
+              <h3 className="text-xs font-bold text-white/80 uppercase tracking-[0.3em]">
+                QUICK LINKS
+              </h3>
             </div>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
@@ -355,14 +367,20 @@ const Footer = () => {
                   <Link
                     to={link.path}
                     className={`group flex items-center gap-3 text-sm transition-all
-                              ${location.pathname === link.path
-                        ? 'text-sky-400'
-                        : 'text-white/60 hover:text-white'}`}
+                              ${
+                                location.pathname === link.path
+                                  ? "text-sky-400"
+                                  : "text-white/60 hover:text-white"
+                              }`}
                   >
-                    <span className={`w-1.5 h-1.5 rounded-full transition-all
-                                    ${location.pathname === link.path
-                        ? 'bg-sky-400'
-                        : 'bg-white/20 group-hover:bg-sky-400'}`} />
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full transition-all
+                                    ${
+                                      location.pathname === link.path
+                                        ? "bg-sky-400"
+                                        : "bg-white/20 group-hover:bg-sky-400"
+                                    }`}
+                    />
                     <span className="flex items-center gap-2">
                       {link.icon}
                       {link.name}
@@ -377,7 +395,9 @@ const Footer = () => {
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-center gap-3">
               <Shield className="w-4 h-4 text-sky-400" />
-              <h3 className="text-xs font-bold text-white/80 uppercase tracking-[0.3em]">RESOURCES</h3>
+              <h3 className="text-xs font-bold text-white/80 uppercase tracking-[0.3em]">
+                RESOURCES
+              </h3>
             </div>
             <ul className="space-y-3">
               {resources.map((item, idx) => (
@@ -387,8 +407,10 @@ const Footer = () => {
                     className="group flex items-center gap-3 text-sm text-white/60 
                                hover:text-white transition-all"
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-white/20 
-                                   group-hover:bg-sky-400 transition-all" />
+                    <span
+                      className="w-1.5 h-1.5 rounded-full bg-white/20 
+                                   group-hover:bg-sky-400 transition-all"
+                    />
                     <span className="flex items-center gap-2">
                       {item.icon}
                       {item.name}
@@ -403,47 +425,70 @@ const Footer = () => {
           <div className="lg:col-span-4 space-y-6">
             <div className="flex items-center gap-3">
               <Radio className="w-4 h-4 text-sky-400 animate-pulse" />
-              <h3 className="text-xs font-bold text-white/80 uppercase tracking-[0.3em]">SIGNAL UPLINK</h3>
+              <h3 className="text-xs font-bold text-white/80 uppercase tracking-[0.3em]">
+                SIGNAL UPLINK
+              </h3>
             </div>
 
             {/* Contact Info */}
             <div className="space-y-4">
-              <a href="tel:+918806058687"
-                className="flex items-center gap-4 group hover:bg-white/5 p-3 rounded-xl transition-all">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-sky-500 to-blue-500 
-                              flex items-center justify-center group-hover:scale-110 transition-transform">
+              <a
+                href="tel:+918806058687"
+                className="flex items-center gap-4 group hover:bg-white/5 p-3 rounded-xl transition-all"
+              >
+                <div
+                  className="w-10 h-10 rounded-lg bg-gradient-to-r from-sky-500 to-blue-500 
+                              flex items-center justify-center group-hover:scale-110 transition-transform"
+                >
                   <Phone className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <div className="text-[8px] text-white/40 uppercase tracking-wider">SECURE VOICE</div>
-                  <div className="text-lg font-bold text-white">+91 8806058687</div>
+                  <div className="text-[8px] text-white/40 uppercase tracking-wider">
+                    SECURE VOICE
+                  </div>
+                  <div className="text-lg font-bold text-white">
+                    +91 8806058687
+                  </div>
                 </div>
               </a>
 
-              <a href="mailto:vatadyaadventures@gmail.com"
-                className="flex items-center gap-4 group hover:bg-white/5 p-3 rounded-xl transition-all">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-sky-500 to-blue-500 
-                              flex items-center justify-center group-hover:scale-110 transition-transform">
+              <a
+                href="mailto:vatadyaadventures@gmail.com"
+                className="flex items-center gap-4 group hover:bg-white/5 p-3 rounded-xl transition-all"
+              >
+                <div
+                  className="w-10 h-10 rounded-lg bg-gradient-to-r from-sky-500 to-blue-500 
+                              flex items-center justify-center group-hover:scale-110 transition-transform"
+                >
                   <Mail className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <div className="text-[8px] text-white/40 uppercase tracking-wider">DATA TRANSFER</div>
-                  <div className="text-lg font-bold text-white underline underline-offset-4 
-                                 decoration-sky-400/30 group-hover:decoration-sky-400 transition-all">
+                  <div className="text-[8px] text-white/40 uppercase tracking-wider">
+                    DATA TRANSFER
+                  </div>
+                  <div
+                    className="text-lg font-bold text-white underline underline-offset-4 
+                                 decoration-sky-400/30 group-hover:decoration-sky-400 transition-all"
+                  >
                     vatadyaadventures@gmail.com
                   </div>
                 </div>
               </a>
 
               <div className="flex items-start gap-4 p-3">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-sky-500 to-blue-500 
-                              flex items-center justify-center shrink-0">
+                <div
+                  className="w-10 h-10 rounded-lg bg-gradient-to-r from-sky-500 to-blue-500 
+                              flex items-center justify-center shrink-0"
+                >
                   <MapPin className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <div className="text-[8px] text-white/40 uppercase tracking-wider mb-1">HQ COORDINATES</div>
+                  <div className="text-[8px] text-white/40 uppercase tracking-wider mb-1">
+                    HQ COORDINATES
+                  </div>
                   <div className="text-sm text-white/80 leading-relaxed">
-                    123 Alpine Terminal<br />
+                    123 Alpine Terminal
+                    <br />
                     Base Station, Sector 7<br />
                     INDIA - 400001
                   </div>
@@ -490,7 +535,6 @@ const Footer = () => {
         {/* ===== Footer Bottom Bar ===== */}
         <div className="pt-8 mt-8 border-t border-sky-400/20">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-
             {/* Copyright */}
             <div className="flex items-center gap-4">
               <span className="text-xs text-white/40 tracking-wider">
@@ -499,7 +543,9 @@ const Footer = () => {
               <div className="w-px h-4 bg-white/10"></div>
               <div className="flex items-center gap-2">
                 <Shield className="w-4 h-4 text-sky-400/60" />
-                <span className="text-[8px] text-white/30 uppercase tracking-wider">ENCRYPTED CONNECTION</span>
+                <span className="text-[8px] text-white/30 uppercase tracking-wider">
+                  ENCRYPTED CONNECTION
+                </span>
               </div>
             </div>
 
@@ -523,9 +569,11 @@ const Footer = () => {
                          hover:text-sky-400 transition-colors"
             >
               <span>BACK TO TOP</span>
-              <div className="w-8 h-8 rounded-lg bg-white/5 border border-sky-400/30 
+              <div
+                className="w-8 h-8 rounded-lg bg-white/5 border border-sky-400/30 
                             flex items-center justify-center group-hover:bg-sky-500/20 
-                            group-hover:border-sky-400 transition-all">
+                            group-hover:border-sky-400 transition-all"
+              >
                 <ChevronUp className="w-4 h-4 group-hover:-translate-y-1 transition-transform" />
               </div>
             </button>
