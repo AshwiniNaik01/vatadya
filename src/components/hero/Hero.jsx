@@ -339,7 +339,7 @@ const Hero = () => {
 
         {/* Main Title with 3D Letter Effect */}
         <h1
-          className="text-5xl md:text-6xl font-black mb-8 leading-[0.9] tracking-tighter"
+          className="text-6xl md:text-7xl font-black mb-8 leading-[0.9] tracking-tighter"
           style={{ animation: 'fadeUp 0.8s ease-out 0.2s both' }}
         >
           {heroData?.title ? (
