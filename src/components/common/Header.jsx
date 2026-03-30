@@ -2,8 +2,13 @@ import { Heart, LogOut, User, Menu, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { openLoginModal, closeLoginModal, logout, setLoginState } from "../../store/slices/authSlice";
-import { fetchWishlistAsync } from "../../store/slices/wishlistSlice";
+import {
+  openLoginModal,
+  closeLoginModal,
+  logout,
+  setLoginState,
+} from "../../store/slices/authSlice";
+// import { fetchWishlistAsync } from "../../store/slices/wishlistSlice";
 import LoginModal from "../modals/LoginModal";
 import BookNowModal from "../modals/BookNowModal";
 import Cookies from "js-cookie";
@@ -16,7 +21,7 @@ const Header = () => {
 
   const dispatch = useDispatch();
   const { isLoggedIn, isLoginModalOpen } = useSelector((state) => state.auth);
-  
+
   const userMenuRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -28,7 +33,6 @@ const Header = () => {
     { name: "ABOUT US", href: "/about" },
     { name: "CONTACT US", href: "/contact" },
   ];
-
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -93,13 +97,17 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`px-6 py-2 text-xs font-black uppercase tracking-[0.2em] ${
-                  location.pathname === item.href
-                    ? "text-primary"
-                    : "text-white hover:text-primary"
-                }`}
+                className={`block px-5 py-4 rounded-xl text-sm font-semibold uppercase tracking-wider
+                transition-all duration-300 border
+                 ${
+                   location.pathname === item.href
+                     ? "bg-primary text-white border-primary shadow-lg shadow-primary/30"
+                     : "bg-white/5 text-white/80 border-white/10 hover:bg-white hover:text-white hover:border-white/30"
+                 }`}
               >
-                {item.name}
+                <span className="transition-colors duration-300 group-hover:text-white">
+                  {item.name}
+                </span>
               </Link>
             ))}
           </nav>
@@ -143,10 +151,14 @@ const Header = () => {
           </div>
 
           <button
-            className="md:hidden w-11 h-11 hud-panel flex items-center justify-center text-white/30"
+            className="md:hidden w-11 h-11 hud-panel flex items-center justify-center text-white/70"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <X className="w-5 h-5 text-primary" /> : <Menu className="w-5 h-5" />}
+            {isMenuOpen ? (
+              <X className="w-5 h-5 text-white/70" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
           </button>
         </div>
 
@@ -169,7 +181,7 @@ const Header = () => {
               </Link>
             ))}
 
-            <button
+            {/* <button
               onClick={() => {
                 setIsMenuOpen(false);
                 setIsBookingModalOpen(true);
@@ -177,7 +189,7 @@ const Header = () => {
               className="w-full mt-6 py-6 bg-primary text-obsidian font-bold uppercase tracking-[0.5em]"
             >
               INITIALIZE_DEPLOYMENT
-            </button>
+            </button> */}
           </div>
         </div>
       </header>
