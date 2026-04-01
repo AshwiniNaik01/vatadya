@@ -28,6 +28,8 @@ import axiosInstance from "../../api/axiosInstance";
 
 const Footer = () => {
   const [footerData, setFooterData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const location = useLocation();
   const currentYear = new Date().getFullYear();
@@ -87,32 +89,30 @@ const Footer = () => {
   useEffect(() => {
     const fetchFooter = async () => {
       try {
-        const res = await axiosInstance.get("/api/footer", {
-          headers: {
-            "Cache-Control": "no-cache",
-          },
-        });
-
-        console.log("Footer API response:", res.data);
+        const res = await axiosInstance.get("/api/footer");
 
         if (res.data.success) {
           setFooterData(res.data.data);
         }
-      } catch (error) {
-        console.error("Footer API error:", error.response || error);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load footer");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchFooter();
   }, []);
 
-  if (!footerData) {
-    return (
-      <footer className="text-white text-center py-10">
-        Loading footer...
-      </footer>
-    );
+  if (loading) {
+    return <footer className="text-white text-center py-10">Loading...</footer>;
   }
+
+  if (error) {
+    return <footer className="text-red-500 text-center py-10">{error}</footer>;
+  }
+
   return (
     <footer className="relative bg-gradient-to-b from-[#0B2B4A] to-[#0A3B5E] text-white pt-20 pb-8 overflow-hidden border-t border-sky-400/20">
       {/* ===== Background Elements ===== */}
@@ -174,12 +174,12 @@ const Footer = () => {
 
             {/* Social Links */}
             <div className="flex gap-3 pt-4">
-              {socialLinks.map((social, idx) => {
+              {socialLinks.map((social) => {
                 const Icon = social.icon;
                 return (
                   <a
-                    key={idx}
-                    href={social.href}
+                    key={social.label}
+                    href={social.href || "#"}
                     target="_blank"
                     rel="noreferrer"
                     className="group relative"
@@ -193,8 +193,7 @@ const Footer = () => {
                                   transition-all group/icon"
                     >
                       <Icon
-                        className={`w-5 h-5 text-white/60 group-hover/icon:scale-110 
-                                      transition-transform ${social.color}`}
+                        className={`w-5 h-5 text-white/60 group-hover/icon:scale-110 transition-transform ${social.color}`}
                       />
                     </div>
                   </a>
@@ -216,20 +215,18 @@ const Footer = () => {
                 <li key={link.name}>
                   <Link
                     to={link.path}
-                    className={`group flex items-center gap-3 text-sm transition-all
-                              ${
-                                location.pathname === link.path
-                                  ? "text-sky-400"
-                                  : "text-white/60 hover:text-white"
-                              }`}
+                    className={`group flex items-center gap-3 text-sm transition-all ${
+                      location.pathname === link.path
+                        ? "text-sky-400"
+                        : "text-white/60 hover:text-white"
+                    }`}
                   >
                     <span
-                      className={`w-1.5 h-1.5 rounded-full transition-all
-                                    ${
-                                      location.pathname === link.path
-                                        ? "bg-sky-400"
-                                        : "bg-white/20 group-hover:bg-sky-400"
-                                    }`}
+                      className={`w-1.5 h-1.5 rounded-full transition-all ${
+                        location.pathname === link.path
+                          ? "bg-sky-400"
+                          : "bg-white/20 group-hover:bg-sky-400"
+                      }`}
                     />
                     <span className="flex items-center gap-2">
                       {link.icon}
@@ -303,7 +300,7 @@ const Footer = () => {
               </a>
 
               <a
-                href={`mailto:${contact.email}`}
+                href={`mailto:${contact?.email}`}
                 className="flex items-center gap-4 group hover:bg-white/5 p-3 rounded-xl transition-all"
               >
                 <div
@@ -320,7 +317,7 @@ const Footer = () => {
                     className="text-lg font-bold text-white underline underline-offset-4 
                                  decoration-sky-400/30 group-hover:decoration-sky-400 transition-all"
                   >
-                    {contact.email}
+                    {contact?.email}
                   </div>
                 </div>
               </a>
@@ -334,16 +331,16 @@ const Footer = () => {
                 </div>
                 <div>
                   <div className="text-[8px] text-white/40 uppercase tracking-wider mb-1">
-                    {contact.address.line1}
+                    {contact?.address?.line1}
                     <br />
                   </div>
                   <div className="text-sm text-white/80 leading-relaxed">
-                    {contact.address.line2}
+                    {contact?.address?.line2}
                     <br />
                     <br />
-                    {contact.address?.city}
+                    {contact?.address?.city}
                     <br />
-                    {contact?.address.country} -{contact?.address?.pincode}
+                    {contact?.address?.country} -{contact?.address?.pincode}
                   </div>
                 </div>
               </div>
@@ -357,7 +354,8 @@ const Footer = () => {
             {/* Copyright */}
             <div className="flex items-center gap-4">
               <span className="text-xs text-white/40 tracking-wider">
-                © {footerBottom?.year} {footerBottom?.companyName}
+                © {footerBottom?.year || currentYear}{" "}
+                {footerBottom?.companyName}
               </span>
               <div className="w-px h-4 bg-white/10"></div>
               <div className="flex items-center gap-2">

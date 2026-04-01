@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   X,
   Plus,
@@ -50,33 +50,63 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
       : infoMap["ACCOMMODATION"]) || [];
   const trekTitle = trekData?.title || "";
 
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toISOString().split("T")[0];
+  };
+
+  const startDate = trekData?.startDate || "";
+  console.log(startDate);
+
+  useEffect(() => {
+    if (trekData?.startDate) {
+      setFormData((prev) => ({
+        ...prev,
+        departureDate: formatDate(trekData.startDate),
+      }));
+    }
+  }, [trekData]);
+
   // Available Add-ons for this trek
   const availableAddons = useMemo(() => {
-    // If trekData has addons array, use it
+    console.log("Checking addons:", trekData?.addons);
     if (
       trekData?.addons &&
       Array.isArray(trekData.addons) &&
       trekData.addons.length > 0
     ) {
       return trekData.addons.map((addon) => ({
+        id: addon.id || addon._id,
         name: addon.name,
         price: addon.price,
         description: addon.description,
       }));
     }
+    return [];
+  }, [trekData]);
 
-    // Fallback to default logic if no addons in trekData
-    const addons = [];
-    if (bookingType === "Trek + Camping") {
-      addons.push({ name: "Couple Tent", price: 500 });
+  useEffect(() => {
+    if (availableAddons.length > 0) {
+      setFormData((prev) => ({
+        ...prev,
+        addons: availableAddons, // auto select all
+      }));
     }
-    if (bookingType === "Trip") {
-      addons.push({ name: "Private Room", price: 1500 });
-    }
-    // addons.push({" name: "Meals Package", price: 800" });
-    // addons.push({ name: "Photography Package", price: 1200 });
-    return addons;
-  }, [bookingType, trekData]);
+  }, [availableAddons]);
+
+  // Fallback to default logic if no addons in trekData
+  //   const addons = [];
+  //   if (bookingType === "Trek + Camping") {
+  //     addons.push({ name: "Couple Tent", price: 500 });
+  //   }
+  //   if (bookingType === "Trip") {
+  //     addons.push({ name: "Private Room", price: 1500 });
+  //   }
+  //   addons.push({ name: "Meals Package", price: 800 });
+  //   addons.push({ name: "Photography Package", price: 1200 });
+  //   return addons;
+  // }, [bookingType, trekData]);
 
   // Build default addons (all selected by default since totalFee includes them)
   const defaultAddons = useMemo(() => {
@@ -106,17 +136,18 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
   // --- Price Calculation ---
   const priceBreakdown = useMemo(() => {
     const numPeople = Number(formData.numberOfPeople) || 1;
+
     const baseTotal = totalFee * numPeople;
 
     // Total price of ALL available add-ons
     const allAddonsTotal = availableAddons.reduce(
-      (sum, a) => sum + (a.price || 0),
+      (sum, a) => sum + (a.price || 0) * numPeople,
       0,
     );
 
     // Price of currently selected add-ons
     const selectedAddonsTotal = formData.addons.reduce(
-      (sum, a) => sum + (a.price || 0),
+      (sum, a) => sum + (a.price || 0) * numPeople,
       0,
     );
 
@@ -128,6 +159,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
 
     const discountAmount =
       discountPercent > 0 ? Math.round((baseTotal * discountPercent) / 100) : 0;
+
     const grandTotal = subtotal - discountAmount;
 
     return {
@@ -165,18 +197,36 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
     }
   };
 
+  // const handleAddonToggle = (addon) => {
+  //   setFormData((prev) => {
+  //     const exists = prev.addons.find((a) => a.name === addon.name);
+  //     if (exists) {
+  //       return {
+  //         ...prev,
+  //         addons: prev.addons.filter((a) => a.name !== addon.name),
+  //       };
+  //     } else {
+  //       return {
+  //         ...prev,
+  //         addons: [...prev.addons, { name: addon.name, price: addon.price }],
+  //       };
+  //     }
+  //   });
+  // };
+
   const handleAddonToggle = (addon) => {
     setFormData((prev) => {
-      const exists = prev.addons.find((a) => a.name === addon.name);
+      const exists = prev.addons.some((a) => a.id === addon._id);
+
       if (exists) {
         return {
           ...prev,
-          addons: prev.addons.filter((a) => a.name !== addon.name),
+          addons: prev.addons.filter((a) => a.id !== addon._id),
         };
       } else {
         return {
           ...prev,
-          addons: [...prev.addons, { name: addon.name, price: addon.price }],
+          addons: [...prev.addons, addon], // ✅ keep full object
         };
       }
     });
@@ -219,6 +269,21 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
     }));
   };
 
+  const totalAmount = useMemo(() => {
+    const people = Number(formData.numberOfPeople) || 1;
+
+    // Base trek price (adjust key if needed)
+    const basePrice = trekData?.price || 0;
+
+    let total = basePrice * people;
+
+    const addonsTotal = formData.addons.reduce((sum, addon) => {
+      return sum + addon.price * people; // 🔥 multiply here
+    }, 0);
+
+    return total + addonsTotal;
+  }, [formData.numberOfPeople, formData.addons, trekData]);
+
   const validateForm = () => {
     const newErrors = {};
     if (!formData.name.trim()) newErrors.name = "Name is required";
@@ -227,11 +292,13 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
     if (!formData.email.trim()) newErrors.email = "Email is required";
     if (!formData.pickupPoint)
       newErrors.pickupPoint = "Pickup point is required";
+
+    if (!formData.dropPoint) newErrors.dropPoint = "Drop point is required";
     if (!formData.dob) newErrors.dob = "Date of birth is required";
     if (!formData.gender) newErrors.gender = "Gender is required";
     if (!formData.bloodGroup) newErrors.bloodGroup = "Blood group is required";
-    if (!formData.alternativeContact.trim())
-      newErrors.alternativeContact = "Alternative contact is required";
+    // if (!formData.alternativeContact.trim())
+    //   newErrors.alternativeContact = "Alternative contact is required";
     if (!formData.emergencyContact.trim())
       newErrors.emergencyContact = "Emergency contact is required";
     if (!formData.departureDate)
@@ -584,7 +651,9 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
 
                     {/* Drop */}
                     <div className="space-y-4">
-                      <label className={labelCls}>Drop Point</label>
+                      <label className={labelCls}>
+                        Drop Point <span className="text-red-400">*</span>
+                      </label>
                       <div className="grid gap-2">
                         {trekDropPoints.length > 0 ? (
                           trekDropPoints.map((point, i) => (
@@ -612,10 +681,15 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                             value={formData.dropPoint}
                             onChange={handleChange}
                             placeholder="Enter drop location"
-                            className={inputCls(false)}
+                            className={inputCls(errors.dropPoint)}
                           />
                         )}
                       </div>
+                      {errors.dropPoint && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.dropPoint}
+                        </p>
+                      )}
                     </div>
 
                     {/* Accommodation */}
@@ -742,8 +816,8 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                     </div>
                     <div>
                       <label className={labelCls}>
-                        Alternative Contact Number{" "}
-                        <span className="text-red-400">*</span>
+                        Alternative Contact Number (Optional)
+                        {/* <span className="text-red-400">*</span> */}
                       </label>
                       <input
                         type="tel"
@@ -753,11 +827,11 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                         placeholder="Alternative contact number"
                         className={inputCls(errors.alternativeContact)}
                       />
-                      {errors.alternativeContact && (
+                      {/* {errors.alternativeContact && (
                         <p className="text-red-500 text-xs mt-1 ml-1">
                           {errors.alternativeContact}
                         </p>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>
@@ -794,7 +868,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                         name="departureDate"
                         value={formData.departureDate}
                         onChange={handleChange}
-                        min={new Date().toISOString().split("T")[0]}
+                        min={startDate}
                         className={inputCls(errors.departureDate)}
                       />
                       {errors.departureDate && (
@@ -877,11 +951,11 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {availableAddons.map((addon, i) => {
                         const isSelected = formData.addons.some(
-                          (a) => a.name === addon.name,
+                          (a) => a.id === addon.id,
                         );
                         return (
                           <button
-                            key={i}
+                            key={addon.id}
                             type="button"
                             onClick={() => handleAddonToggle(addon)}
                             className={`relative flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-300 text-left group
@@ -911,8 +985,14 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                             <span
                               className={`text-sm font-bold whitespace-nowrap ${isSelected ? "text-purple-600" : "text-gray-500"}`}
                             >
-                              + ₹{addon.price.toLocaleString()}
+                              + ₹{addon.price} × {formData.numberOfPeople} = ₹
+                              {(
+                                addon.price * (formData.numberOfPeople || 1)
+                              ).toLocaleString()}
                             </span>
+                            <p className="text-xs text-gray-400">
+                              {addon.description}
+                            </p>
                           </button>
                         );
                       })}
