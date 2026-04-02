@@ -118,4 +118,20 @@
   .hover-lift {
     @apply hover:-translate-y-2 hover:shadow-2xl transition-all duration-700;
   }
+
+  .shadow-3xl {
+    box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .rounded-4xl { border-radius: 2rem; }
+  .rounded-5xl { border-radius: 3rem; }
+  .rounded-2\.5xl { border-radius: 1.25rem; }
 }

@@ -13,6 +13,7 @@ import Booking from "../../components/hero/Booking";
 import HowItWorks from "../../components/hero/HowItWorks";
 import SafetySection from "../../components/hero/SafetySection";
 import WhyChooseUs from "../../components/hero/WhyChooseUs";
+import StaySection from "../../components/hero/StaySection";
 import CTASection from "../../components/hero/CTASection";
 import { fetchTreksAsync } from "../../store/slices/trekSlice";
 
