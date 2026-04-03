@@ -161,7 +161,7 @@ const Footer = () => {
                 </h2>
                 <div className="flex items-center gap-2 mt-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
-                  <p className="text-[8px] text-white/40 font-bold uppercase tracking-[0.3em]">
+                  <p className="text-[9px] text-white/60 font-bold uppercase tracking-[0.3em]">
                     {brand?.tagline}
                   </p>
                 </div>
