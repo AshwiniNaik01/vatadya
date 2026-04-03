@@ -359,11 +359,10 @@ const TrekDetailPage = () => {
                   onClick={() => scrollToTab(tab.id)}
                   className={`relative flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider
                         whitespace-nowrap transition-all duration-300 flex-shrink-0
-              ${
-                isActive
-                  ? `bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg shadow-blue-600/30`
-                  : "text-white hover:bg-slate-800/70 hover:text-cyan-200 border border-blue-800/30"
-              }`}
+              ${isActive
+                      ? `bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg shadow-blue-600/30`
+                      : "text-white hover:bg-slate-800/70 hover:text-cyan-200 border border-blue-800/30"
+                    }`}
                 >
                   <Icon
                     className={`w-4 h-4 ${isActive ? "text-white" : "text-cyan-400/60"}`}
@@ -479,9 +478,10 @@ const TrekDetailPage = () => {
 
               {/* Description with nice typography */}
               <div className="max-w-8xl mx-auto md:mx-0">
-                <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                  {trek.description}
-                </p>
+                <div
+                  className="text-gray-600 text-lg leading-relaxed mb-6 prose prose-sky max-w-none"
+                  dangerouslySetInnerHTML={{ __html: trek.description || "No description available." }}
+                />
               </div>
 
               {/* Highlights in a clean grid */}

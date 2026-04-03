@@ -12,6 +12,8 @@ import AboutUsPage from "./pages/AboutUsPage";
 import ContactUsPage from "./pages/ContactUsPage";
 import BookNowPage from "./pages/BookNowPage";
 import TrekDetailPage from "./pages/TrekDetailPage";
+import StayPage from "./pages/StayPage";
+import StayDetailPage from "./pages/StayDetailPage";
 import ScrollToTop from "./components/common/ScrollToTop";
 import LoadingScreen from "./components/common/LoadingScreen";
 
@@ -34,6 +36,8 @@ function App() {
             <Route path="/contact" element={<ContactUsPage />} />
             <Route path="/book-now" element={<BookNowPage />} />
             <Route path="/trek/:id" element={<TrekDetailPage />} />
+            <Route path="/stay" element={<StayPage />} />
+            <Route path="/stay/:id" element={<StayDetailPage />} />
           </Route>
         </Routes>
       </div>

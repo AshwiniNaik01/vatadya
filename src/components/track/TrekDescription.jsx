@@ -29,20 +29,20 @@ const TrekPageWithFees = ({ trek }) => {
     },
   ];
 
-const inclusions =
-  trek?.inclusions?.length > 0
-    ? trek.inclusions
-    : [
+  const inclusions =
+    trek?.inclusions?.length > 0
+      ? trek.inclusions
+      : [
         "Expert certified mountain guides",
         "All meals during the trek",
         "Accommodation at campsites",
         "Emergency first-aid & medical support",
       ];
 
-const exclusions =
-  trek?.exclusions?.length > 0
-    ? trek.exclusions
-    : [
+  const exclusions =
+    trek?.exclusions?.length > 0
+      ? trek.exclusions
+      : [
         "Personal trekking gear & clothing",
         "Travel insurance (recommended)",
         "Travel to/from base camp",
@@ -65,7 +65,10 @@ const exclusions =
                 </div>
                 <h3 className="text-sky-900 font-bold text-base">About This Trek</h3>
               </div>
-              <p className="text-sky-700/70 leading-relaxed text-[15px]">{trek.description}</p>
+              <div
+                className="text-sky-700/70 leading-relaxed text-[15px] prose prose-sky max-w-none"
+                dangerouslySetInnerHTML={{ __html: trek.description }}
+              />
             </div>
           )}
 
@@ -78,12 +81,15 @@ const exclusions =
                 </div>
                 <h3 className="text-sky-900 font-bold">Best Suited For</h3>
               </div>
-              <p className="text-sky-700/70 leading-relaxed">{trek.bestFor}</p>
+              <div
+                className="text-sky-700/70 leading-relaxed prose prose-emerald max-w-none"
+                dangerouslySetInnerHTML={{ __html: trek.bestFor }}
+              />
             </div>
           )}
 
           {/* Highlight cards */}
-  {/* <div>
+          {/* <div>
   <h3 className="text-sky-900 font-bold mb-5 flex items-center gap-2">
     <MapPin className="w-4 h-4 text-sky-500" />
     Trek Highlights
