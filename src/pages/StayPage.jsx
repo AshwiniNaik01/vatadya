@@ -723,7 +723,7 @@ const StayPage = () => {
         </div>
 
         {/* ── GRID SECTION ── */}
-        <section className="max-w-7xl mx-auto px-6 py-11">
+        <section className="max-w-7xl mx-auto px-6 py-12">
           {/* Section header */}
           <div className="flex items-end justify-between mb-10 gap-4 flex-wrap">
             <div>
