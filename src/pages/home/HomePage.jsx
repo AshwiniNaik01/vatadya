@@ -77,7 +77,7 @@ const HomePage = () => {
   }, [status, dispatch]);
 
   return (
-    <div className="overflow-x-hidden">
+    <>
       {/* Hero is usually visible on load, so we don't necessarily need to observe it, 
           but we can wrap it for consistency or use a higher threshold */}
       <Hero />
@@ -133,7 +133,7 @@ const HomePage = () => {
       {/* <SectionWrapper minHeight="300px">
         <CTASection /> 
       </SectionWrapper> */}
-    </div>
+    </>
   );
 };
 

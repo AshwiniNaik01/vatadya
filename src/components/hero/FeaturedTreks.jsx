@@ -954,12 +954,19 @@ const Features = () => {
   }, []);
 
   // Fetch features from API
-// Fetch features from API
-// Fetch features from API
 useEffect(() => {
   const fetchFeatures = async () => {
     try {
       const res = await axiosInstance.get(`/api/our-features`);
+
+      console.log("API RESPONSE:", res.data); // 👈 VERY IMPORTANT
+
+      const apiData = res.data?.data;
+
+      if (!apiData || !apiData.features) {
+        console.warn("Invalid API structure", apiData);
+        return;
+      }
 
       const lotties = [
         mountainAnimation,
@@ -979,23 +986,22 @@ useEffect(() => {
         "from-rose-400 to-orange-400"
       ];
 
-      // const mappedFeatures = res.data.data.map((feature, index) => ({
-        const mappedFeatures = res.data.data.features.map((feature, index) => ({
+      const mappedFeatures = apiData.features.map((feature, index) => ({
         title: feature.title,
         description: feature.description,
         stats: feature.statValue,
         statLabel: feature.statLabel,
         metric: feature.achievementMetric,
-        // Use lottie from map if exists, else pick one from array based on index
         lottie: lottieMap[feature.title] || lotties[index % lotties.length],
-        icon: Cpu, // fallback icon
-        color: colors[index % colors.length], // rotate colors
+        icon: Cpu,
+        color: colors[index % colors.length],
         delay: `${index * 0.1}s`,
-        code: `CODE_${index + 1}` // optional code
+        code: `CODE_${index + 1}`
       }));
 
       setFeatures(mappedFeatures);
-      setMainTitle(res.data.data.mainTitle);
+      setMainTitle(apiData.mainTitle || "");
+
     } catch (err) {
       console.error("Error fetching features:", err);
     }

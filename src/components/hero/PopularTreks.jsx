@@ -515,12 +515,14 @@ import BookNowModal from "../modals/BookNowModal";
 import { openLoginModal } from "../../store/slices/authSlice";
 import { toggleWishlistAsync } from "../../store/slices/wishlistSlice";
 
+
 const PopularTreks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const allTreks = useSelector(selectAllTreks);
   const status = useSelector((state) => state.treks.status);
   const { isLoggedIn } = useSelector((state) => state.auth);
+  
 
   const handleWishlist = (e, trek) => {
     e.preventDefault();
@@ -1048,9 +1050,12 @@ const PopularTreks = () => {
                             -translate-x-full group-hover:translate-x-full transition-transform duration-700"
             />
 
-            <span className="relative text-lg font-medium text-white">
-              Explore Full Expedition Archive
-            </span>
+            <span
+      onClick={() => navigate("/treks")}
+      className="relative text-lg font-medium text-white cursor-pointer"
+    >
+      Explore Full Expedition Archive
+    </span>
             <div
               className="relative w-12 h-12 rounded-full
                             border-2 border-sky-400/30
