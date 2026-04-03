@@ -390,8 +390,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
 
   // Shared input className
   const inputCls = (hasError) =>
-    `w-full px-4 py-3 rounded-xl border text-gray-800 text-sm ${
-      hasError ? "border-red-400 bg-red-50/50" : "border-gray-200"
+    `w-full px-4 py-3 rounded-xl border text-gray-800 text-sm ${hasError ? "border-red-400 bg-red-50/50" : "border-gray-200"
     } focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400 shadow-sm hover:shadow-md transition-all bg-gray-50/80 focus:bg-white`;
 
   const selectCls = (hasError) =>
@@ -959,10 +958,9 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                             type="button"
                             onClick={() => handleAddonToggle(addon)}
                             className={`relative flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-300 text-left group
-                              ${
-                                isSelected
-                                  ? "border-purple-400 bg-purple-50 shadow-md shadow-purple-100"
-                                  : "border-gray-200 bg-white hover:border-purple-200 hover:shadow-sm"
+                              ${isSelected
+                                ? "border-purple-400 bg-purple-50 shadow-md shadow-purple-100"
+                                : "border-gray-200 bg-white hover:border-purple-200 hover:shadow-sm"
                               }`}
                           >
                             <div
@@ -1018,15 +1016,15 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                       </div>
                       {formData.additionalMembers.length <
                         requiredAdditionalMembers && (
-                        <button
-                          type="button"
-                          onClick={handleAddMember}
-                          className="flex items-center gap-2 px-4 py-2 bg-teal-50 text-teal-700 rounded-xl hover:bg-teal-100 transition-all text-sm font-semibold"
-                        >
-                          <Plus size={16} />
-                          Add Member
-                        </button>
-                      )}
+                          <button
+                            type="button"
+                            onClick={handleAddMember}
+                            className="flex items-center gap-2 px-4 py-2 bg-teal-50 text-teal-700 rounded-xl hover:bg-teal-100 transition-all text-sm font-semibold"
+                          >
+                            <Plus size={16} />
+                            Add Member
+                          </button>
+                        )}
                     </div>
 
                     {errors.additionalMembers && (
