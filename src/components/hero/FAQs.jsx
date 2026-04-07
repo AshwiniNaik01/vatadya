@@ -1,5 +1,3 @@
-
-
 // import { useState } from 'react';
 // import {
 //   ChevronDown,
@@ -162,7 +160,6 @@
 
 //       {/* ===== Light Background Blobs ===== */}
 
-
 //       <div className="container mx-auto px-6 relative z-10">
 
 //         {/* ===== Header Section ===== */}
@@ -181,9 +178,7 @@
 //             </span>
 //           </h2>
 
-
 //         </div>
-
 
 //         {/* ===== Main Content Grid ===== */}
 //       <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
@@ -197,7 +192,7 @@
 //         return (
 //           <div
 //             key={item.id}
-//             className={`relative rounded-xl overflow-hidden transition-all duration-300 
+//             className={`relative rounded-xl overflow-hidden transition-all duration-300
 //               ${isOpen ? 'shadow-lg shadow-sky-100' : 'hover:shadow-md'}`}
 //           >
 //            {/* White Card Content */}
@@ -263,7 +258,6 @@
 //             )}
 //           </div>
 
-
 //         </div>
 
 //       </div>
@@ -300,7 +294,6 @@
 // };
 
 // export default FAQs;
-
 
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -352,12 +345,30 @@ const FAQs = () => {
 
   // Map category to icons and gradient colors
   const categoryConfig = {
-    Safety: { icon: <Shield className="w-6 h-6" />, color: "from-sky-400 to-blue-400" },
-    Requirements: { icon: <UserCheck className="w-6 h-6" />, color: "from-blue-400 to-indigo-400" },
-    Preparation: { icon: <Heart className="w-6 h-6" />, color: "from-indigo-400 to-purple-400" },
-    Pricing: { icon: <DollarSign className="w-6 h-6" />, color: "from-emerald-400 to-teal-400" },
-    General: { icon: <Users className="w-6 h-6" />, color: "from-amber-400 to-orange-400" },
-    Planning: { icon: <Calendar className="w-6 h-6" />, color: "from-rose-400 to-pink-400" },
+    Safety: {
+      icon: <Shield className="w-6 h-6" />,
+      color: "from-sky-400 to-blue-400",
+    },
+    Requirements: {
+      icon: <UserCheck className="w-6 h-6" />,
+      color: "from-blue-400 to-indigo-400",
+    },
+    Preparation: {
+      icon: <Heart className="w-6 h-6" />,
+      color: "from-indigo-400 to-purple-400",
+    },
+    Pricing: {
+      icon: <DollarSign className="w-6 h-6" />,
+      color: "from-emerald-400 to-teal-400",
+    },
+    General: {
+      icon: <Users className="w-6 h-6" />,
+      color: "from-amber-400 to-orange-400",
+    },
+    Planning: {
+      icon: <Calendar className="w-6 h-6" />,
+      color: "from-rose-400 to-pink-400",
+    },
   };
 
   // Filter FAQs based on search and category
@@ -365,12 +376,16 @@ const FAQs = () => {
     const matchesSearch =
       item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.answer.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = activeCategory === "all" || item.category === activeCategory;
+    const matchesCategory =
+      activeCategory === "all" || item.category === activeCategory;
     return matchesSearch && matchesCategory;
   });
 
   return (
-    <section id="faqs" className="relative py-12 overflow-hidden bg-gradient-to-br from-sky-50 via-white to-blue-50">
+    <section
+      id="faqs"
+      className="relative py-12 overflow-hidden bg-gradient-to-br from-sky-50 via-white to-blue-50"
+    >
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
         {/* Header */}
@@ -386,17 +401,17 @@ const FAQs = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-sky-900 mb-4">
             {mainTitle
               ? mainTitle.split(" ").map((word, idx, arr) =>
-                idx === arr.length - 1 ? (
-                  <span
-                    key={idx}
-                    className="block text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-600"
-                  >
-                    {word}
-                  </span>
-                ) : (
-                  <span key={idx}>{word} </span>
+                  idx === arr.length - 1 ? (
+                    <span
+                      key={idx}
+                      className="block text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-600"
+                    >
+                      {word}
+                    </span>
+                  ) : (
+                    <span key={idx}>{word} </span>
+                  ),
                 )
-              )
               : "Frequently Asked "}
           </h2>
         </div>
@@ -427,12 +442,16 @@ const FAQs = () => {
                 return (
                   <div
                     key={item._id}
-                    className={`relative rounded-xl overflow-hidden transition-all duration-300 ${isOpen ? "shadow-lg shadow-sky-100" : "hover:shadow-md"
-                      }`}
+                    className={`relative rounded-xl overflow-hidden transition-all duration-300 ${
+                      isOpen ? "shadow-lg shadow-sky-100" : "hover:shadow-md"
+                    }`}
                   >
                     <div
-                      className={`relative bg-white rounded-xl border-3 border-sky-300 transition-all duration-300 ${isOpen ? "border-sky-200" : "border-sky-100 hover:border-sky-200"
-                        } z-0`}
+                      className={`relative bg-white rounded-xl border-3 border-sky-300 transition-all duration-300 ${
+                        isOpen
+                          ? "border-sky-200"
+                          : "border-sky-100 hover:border-sky-200"
+                      } z-0`}
                     >
                       <button
                         onClick={() => toggleItem(item._id)}
@@ -453,30 +472,36 @@ const FAQs = () => {
                             <span className="text-xs text-sky-400">FAQ</span>
                           </div>
                           <h3
-                            className={`font-semibold transition-colors ${isOpen ? "text-sky-900" : "text-sky-700"
-                              }`}
+                            className={`font-semibold transition-colors ${
+                              isOpen ? "text-sky-900" : "text-sky-700"
+                            }`}
                           >
                             {item.question}
                           </h3>
                         </div>
 
                         <div
-                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${isOpen
-                            ? "bg-gradient-to-r from-sky-400 to-blue-400 text-white rotate-180"
-                            : "bg-sky-50 text-sky-400"
-                            }`}
+                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                            isOpen
+                              ? "bg-gradient-to-r from-sky-400 to-blue-400 text-white rotate-180"
+                              : "bg-sky-50 text-sky-400"
+                          }`}
                         >
                           <ChevronDown className="w-5 h-5" />
                         </div>
                       </button>
 
                       <div
-                        className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                          }`}
+                        className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                        }`}
                       >
                         <div className="px-6 pb-6 pl-[72px]">
                           <div className="border-t border-sky-100 pt-4">
-                            <p className="text-sky-700 leading-relaxed">{item.answer}</p>
+                            <p
+                              className="text-sky-700 leading-relaxed"
+                              dangerouslySetInnerHTML={{ __html: item.answer }}
+                            ></p>
                           </div>
                         </div>
                       </div>
@@ -487,8 +512,12 @@ const FAQs = () => {
             ) : (
               <div className="bg-white rounded-xl border border-sky-100 p-12 text-center">
                 <HelpCircle className="w-12 h-12 text-sky-300 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-sky-900 mb-2">No questions found</h3>
-                <p className="text-sky-600">Try adjusting your search or filter</p>
+                <h3 className="text-lg font-semibold text-sky-900 mb-2">
+                  No questions found
+                </h3>
+                <p className="text-sky-600">
+                  Try adjusting your search or filter
+                </p>
               </div>
             )}
           </div>

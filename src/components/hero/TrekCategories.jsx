@@ -1,5 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Clock, Sparkles, Terminal, Activity, Compass, Layers, Target, Shield, Zap, Globe } from "lucide-react";
+import {
+  ArrowRight,
+  Clock,
+  Sparkles,
+  Terminal,
+  Activity,
+  Compass,
+  Layers,
+  Target,
+  Shield,
+  Zap,
+  Globe,
+} from "lucide-react";
 import { useState, useEffect } from "react";
 import { fetchTrekCategories } from "../../api/trekCategoryApi";
 
@@ -24,7 +36,9 @@ const TrekCategories = () => {
           icon: <Layers className="w-6 h-6" />,
           count: cat.trekCount || 0,
           difficulty: cat.difficulty || "VAR_LEVEL",
-          image: cat.catImage?.cdnUrl || "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3"
+          image:
+            cat.catImage?.cdnUrl ||
+            "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3",
         }));
 
         setCategories(mappedCategories);
@@ -75,10 +89,14 @@ const TrekCategories = () => {
               </span>
             </div>
             <h2 className="text-4xl md:text-5xl font-light text-sky-900 mb-4">
-              Mission <span className="block font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-600 mt-2">Sectors</span>
+              Mission{" "}
+              <span className="block font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-600 mt-2">
+                Sectors
+              </span>
             </h2>
             <p className="text-sky-700/70 text-lg leading-relaxed">
-              Explore trekking routes categorized by challenge and landscape, from beginner trails to thrilling summit climbs.
+              Explore trekking routes categorized by challenge and landscape,
+              from beginner trails to thrilling summit climbs.
             </p>
           </div>
 
@@ -88,10 +106,11 @@ const TrekCategories = () => {
               <button
                 key={lvl}
                 onClick={() => setActiveCategory(lvl)}
-                className={`px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wide transition-all duration-500 ${activeCategory.toLowerCase() === lvl.toLowerCase()
-                  ? "bg-sky-400 text-white shadow-lg scale-105"
-                  : "bg-white/10 text-sky-600 hover:bg-sky-100 hover:text-sky-700"
-                  }`}
+                className={`px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wide transition-all duration-500 ${
+                  activeCategory.toLowerCase() === lvl.toLowerCase()
+                    ? "bg-sky-400 text-white shadow-lg scale-105"
+                    : "bg-white/10 text-sky-600 hover:bg-sky-100 hover:text-sky-700"
+                }`}
               >
                 {lvl.toUpperCase()}
               </button>
@@ -121,7 +140,7 @@ const TrekCategories = () => {
               .filter(
                 (cat) =>
                   activeCategory === "all" ||
-                  cat.difficulty.toLowerCase() === activeCategory.toLowerCase()
+                  cat.difficulty.toLowerCase() === activeCategory.toLowerCase(),
               )
               .map((category, idx) => (
                 <div
@@ -146,7 +165,6 @@ const TrekCategories = () => {
 
                   {/* Top Meta */}
                   <div className="absolute top-6 left-6 flex flex-col gap-2">
-
                     {category.count > 0 && (
                       <div className="text-xs font-bold text-white/70 bg-sky-800/20 px-3 py-1 rounded-full backdrop-blur-sm">
                         ACTIVE TREKS: {category.count}
@@ -163,9 +181,10 @@ const TrekCategories = () => {
                     <h3 className="text-xl lg:text-2xl font-bold text-white mb-2 line-clamp-2 group-hover:text-sky-200 transition-colors">
                       {category.title}
                     </h3>
-                    <p className="text-sm text-white/60 line-clamp-2 mb-4">
-                      {category.description}
-                    </p>
+                    <p
+                      className="text-sm text-white/60 line-clamp-2 mb-4"
+                      dangerouslySetInnerHTML={{ __html: category.description }}
+                    ></p>
 
                     <div className="flex items-center justify-between text-xs text-white/60">
                       <span>{category.difficulty}</span>
@@ -183,7 +202,6 @@ const TrekCategories = () => {
         )}
 
         {/* Bottom CTA */}
-
       </div>
 
       {/* Custom Animations */}
@@ -196,7 +214,6 @@ const TrekCategories = () => {
     `}</style>
     </section>
   );
-
 };
 
 export default TrekCategories;

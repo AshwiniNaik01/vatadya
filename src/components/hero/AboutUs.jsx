@@ -141,17 +141,16 @@
 
 // // export default AboutUs;
 
-
 // import React, { useEffect, useRef, useState } from 'react';
-// import { 
-//   Terminal, 
-//   Activity, 
-//   Shield, 
-//   Award, 
-//   Map, 
-//   Info, 
-//   Compass, 
-//   Zap, 
+// import {
+//   Terminal,
+//   Activity,
+//   Shield,
+//   Award,
+//   Map,
+//   Info,
+//   Compass,
+//   Zap,
 //   Target,
 //   Mountain,
 //   Waves,
@@ -196,8 +195,8 @@
 //   ];
 
 //   return (
-//     <section 
-//       id="about" 
+//     <section
+//       id="about"
 //       ref={sectionRef}
 //       className="relative py-12 overflow-hidden"
 //       style={{
@@ -221,30 +220,29 @@
 //             </span>
 //           </div>
 
-//           <h2 className="text-5xl md:text-7xl font-black text-white 
+//           <h2 className="text-5xl md:text-7xl font-black text-white
 //                          leading-none tracking-tight mb-6">
 //             Crafting
-//             <span className="block text-transparent bg-clip-text 
+//             <span className="block text-transparent bg-clip-text
 //                              bg-gradient-to-r from-sky-300 via-sky-400 to-blue-400
 //                              animate-gradient">
 //               Mountain Legacies
 //             </span>
 //           </h2>
 
-        
 //         </div>
 
 //         {/* ===== Main Content with 3D Effect ===== */}
 //         <div className="flex flex-col lg:flex-row items-center gap-16 mx-auto max-w-7xl"
 //              >
-          
+
 //           {/* ===== Left Side - 3D Image Terminal ===== */}
 //           <div className="lg:w-1/2 relative group perspective-1000">
 //             {/* Floating Stats Cards */}
 //             <div className="absolute -left-12 top-20 z-20 hidden xl:block">
 //               <div className="relative">
 //                 <div className="absolute inset-0 bg-sky-400/20 rounded-2xl blur-xl"></div>
-//                 <div className="relative bg-white/10 backdrop-blur-xl 
+//                 <div className="relative bg-white/10 backdrop-blur-xl
 //                                 border border-sky-400/30 rounded-2xl p-6
 //                                 animate-float">
 //                   <div className="space-y-4">
@@ -252,7 +250,7 @@
 //                       const Icon = stat.icon;
 //                       return (
 //                         <div key={idx} className="flex items-center gap-4">
-//                           <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${stat.color} 
+//                           <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${stat.color}
 //                                           flex items-center justify-center`}>
 //                             <Icon className="w-6 h-6 text-white" />
 //                           </div>
@@ -272,8 +270,8 @@
 //             <div className="relative transform-gpu transition-all duration-500
 //                             group-hover:rotateY-5 group-hover:scale-105">
 //               {/* Glow Effect */}
-//               <div className="absolute -inset-4 bg-gradient-to-r from-sky-400/30 to-blue-400/30 
-//                               rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 
+//               <div className="absolute -inset-4 bg-gradient-to-r from-sky-400/30 to-blue-400/30
+//                               rounded-3xl blur-2xl opacity-0 group-hover:opacity-100
 //                               transition-opacity duration-700" />
 
 //               {/* Image Container */}
@@ -288,17 +286,14 @@
 //                 />
 
 //                 {/* Gradient Overlay */}
-              
 
 //                 {/* HUD Overlay */}
-               
 
 //                 {/* Year Badge */}
-               
 
 //                 {/* Scanline Animation */}
-//                 <div className="absolute inset-0 bg-gradient-to-b from-transparent 
-//                                 via-sky-400/10 to-transparent 
+//                 <div className="absolute inset-0 bg-gradient-to-b from-transparent
+//                                 via-sky-400/10 to-transparent
 //                                 opacity-0 group-hover:opacity-100
 //                                 animate-scan-fast pointer-events-none" />
 //               </div>
@@ -308,7 +303,7 @@
 //             <div className="absolute -right-12 bottom-20 z-20 hidden xl:block">
 //               <div className="relative">
 //                 <div className="absolute inset-0 bg-blue-400/20 rounded-2xl blur-xl"></div>
-//                 <div className="relative bg-white/10 backdrop-blur-xl 
+//                 <div className="relative bg-white/10 backdrop-blur-xl
 //                                 border border-blue-400/30 rounded-2xl p-2
 //                                 animate-float-delayed">
 //                   <div className="space-y-4">
@@ -316,7 +311,7 @@
 //                       const Icon = stat.icon;
 //                       return (
 //                         <div key={idx} className="flex items-center gap-4">
-//                           <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${stat.color} 
+//                           <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${stat.color}
 //                                           flex items-center justify-center`}>
 //                             <Icon className="w-6 h-6 text-white" />
 //                           </div>
@@ -336,8 +331,8 @@
 //           {/* ===== Right Side - Content ===== */}
 //           <div className="lg:w-1/2 space-y-8">
 //             {/* Mission Statement */}
-//             <div className="bg-white/5 backdrop-blur-sm 
-//                             border border-sky-400/30 rounded-3xl 
+//             <div className="bg-white/5 backdrop-blur-sm
+//                             border border-sky-400/30 rounded-3xl
 //                             p-6 hover:border-sky-400/60 transition-all
 //                             group/statement">
 //               <div className="flex items-start gap-6">
@@ -358,7 +353,7 @@
 //                     Precision Recon & Execution
 //                   </h3>
 //                   <p className="text-sky-200/60 leading-relaxed">
-//                     Deterministic mission architecture ensuring seamless execution 
+//                     Deterministic mission architecture ensuring seamless execution
 //                     and redundant protocol staging across all high-altitude theatres.
 //                   </p>
 //                 </div>
@@ -366,8 +361,8 @@
 //             </div>
 
 //             {/* Tech Sovereignty */}
-//             <div className="bg-white/5 backdrop-blur-sm 
-//                             border border-sky-400/30 rounded-3xl 
+//             <div className="bg-white/5 backdrop-blur-sm
+//                             border border-sky-400/30 rounded-3xl
 //                             p-6 hover:border-sky-400/60 transition-all
 //                             group/tech">
 //               <div className="flex items-start gap-6">
@@ -388,7 +383,7 @@
 //                     Tech Sovereignty
 //                   </h3>
 //                   <p className="text-sky-200/60 leading-relaxed">
-//                     Utilizing deep sector knowledge and validated survival algorithms 
+//                     Utilizing deep sector knowledge and validated survival algorithms
 //                     for extreme theatre operations with 100% success rate.
 //                   </p>
 //                 </div>
@@ -396,8 +391,8 @@
 //             </div>
 
 //             {/* Verified Yield */}
-//             <div className="bg-white/5 backdrop-blur-sm 
-//                             border border-sky-400/30 rounded-3xl 
+//             <div className="bg-white/5 backdrop-blur-sm
+//                             border border-sky-400/30 rounded-3xl
 //                             p-6 hover:border-sky-400/60 transition-all
 //                             group/yield">
 //               <div className="flex items-start gap-6">
@@ -418,14 +413,13 @@
 //                     Verified Yield
 //                   </h3>
 //                   <p className="text-sky-200/60 leading-relaxed">
-//                     Tier-1 operational status confirmed across all global mountain 
+//                     Tier-1 operational status confirmed across all global mountain
 //                     theatres with 47+ successful expeditions and counting.
 //                   </p>
 //                 </div>
 //               </div>
 //             </div>
 
-         
 //           </div>
 //         </div>
 
@@ -438,86 +432,86 @@
 //           50% { transform: translateY(-100px) rotate(180deg); opacity: 0.6; }
 //           100% { transform: translateY(0) rotate(360deg); opacity: 0.2; }
 //         }
-        
+
 //         @keyframes float {
 //           0%, 100% { transform: translateY(0); }
 //           50% { transform: translateY(-10px); }
 //         }
-        
+
 //         @keyframes mountainWave {
 //           0%, 100% { transform: scale(1); }
 //           50% { transform: scale(1.03); }
 //         }
-        
+
 //         @keyframes sparkle {
 //           0%, 100% { opacity: 1; transform: scale(1); }
 //           50% { opacity: 0.5; transform: scale(1.2); }
 //         }
-        
+
 //         @keyframes scan-slow {
 //           0% { transform: translateX(-100%); }
 //           100% { transform: translateX(100%); }
 //         }
-        
+
 //         @keyframes scan-fast {
 //           0% { transform: translateY(-100%); }
 //           100% { transform: translateY(100%); }
 //         }
-        
+
 //         @keyframes gradient {
 //           0% { background-position: 0% 50%; }
 //           50% { background-position: 100% 50%; }
 //           100% { background-position: 0% 50%; }
 //         }
-        
+
 //         @keyframes pulse-slow {
 //           0%, 100% { opacity: 0.3; transform: scale(1); }
 //           50% { opacity: 0.5; transform: scale(1.1); }
 //         }
-        
+
 //         @keyframes waveMove {
 //           0%, 100% { transform: translateY(0); }
 //           50% { transform: translateY(15px); }
 //         }
-        
+
 //         .animate-float {
 //           animation: float 5s ease-in-out infinite;
 //         }
-        
+
 //         .animate-float-delayed {
 //           animation: float 5s ease-in-out infinite;
 //           animation-delay: 2s;
 //         }
-        
+
 //         .animate-sparkle {
 //           animation: sparkle 2s ease-in-out infinite;
 //         }
-        
+
 //         .animate-scan-slow {
 //           animation: scan-slow 8s linear infinite;
 //         }
-        
+
 //         .animate-scan-fast {
 //           animation: scan-fast 3s linear infinite;
 //         }
-        
+
 //         .animate-gradient {
 //           background-size: 200% 200%;
 //           animation: gradient 3s ease infinite;
 //         }
-        
+
 //         .animate-pulse-slow {
 //           animation: pulse-slow 4s ease-in-out infinite;
 //         }
-        
+
 //         .delay-1000 {
 //           animation-delay: 1s;
 //         }
-        
+
 //         .perspective-1000 {
 //           perspective: 1000px;
 //         }
-        
+
 //         .group:hover .rotateY-5 {
 //           transform: rotateY(5deg);
 //         }
@@ -528,11 +522,23 @@
 
 // export default AboutUs;
 
-
-import React, { useEffect, useRef, useState } from 'react';
-import { Terminal, Activity, Shield, Award, Map, Info, Compass, Zap, Target, Mountain, Star, Sparkles } from 'lucide-react';
-import axios from 'axios';
-import axiosInstance from '../../api/axiosInstance';
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Terminal,
+  Activity,
+  Shield,
+  Award,
+  Map,
+  Info,
+  Compass,
+  Zap,
+  Target,
+  Mountain,
+  Star,
+  Sparkles,
+} from "lucide-react";
+import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 
 const AboutUs = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -550,20 +556,20 @@ const AboutUs = () => {
         });
       }
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   // Fetch mission & vision data from API
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axiosInstance.get('/api/mission-vision');
+        const res = await axiosInstance.get("/api/mission-vision");
         if (res.data.success) {
           setMissionData(res.data.data);
         }
       } catch (err) {
-        console.error('Error fetching mission data:', err);
+        console.error("Error fetching mission data:", err);
       }
     };
     fetchData();
@@ -571,10 +577,30 @@ const AboutUs = () => {
 
   const stats = missionData
     ? [
-        { label: 'PEAKS CONQUERED', value: missionData.peaksConquered, icon: Mountain, color: 'from-sky-400 to-blue-400' },
-        { label: 'EXPEDITIONS', value: missionData.expeditions, icon: Compass, color: 'from-blue-400 to-indigo-400' },
-        { label: 'HAPPY TREKKERS', value: missionData.happyTrekkers, icon: Star, color: 'from-indigo-400 to-purple-400' },
-        { label: 'YEARS OF GLORY', value: missionData.yearsOfGlory, icon: Award, color: 'from-purple-400 to-pink-400' },
+        {
+          label: "PEAKS CONQUERED",
+          value: missionData.peaksConquered,
+          icon: Mountain,
+          color: "from-sky-400 to-blue-400",
+        },
+        {
+          label: "EXPEDITIONS",
+          value: missionData.expeditions,
+          icon: Compass,
+          color: "from-blue-400 to-indigo-400",
+        },
+        {
+          label: "HAPPY TREKKERS",
+          value: missionData.happyTrekkers,
+          icon: Star,
+          color: "from-indigo-400 to-purple-400",
+        },
+        {
+          label: "YEARS OF GLORY",
+          value: missionData.yearsOfGlory,
+          icon: Award,
+          color: "from-purple-400 to-pink-400",
+        },
       ]
     : [];
 
@@ -584,7 +610,8 @@ const AboutUs = () => {
       ref={sectionRef}
       className="relative py-12 overflow-hidden"
       style={{
-        background: 'linear-gradient(135deg, #0B2B4A 0%, #0A3B5E 30%, #0A4B72 70%, #0B5B86 100%)',
+        background:
+          "linear-gradient(135deg, #0B2B4A 0%, #0A3B5E 30%, #0A4B72 70%, #0B5B86 100%)",
       }}
     >
       {/* ===== Dynamic Background Layers ===== */}
@@ -598,28 +625,31 @@ const AboutUs = () => {
         <div className="text-center mb-20">
           <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-sky-200 rounded-full px-5 py-2 mb-6 shadow-sm">
             <Sparkles className="w-4 h-4 text-sky-500" />
-            <span className="text-sky-700 text-xs font-medium tracking-wide"> OUR MISSION & VISION </span>
+            <span className="text-sky-700 text-xs font-medium tracking-wide">
+              {" "}
+              OUR MISSION & VISION{" "}
+            </span>
           </div>
- <h2 className="text-5xl md:text-7xl font-black text-white leading-none tracking-tight mb-6">
-  {missionData ? (
-    <>
-      {/* First part plain/white */}
-      <span>{missionData.title.split(' ')[0]} </span>
-      
-      {/* Second part with gradient color */}
-      <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-blue-400">
-        {missionData.title.split(' ').slice(1).join(' ')}
-      </span>
-    </>
-  ) : (
-    <>
-      <span>Crafting </span>
-      <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-blue-400">
-        Mountain Legacies
-      </span>
-    </>
-  )}
-</h2>
+          <h2 className="text-5xl md:text-7xl font-black text-white leading-none tracking-tight mb-6">
+            {missionData ? (
+              <>
+                {/* First part plain/white */}
+                <span>{missionData.title.split(" ")[0]} </span>
+
+                {/* Second part with gradient color */}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-blue-400">
+                  {missionData.title.split(" ").slice(1).join(" ")}
+                </span>
+              </>
+            ) : (
+              <>
+                <span>Crafting </span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-blue-400">
+                  Mountain Legacies
+                </span>
+              </>
+            )}
+          </h2>
         </div>
 
         {/* ===== Main Content with 3D Effect ===== */}
@@ -642,8 +672,12 @@ const AboutUs = () => {
                             <Icon className="w-6 h-6 text-white" />
                           </div>
                           <div>
-                            <div className="text-xs text-sky-300/60">{stat.label}</div>
-                            <div className="text-2xl font-bold text-white">{stat.value}</div>
+                            <div className="text-xs text-sky-300/60">
+                              {stat.label}
+                            </div>
+                            <div className="text-2xl font-bold text-white">
+                              {stat.value}
+                            </div>
                           </div>
                         </div>
                       );
@@ -658,7 +692,10 @@ const AboutUs = () => {
               <div className="absolute -inset-4 bg-gradient-to-r from-sky-400/30 to-blue-400/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               <div className="relative rounded-3xl overflow-hidden border-2 border-sky-400/30 shadow-2xl shadow-sky-500/20">
                 <img
-                  src={missionData?.image?.cdnUrl || 'https://images.pexels.com/photos/1081111/pexels-photo-1081111.jpeg?cs=srgb&dl=pexels-simonmigaj-1081111.jpg&fm=jpg'}
+                  src={
+                    missionData?.image?.cdnUrl ||
+                    "https://images.pexels.com/photos/1081111/pexels-photo-1081111.jpeg?cs=srgb&dl=pexels-simonmigaj-1081111.jpg&fm=jpg"
+                  }
                   alt="Mountain Expedition"
                   className="w-full h-[600px] object-cover transition-transform duration-1000 group-hover:scale-110"
                 />
@@ -682,8 +719,12 @@ const AboutUs = () => {
                             <Icon className="w-6 h-6 text-white" />
                           </div>
                           <div>
-                            <div className="text-xs text-blue-300/60">{stat.label}</div>
-                            <div className="text-2xl font-bold text-white">{stat.value}</div>
+                            <div className="text-xs text-blue-300/60">
+                              {stat.label}
+                            </div>
+                            <div className="text-2xl font-bold text-white">
+                              {stat.value}
+                            </div>
                           </div>
                         </div>
                       );
@@ -712,8 +753,13 @@ const AboutUs = () => {
                       <span className="text-xs font-bold text-sky-400 tracking-[0.3em]">{`MISSION_${idx + 1}`}</span>
                       <div className="h-px flex-1 bg-gradient-to-r from-sky-400/30 to-transparent"></div>
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-4">{mission.title}</h3>
-                    <p className="text-sky-200/60 leading-relaxed">{mission.description}</p>
+                    <h3 className="text-2xl font-bold text-white mb-4">
+                      {mission.title}
+                    </h3>
+                    <p
+                      className="text-sky-200/60 leading-relaxed"
+                      dangerouslySetInnerHTML={{ __html: mission.description }}
+                    ></p>
                   </div>
                 </div>
               </div>

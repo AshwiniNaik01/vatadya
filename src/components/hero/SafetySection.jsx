@@ -157,7 +157,10 @@ import axiosInstance from "../../api/axiosInstance";
 
 const SafetySection = () => {
   const [protocols, setProtocols] = useState([]);
-  const [protocolsHeader, setProtocolsHeader] = useState({ title: "", description: "" }); // Added state
+  const [protocolsHeader, setProtocolsHeader] = useState({
+    title: "",
+    description: "",
+  }); // Added state
 
   useEffect(() => {
     const fetchSafetyStandards = async () => {
@@ -223,71 +226,74 @@ const SafetySection = () => {
 
       <div className="container mx-auto px-6 relative z-20">
         {/* Header */}
-       <div className="text-center mb-16">
-  <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
-    {protocolsHeader.title ? (
-      protocolsHeader.title.split(" ").map((word, index) => {
-        const isGradient = index === 1; // apply gradient to 2nd word
-        return (
-          <span
-            key={index}
-            className={
-              isGradient
-                ? "text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400 italic"
-                : ""
-            }
-          >
-            {word}{" "}
-          </span>
-        );
-      })
-    ) : (
-      <>
-        Core{" "}
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400 italic">
-          Safety Protocols
-        </span>
-      </>
-    )}
-  </h2>
-  <p className="text-white/70 max-w-2xl mx-auto">
-    {protocolsHeader.description ||
-      "Engineered with precision, resilience, and mission-critical intelligence."}
-  </p>
-</div>
+        <div className="text-center mb-16">
+          <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            {protocolsHeader.title ? (
+              protocolsHeader.title.split(" ").map((word, index) => {
+                const isGradient = index === 1; // apply gradient to 2nd word
+                return (
+                  <span
+                    key={index}
+                    className={
+                      isGradient
+                        ? "text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400 italic"
+                        : ""
+                    }
+                  >
+                    {word}{" "}
+                  </span>
+                );
+              })
+            ) : (
+              <>
+                Core{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400 italic">
+                  Safety Protocols
+                </span>
+              </>
+            )}
+          </h2>
+          <p
+            className="text-white/70 max-w-2xl mx-auto"
+            dangerouslySetInnerHTML={{ __html: protocolsHeader.description }}
+          ></p>
+        </div>
 
         {/* Cards */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-  {protocols.map((item, index) => {
-    // Dark gray shades for cards
-    const cardShades = [
-      "bg-gray-800",
-      "bg-gray-700",
-      "bg-gray-900",
-      "bg-gray-800",
-    ];
-    const bgClass = cardShades[index % cardShades.length];
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {protocols.map((item, index) => {
+            // Dark gray shades for cards
+            const cardShades = [
+              "bg-gray-800",
+              "bg-gray-700",
+              "bg-gray-900",
+              "bg-gray-800",
+            ];
+            const bgClass = cardShades[index % cardShades.length];
 
-    return (
-      <div
-        key={index}
-        className={`relative rounded-2xl overflow-hidden group shadow-xl ${bgClass}`}
-      >
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-all"></div>
+            return (
+              <div
+                key={index}
+                className={`relative rounded-2xl overflow-hidden group shadow-xl ${bgClass}`}
+              >
+                {/* Dark Overlay */}
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-all"></div>
 
-        {/* Left Accent Border */}
-        <div className="absolute left-0 top-0 h-full w-2 bg-gradient-to-b from-yellow-300 to-orange-400"></div>
+                {/* Left Accent Border */}
+                <div className="absolute left-0 top-0 h-full w-2 bg-gradient-to-b from-yellow-300 to-orange-400"></div>
 
-        {/* Content */}
-        <div className="relative z-10 p-8 text-white h-full flex flex-col justify-end">
-          <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
-          <p className="text-sm text-white/80 leading-relaxed">{item.desc}</p>
+                {/* Content */}
+                <div className="relative z-10 p-8 text-white h-full flex flex-col justify-end">
+                  <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
+                  <p
+                    className="text-sm text-white/80 leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: item.desc }}
+                  ></p>
+                </div>
+              </div>
+            );
+          })}
         </div>
-      </div>
-    );
-  })}
-</div>
       </div>
     </section>
   );

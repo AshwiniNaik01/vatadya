@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const LoadingScreen = ({ onLoadingComplete }) => {
   const [fadeOut, setFadeOut] = useState(false);
@@ -17,7 +17,9 @@ const LoadingScreen = ({ onLoadingComplete }) => {
   }, [onLoadingComplete]);
 
   return (
-    <div className={`fixed inset-0 z-[9999] bg-black flex items-center justify-center transition-opacity duration-1000 ${fadeOut ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+    <div
+      className={`fixed inset-0 z-[9999] bg-black flex items-center justify-center transition-opacity duration-1000 ${fadeOut ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+    >
       <div className="relative flex flex-col items-center">
         {/* Cinematic Background Glow */}
         <div className="absolute inset-0 bg-blue-500/10 blur-[120px] rounded-full scale-150 animate-pulse"></div>
@@ -36,7 +38,7 @@ const LoadingScreen = ({ onLoadingComplete }) => {
               alt="Vatadya Logo"
               className="w-full h-full object-cover scale-110 p-6 bg-white rounded-full hover:scale-100 transition-transform duration-1000"
             />
-{/* </div> */}
+            {/* </div> */}
             {/* Glossy Overlay */}
             <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent"></div>
           </div>
@@ -52,8 +54,11 @@ const LoadingScreen = ({ onLoadingComplete }) => {
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-400 to-transparent w-full animate-loading-bar"></div>
           </div>
 
-          <p className="text-white/30 text-[10px] uppercase tracking-[0.5em] animate-pulse">
-            Establishing Sector Link
+          <p
+            className="text-white text-md  animate-pulse"
+            style={{ fontFamily: "'Noto Sans Devanagari', sans-serif" }}
+          >
+            वाट आपली, इतिहास आपला 🚩
           </p>
         </div>
       </div>
