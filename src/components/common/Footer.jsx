@@ -47,13 +47,13 @@ const Footer = () => {
     { name: "CONTACT", path: "/contact", icon: <Phone size={12} /> },
   ];
 
-  const resources = [
-    { name: "GEAR GUIDE", icon: <Shield size={12} /> },
-    { name: "SAFETY PROTOCOLS", icon: <Target size={12} /> },
-    { name: "BLOG", icon: <Activity size={12} /> },
-    { name: "FAQS", icon: <Radio size={12} /> },
-    { name: "TECH DOCS", icon: <Terminal size={12} /> },
-  ];
+  // const resources = [
+  //   { name: "GEAR GUIDE", icon: <Shield size={12} /> },
+  //   { name: "SAFETY PROTOCOLS", icon: <Target size={12} /> },
+  //   { name: "BLOG", icon: <Activity size={12} /> },
+  //   { name: "FAQS", icon: <Radio size={12} /> },
+  //   { name: "TECH DOCS", icon: <Terminal size={12} /> },
+  // ];
 
   const socialLinks = [
     {
@@ -136,7 +136,7 @@ const Footer = () => {
 
       <div className="container px-6 relative z-10  mx-auto max-w-7xl">
         {/* ===== Main Footer Content ===== */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-10 gap-8 mb-16">
           {/* Brand Section - ColSpan 4 */}
           <div className="lg:col-span-4 space-y-6">
             <Link to="/" className="flex items-center gap-4 group">
@@ -239,7 +239,7 @@ const Footer = () => {
           </div>
 
           {/* Resources - ColSpan 2 */}
-          <div className="lg:col-span-2 space-y-6">
+          {/* <div className="lg:col-span-2 space-y-6">
             <div className="flex items-center gap-3">
               <Shield className="w-4 h-4 text-sky-400" />
               <h3 className="text-xs font-bold text-white/80 uppercase tracking-[0.3em]">
@@ -266,7 +266,7 @@ const Footer = () => {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
 
           {/* Contact & Newsletter - ColSpan 4 */}
           <div className="lg:col-span-4 space-y-6">

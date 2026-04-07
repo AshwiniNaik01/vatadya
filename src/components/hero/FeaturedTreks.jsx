@@ -996,7 +996,7 @@ useEffect(() => {
         icon: Cpu,
         color: colors[index % colors.length],
         delay: `${index * 0.1}s`,
-        code: `CODE_${index + 1}`
+        // code: `CODE_${index + 1}`
       }));
 
       setFeatures(mappedFeatures);
@@ -1090,7 +1090,7 @@ useEffect(() => {
         <div className={`relative bg-white rounded-2xl p-6 border-2 transition-all duration-300 shadow-lg hover:shadow-xl ${isActive ? borderColors[index % borderColors.length] : 'border-sky-100 hover:border-sky-300'}`}>
           
           <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-mono text-sky-400 bg-sky-50 px-2 py-1 rounded-md">{feature.code}</span>
+            {/* <span className="text-xs font-mono text-sky-400 bg-sky-50 px-2 py-1 rounded-md">{feature.code}</span> */}
             <div className="flex items-center gap-1">
               <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
               <span className="text-xs font-medium text-sky-600">{feature.metric}</span>

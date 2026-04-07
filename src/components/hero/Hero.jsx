@@ -379,7 +379,7 @@ const Hero = () => {
           style={{ animation: 'fadeUp 0.8s ease-out 0.4s both' }}
         >
           <button
-            onClick={() => document.getElementById("sectors")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() => navigate("/treks")}
             className="group relative px-10 py-5 overflow-hidden rounded-2xl"
           >
             {/* Gradient Background */}
