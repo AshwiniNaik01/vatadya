@@ -356,12 +356,12 @@ const TrackPage = () => {
                       </span>
                     </div> */}
 
-                    {trek.duration && (
+                    {/* {trek.duration && (
                       <div className="absolute bottom-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-sm text-xs font-bold text-sky-800 shadow-sm">
                         <Clock className="w-3.5 h-3.5 text-sky-500" />
                         {trek.duration}
                       </div>
-                    )}
+                    )} */}
                   </div>
 
                   <div className="p-6">
@@ -392,7 +392,7 @@ const TrackPage = () => {
                           icon: Calendar,
                         },
                       ].map((s, i) => (
-                        <div key={i} className="bg-sky-50 rounded-xl p-3">
+                        <div key={i} className="bg-sky-50 rounded-xl p-2">
                           <s.icon className="w-4 h-4 text-sky-500 mb-1" />
                           <div className="text-[10px] text-sky-500/70 uppercase">
                             {s.label}
@@ -404,9 +404,9 @@ const TrackPage = () => {
                       ))}
                     </div>
 
-                    <div className="flex items-center justify-between pt-4 border-t border-sky-100">
-                      <div>
-                        <div className="text-[10px] text-sky-500 uppercase tracking-wider mb-0.5">
+                    <div className="flex items-center justify-between p-2 border-t border-sky-100">
+                      <div className="">
+                        <div className=" text-[10px] text-sky-500  uppercase tracking-wider mb-0.5">
                           Starting from
                         </div>
                         <div className="text-xl font-bold text-sky-900">

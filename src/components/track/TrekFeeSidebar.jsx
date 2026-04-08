@@ -161,12 +161,25 @@
 
 // export default TrekFeeSidebar;
 
-
 import React, { useState } from "react";
 import {
-  ShieldCheck, Clock, Calendar, ChevronDown, Activity,
-  CheckCircle, AlertCircle, Zap, IndianRupee, Users, ArrowRight,
-  Mountain, Compass, MapPin, Sun, Cloud, Wind
+  ShieldCheck,
+  Clock,
+  Calendar,
+  ChevronDown,
+  Activity,
+  CheckCircle,
+  AlertCircle,
+  Zap,
+  IndianRupee,
+  Users,
+  ArrowRight,
+  Mountain,
+  Compass,
+  MapPin,
+  Sun,
+  Cloud,
+  Wind,
 } from "lucide-react";
 
 const TrekFeeSidebar = ({ trek }) => {
@@ -179,17 +192,21 @@ const TrekFeeSidebar = ({ trek }) => {
   // Helper to get season icon
   const getSeasonIcon = (season) => {
     switch (season?.toLowerCase()) {
-      case 'spring': return <Sun className="w-3.5 h-3.5" />;
-      case 'summer': return <Sun className="w-3.5 h-3.5" />;
-      case 'autumn': return <Wind className="w-3.5 h-3.5" />;
-      case 'winter': return <Cloud className="w-3.5 h-3.5" />;
-      default: return <Calendar className="w-3.5 h-3.5" />;
+      case "spring":
+        return <Sun className="w-3.5 h-3.5" />;
+      case "summer":
+        return <Sun className="w-3.5 h-3.5" />;
+      case "autumn":
+        return <Wind className="w-3.5 h-3.5" />;
+      case "winter":
+        return <Cloud className="w-3.5 h-3.5" />;
+      default:
+        return <Calendar className="w-3.5 h-3.5" />;
     }
   };
 
   return (
     <div className="space-y-5 font-sans">
-
       {/* ===== PRICE CARD ===== */}
       <div className="relative bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl border border-amber-200 p-5 overflow-hidden shadow-sm">
         {/* Decorative mountain silhouette */}
@@ -206,8 +223,12 @@ const TrekFeeSidebar = ({ trek }) => {
 
           <div className="flex items-baseline gap-1 mb-1">
             <span className="text-amber-700 font-semibold text-lg">₹</span>
-            <span className="text-3xl font-bold text-amber-900">{totalFee.toLocaleString()}</span>
-            <span className="text-amber-600 text-xs font-medium ml-1">/person</span>
+            <span className="text-3xl font-bold text-amber-900">
+              {totalFee.toLocaleString()}
+            </span>
+            <span className="text-amber-600 text-xs font-medium ml-1">
+              /person
+            </span>
           </div>
 
           <div className="flex items-center gap-1.5 text-emerald-600 text-xs">
@@ -229,24 +250,37 @@ const TrekFeeSidebar = ({ trek }) => {
             {
               icon: ShieldCheck,
               label: "Insurance",
-              value: trek.feeDetails?.insurance?.amount ? `₹${trek.feeDetails.insurance.amount.toLocaleString()}` : "Included",
-              color: "emerald"
+              value: trek.feeDetails?.insurance?.amount
+                ? `₹${trek.feeDetails.insurance.amount.toLocaleString()}`
+                : "Included",
+              color: "emerald",
             },
             {
               icon: Clock,
               label: "Discount",
-              value: trek.feeDetails?.discount?.value ? `${trek.feeDetails.discount.value}%` : "No discount",
-              color: "amber"
+              value: trek.feeDetails?.discount?.value
+                ? `${trek.feeDetails.discount.value}%`
+                : "No discount",
+              color: "amber",
             },
           ].map((item, i) => {
             const Icon = item.icon;
             return (
-              <div key={i} className={`bg-${item.color}-50 rounded-lg p-3 border border-${item.color}-100`}>
+              <div
+                key={i}
+                className={`bg-${item.color}-50 rounded-lg p-3 border border-${item.color}-100`}
+              >
                 <div className="flex items-center gap-2 mb-1">
                   <Icon className={`w-3.5 h-3.5 text-${item.color}-600`} />
-                  <span className="text-[10px] font-medium text-slate-500 uppercase">{item.label}</span>
+                  <span className="text-[10px] font-medium text-slate-500 uppercase">
+                    {item.label}
+                  </span>
                 </div>
-                <span className={`text-sm font-semibold text-${item.color}-700 block`}>{item.value}</span>
+                <span
+                  className={`text-sm font-semibold text-${item.color}-700 block`}
+                >
+                  {item.value}
+                </span>
               </div>
             );
           })}
@@ -262,7 +296,8 @@ const TrekFeeSidebar = ({ trek }) => {
               Available Batches
             </h4>
             <span className="text-[10px] font-medium bg-slate-100 text-slate-600 px-2 py-1 rounded-full">
-              {trekMonths.length} {trekMonths.length === 1 ? 'window' : 'windows'}
+              {trekMonths.length}{" "}
+              {trekMonths.length === 1 ? "window" : "windows"}
             </span>
           </div>
 
@@ -271,26 +306,31 @@ const TrekFeeSidebar = ({ trek }) => {
               <div
                 key={i}
                 className={`border rounded-lg overflow-hidden transition-all duration-200 cursor-pointer
-                  ${openMonth === i
-                    ? 'border-amber-200 bg-amber-50/30 shadow-sm'
-                    : 'border-slate-200 bg-white hover:border-amber-200'
+                  ${
+                    openMonth === i
+                      ? "border-amber-200 bg-amber-50/30 shadow-sm"
+                      : "border-slate-200 bg-white hover:border-amber-200"
                   }`}
                 onClick={() => setOpenMonth(openMonth === i ? null : i)}
               >
                 {/* Batch Header */}
                 <div className="flex items-center justify-between p-3">
                   <div className="flex items-center gap-2">
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors
-                      ${openMonth === i ? 'bg-amber-500 text-white' : 'bg-slate-100 text-slate-500'}`}>
+                    <div
+                      className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors
+                      ${openMonth === i ? "bg-amber-500 text-white" : "bg-slate-100 text-slate-500"}`}
+                    >
                       <Calendar className="w-4 h-4" />
                     </div>
                     <div>
-                      <p className={`text-sm font-medium ${openMonth === i ? 'text-amber-700' : 'text-slate-700'}`}>
+                      <p
+                        className={`text-sm font-medium ${openMonth === i ? "text-amber-700" : "text-slate-700"}`}
+                      >
                         {m.month}
                       </p>
                       <div className="flex items-center gap-1 text-[10px] text-slate-400">
                         {getSeasonIcon(m.season)}
-                        <span>{m.season || 'All Season'}</span>
+                        <span>{m.season || "All Season"}</span>
                       </div>
                     </div>
                   </div>
@@ -301,8 +341,10 @@ const TrekFeeSidebar = ({ trek }) => {
                         {m.badge}
                       </span>
                     )}
-                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 
-                      ${openMonth === i ? 'rotate-180 text-amber-500' : ''}`} />
+                    <ChevronDown
+                      className={`w-4 h-4 text-slate-400 transition-transform duration-200 
+                      ${openMonth === i ? "rotate-180 text-amber-500" : ""}`}
+                    />
                   </div>
                 </div>
 
@@ -312,9 +354,15 @@ const TrekFeeSidebar = ({ trek }) => {
                     <div className="bg-white rounded-lg border border-slate-200 p-3">
                       <div className="flex items-center justify-between text-xs mb-3">
                         <div className="flex items-center gap-1.5">
-                          <Activity className={`w-3.5 h-3.5 ${m.slotsAvailable ? 'text-emerald-500' : 'text-rose-500'}`} />
-                          <span className={`font-medium ${m.slotsAvailable ? 'text-emerald-600' : 'text-rose-600'}`}>
-                            {m.slotsAvailable ? 'Slots Available' : 'Fully Booked'}
+                          <Activity
+                            className={`w-3.5 h-3.5 ${m.slotsAvailable ? "text-emerald-500" : "text-rose-500"}`}
+                          />
+                          <span
+                            className={`font-medium ${m.slotsAvailable ? "text-emerald-600" : "text-rose-600"}`}
+                          >
+                            {m.slotsAvailable
+                              ? "Slots Available"
+                              : "Fully Booked"}
                           </span>
                         </div>
                         <div className="flex items-center gap-1 text-slate-400">
@@ -326,9 +374,10 @@ const TrekFeeSidebar = ({ trek }) => {
                       <button
                         disabled={!m.slotsAvailable}
                         className={`w-full py-2.5 rounded-lg text-xs font-medium transition-all flex items-center justify-center gap-1.5
-                          ${m.slotsAvailable
-                            ? 'bg-amber-500 text-white hover:bg-amber-600 shadow-sm'
-                            : 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                          ${
+                            m.slotsAvailable
+                              ? "bg-amber-500 text-white hover:bg-amber-600 shadow-sm"
+                              : "bg-slate-100 text-slate-400 cursor-not-allowed"
                           }`}
                       >
                         {m.slotsAvailable ? (
@@ -337,7 +386,7 @@ const TrekFeeSidebar = ({ trek }) => {
                             <ArrowRight className="w-3.5 h-3.5" />
                           </>
                         ) : (
-                          'Batch Full'
+                          "Batch Full"
                         )}
                       </button>
                     </div>
@@ -361,7 +410,6 @@ const TrekFeeSidebar = ({ trek }) => {
             { label: "Inclusions", key: "inclusions", icon: CheckCircle },
             { label: "Cancellation", key: "cancellation", icon: AlertCircle },
             { label: "Terms", key: "terms", icon: ShieldCheck },
-            { label: "Scholarships", key: "scholarships", icon: Compass },
           ].map((link) => {
             const fileData = trek.links?.[link.key];
             const cdnUrl = fileData?.cdnUrl || null;
@@ -374,13 +422,16 @@ const TrekFeeSidebar = ({ trek }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`flex items-center gap-2 p-2 rounded-lg text-xs transition-all group
-                  ${cdnUrl
-                    ? 'text-slate-600 hover:text-amber-600 hover:bg-amber-50'
-                    : 'text-slate-300 cursor-not-allowed'
+                  ${
+                    cdnUrl
+                      ? "text-slate-600 hover:text-amber-600 hover:bg-amber-50"
+                      : "text-slate-300 cursor-not-allowed"
                   }`}
                 onClick={(e) => !cdnUrl && e.preventDefault()}
               >
-                <Icon className={`w-3.5 h-3.5 ${cdnUrl ? 'group-hover:text-amber-500' : ''}`} />
+                <Icon
+                  className={`w-3.5 h-3.5 ${cdnUrl ? "group-hover:text-amber-500" : ""}`}
+                />
                 <span className="font-medium">{link.label}</span>
               </a>
             );
@@ -395,8 +446,12 @@ const TrekFeeSidebar = ({ trek }) => {
             <Compass className="w-3.5 h-3.5 text-amber-600" />
           </div>
           <div>
-            <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-0.5">Trekker's Tip</p>
-            <p className="text-xs text-slate-600">Book at least 30 days in advance for best batch availability.</p>
+            <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-0.5">
+              Trekker's Tip
+            </p>
+            <p className="text-xs text-slate-600">
+              Book at least 30 days in advance for best batch availability.
+            </p>
           </div>
         </div>
       </div>

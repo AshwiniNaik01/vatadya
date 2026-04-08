@@ -299,6 +299,10 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
     if (!formData.bloodGroup) newErrors.bloodGroup = "Blood group is required";
     // if (!formData.alternativeContact.trim())
     //   newErrors.alternativeContact = "Alternative contact is required";
+
+    if (!formData.emergencyContactName.trim())
+      newErrors.emergencyContactName = "Emergency name is required";
+
     if (!formData.emergencyContact.trim())
       newErrors.emergencyContact = "Emergency contact is required";
     if (!formData.departureDate)
@@ -390,7 +394,8 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
 
   // Shared input className
   const inputCls = (hasError) =>
-    `w-full px-4 py-3 rounded-xl border text-gray-800 text-sm ${hasError ? "border-red-400 bg-red-50/50" : "border-gray-200"
+    `w-full px-4 py-3 rounded-xl border text-gray-800 text-sm ${
+      hasError ? "border-red-400 bg-red-50/50" : "border-gray-200"
     } focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400 shadow-sm hover:shadow-md transition-all bg-gray-50/80 focus:bg-white`;
 
   const selectCls = (hasError) =>
@@ -784,15 +789,24 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                      <label className={labelCls}>Emergency Contact Name</label>
+                      <label className={labelCls}>
+                        Emergency Contact Name{" "}
+                        <span className="text-red-400">*</span>
+                      </label>
+
                       <input
                         type="text"
                         name="emergencyContactName"
                         value={formData.emergencyContactName}
                         onChange={handleChange}
                         placeholder="Contact person name"
-                        className={inputCls(false)}
+                        className={inputCls(errors.emergencyName)}
                       />
+                      {errors.emergencyContactName && (
+                        <p className="text-red-500 text-xs mt-1 ml-1">
+                          {errors.emergencyContactName}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label className={labelCls}>
@@ -958,9 +972,10 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                             type="button"
                             onClick={() => handleAddonToggle(addon)}
                             className={`relative flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-300 text-left group
-                              ${isSelected
-                                ? "border-purple-400 bg-purple-50 shadow-md shadow-purple-100"
-                                : "border-gray-200 bg-white hover:border-purple-200 hover:shadow-sm"
+                              ${
+                                isSelected
+                                  ? "border-purple-400 bg-purple-50 shadow-md shadow-purple-100"
+                                  : "border-gray-200 bg-white hover:border-purple-200 hover:shadow-sm"
                               }`}
                           >
                             <div
@@ -1016,15 +1031,15 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                       </div>
                       {formData.additionalMembers.length <
                         requiredAdditionalMembers && (
-                          <button
-                            type="button"
-                            onClick={handleAddMember}
-                            className="flex items-center gap-2 px-4 py-2 bg-teal-50 text-teal-700 rounded-xl hover:bg-teal-100 transition-all text-sm font-semibold"
-                          >
-                            <Plus size={16} />
-                            Add Member
-                          </button>
-                        )}
+                        <button
+                          type="button"
+                          onClick={handleAddMember}
+                          className="flex items-center gap-2 px-4 py-2 bg-teal-50 text-teal-700 rounded-xl hover:bg-teal-100 transition-all text-sm font-semibold"
+                        >
+                          <Plus size={16} />
+                          Add Member
+                        </button>
+                      )}
                     </div>
 
                     {errors.additionalMembers && (

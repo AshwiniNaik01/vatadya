@@ -389,7 +389,7 @@ const TrekIntroCard = ({ onBookNow, onWishlist, trek }) => {
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-shimmer"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-6">
+      <div className="max-w-7xl mx-auto px-6 py-2">
         <div className="flex items-center justify-between gap-8 flex-wrap lg:flex-nowrap">
           {/* Left Section - Trek Identity */}
           <div className="flex items-center gap-5 flex-1 min-w-0">
@@ -399,15 +399,15 @@ const TrekIntroCard = ({ onBookNow, onWishlist, trek }) => {
                 <h2 className="text-2xl font-bold text-gray-900 truncate hover:text-clip tracking-tight">
                   {trek.title}
                 </h2>
-                <div
+                {/* <div
                   className={`px-3 py-1 rounded-lg text-xs font-semibold ${diff.bg} ${diff.text} border ${diff.border} shadow-sm`}
                 >
                   {diff.label}
-                </div>
+                </div> */}
               </div>
 
               <div className="flex items-center gap-5 text-sm text-gray-600 flex-wrap">
-                <div className="flex items-center gap-1.5">
+                {/* <div className="flex items-center gap-1.5">
                   <span className="text-gray-500">📍</span>
                   <span className="font-medium">{trek.location}</span>
                 </div>
@@ -415,20 +415,20 @@ const TrekIntroCard = ({ onBookNow, onWishlist, trek }) => {
                 <div className="flex items-center gap-1.5">
                   <span className="text-gray-500">⏱️</span>
                   <span className="font-medium">{trek.duration}</span>
-                </div>
+                </div> */}
                 <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
 
                 {/* 🌤️ Season */}
-                {trek.season && (
+                {/* {trek.season && (
                   <div className="flex items-center gap-2 text-sm font-semibold text-amber-600 bg-amber-50 px-3 py-1 rounded-full">
                     <span>🌤️</span>
                     <span>{trek.season}</span>
                   </div>
-                )}
+                )} */}
 
                 <div className="flex flex-col items-start gap-2">
                   {/* 🏷️ Tags */}
-                  {trek.tags?.length > 0 && (
+                  {/* {trek.tags?.length > 0 && (
                     <div className="flex flex-wrap gap-1.5">
                       {trek.tags.map((tag, i) => (
                         <span
@@ -441,7 +441,7 @@ const TrekIntroCard = ({ onBookNow, onWishlist, trek }) => {
                         </span>
                       ))}
                     </div>
-                  )}
+                  )} */}
                 </div>
                 {/* <div className="flex items-center gap-1.5">
                   <span className="text-amber-500">⭐</span> */}
@@ -455,8 +455,8 @@ const TrekIntroCard = ({ onBookNow, onWishlist, trek }) => {
           {/* Middle Section - Premium Info Cards */}
           <div className="hidden lg:flex items-center gap-6">
             {/* Altitude & Group Card */}
-            <div className="flex items-center gap-5 px-5 py-3 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 shadow-sm">
-              <div className="text-center">
+            {/* <div className="flex items-center gap-5 px-5 py-3 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 shadow-sm"> */}
+            {/* <div className="text-center">
                 <div className="text-xs font-medium text-gray-500 mb-1 tracking-wider">
                   ALTITUDE
                 </div>
@@ -464,9 +464,9 @@ const TrekIntroCard = ({ onBookNow, onWishlist, trek }) => {
                   <span className="text-gray-600">🏔️</span>
                   <span>{trek.altitude || "N/A"}</span>
                 </div>
-              </div>
-              <div className="w-px h-10 bg-gray-200"></div>
-              <div className="text-center">
+              </div> */}
+            {/* <div className="w-px h-10 bg-gray-200"></div> */}
+            {/* <div className="text-center">
                 <div className="text-xs font-medium text-gray-500 mb-1 tracking-wider">
                   GROUP SIZE
                 </div>
@@ -474,8 +474,8 @@ const TrekIntroCard = ({ onBookNow, onWishlist, trek }) => {
                   <span className="text-gray-600">👥</span>
                   <span>{trek.groupSize || "4-12"}</span>
                 </div>
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
           </div>
 
           {/* Right Section - Premium Price & Actions */}
@@ -486,7 +486,7 @@ const TrekIntroCard = ({ onBookNow, onWishlist, trek }) => {
                 STARTING FROM
               </div>
               <div className="flex items-baseline gap-3">
-                <span className="text-2xl font-bold text-gray-900">
+                <span className="text-lg font-bold text-gray-700">
                   ₹{(trek?.feeDetails?.totalFee || 0).toLocaleString()}
                 </span>
               </div>

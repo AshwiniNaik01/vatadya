@@ -343,10 +343,10 @@ const StayCard = ({ stay, index, liked, onToggleLike }) => {
           </div>
 
           {/* Rating */}
-          <div className="absolute top-3 right-3 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2.5 py-1.5 rounded-full">
+          {/* <div className="absolute top-3 right-3 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2.5 py-1.5 rounded-full">
             <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
             <span className="text-xs font-black text-[#0d0d0f]">4.8</span>
-          </div>
+          </div> */}
 
           {/* Wishlist */}
           <button
@@ -409,12 +409,12 @@ const StayCard = ({ stay, index, liked, onToggleLike }) => {
                 <Users className="w-3.5 h-3.5 text-[#52b788]" />
                 {guests} guests
               </div>
-              <div className="flex items-center gap-1.5 text-[10px] font-medium text-stone-400 uppercase tracking-wider">
+              {/* <div className="flex items-center gap-1.5 text-[10px] font-medium text-stone-400 uppercase tracking-wider">
                 <Calendar className="w-3.5 h-3.5 text-[#52b788]" />
                 {dur.num} {dur.unit}
-              </div>
+              </div> */}
             </div>
-            <div className="w-7 h-7 rounded-full bg-[#0d0d0f] flex items-center justify-center opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+            <div className="w-7 h-7 rounded-full bg-gradient-to-r from-blue-500 to-teal-400 flex items-center justify-center  transition-all duration-300 group-hover:translate-x-1">
               <ArrowRight className="w-3 h-3 text-white" />
             </div>
           </div>
@@ -572,7 +572,7 @@ const StayPage = () => {
                 className="pulse-dot w-1.5 h-1.5 rounded-full bg-[#52b788] flex-shrink-0"
                 style={{ display: "inline-block" }}
               />
-              <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#52b788]">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#52b788]">
                 {stays.length} Premium Destinations
               </span>
             </motion.div>
@@ -590,7 +590,7 @@ const StayPage = () => {
               style={{
                 fontSize: "clamp(44px, 8vw, 80px)",
                 fontWeight: 800,
-                letterSpacing: "-0.03em",
+                letterSpacing: "0.1em",
               }}
             >
               Find Your
@@ -600,7 +600,6 @@ const StayPage = () => {
               </em>
             </motion.h1>
 
-            {/* Search */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -619,13 +618,13 @@ const StayPage = () => {
               >
                 <Search
                   className="w-4 h-4 flex-shrink-0"
-                  style={{ color: "rgba(255,255,255,0.3)" }}
+                  style={{ color: "white/40" }}
                 />
                 <input
                   ref={inputRef}
                   type="text"
                   placeholder="Search by city, landmark, or vibe..."
-                  className="flex-1 bg-transparent border-none outline-none text-base font-normal text-white placeholder-white/25"
+                  className="flex-1 bg-transparent border-none outline-none text-base font-normal text-white placeholder-white/40"
                   value={searchTerm}
                   onChange={(e) => {
                     setSearchTerm(e.target.value);
@@ -647,9 +646,9 @@ const StayPage = () => {
                   )}
                 </AnimatePresence>
                 <button
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white font-black text-[10px] uppercase tracking-[0.12em] transition-all duration-200 hover:scale-[1.02] active:scale-95 flex-shrink-0"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white  text-[11px] uppercase tracking-[0.12em] transition-all duration-200 hover:scale-[1.02] active:scale-95 flex-shrink-0"
                   style={{
-                    background: "#2d6a4f",
+                    background: "#40916c",
                   }}
                   onMouseEnter={(e) =>
                     (e.currentTarget.style.background = "#52b788")
@@ -658,13 +657,13 @@ const StayPage = () => {
                     (e.currentTarget.style.background = "#2d6a4f")
                   }
                 >
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-3.5 h-4" />
                   Explore
                 </button>
               </div>
 
               {/* Quick tags */}
-              <div className="flex flex-wrap gap-2 mt-4">
+              {/* <div className="flex flex-wrap gap-2 mt-4">
                 {quickTags.map(({ label, icon }) => (
                   <button
                     key={label}
@@ -689,7 +688,7 @@ const StayPage = () => {
                     {label}
                   </button>
                 ))}
-              </div>
+              </div> */}
             </motion.div>
           </div>
         </section>
