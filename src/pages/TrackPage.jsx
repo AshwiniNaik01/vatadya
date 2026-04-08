@@ -341,27 +341,12 @@ const TrackPage = () => {
                     </button>
 
                     <div className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-sm shadow-md">
-                      {/* <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                      <span className="text-xs font-bold text-sky-900">{trek.rating || "0"}</span> */}
                       <span
                         className={`px-3 py-1.5 rounded-xl text-[11px] font-bold uppercase tracking-wide ${diff.bg} ${diff.text} shadow-sm`}
                       >
                         {trek.difficulty || "Moderate"}
                       </span>
                     </div>
-
-                    {/* <div className="absolute bottom-4 left-4">
-                      <span className={`px-3 py-1.5 rounded-xl text-[11px] font-bold uppercase tracking-wide ${diff.bg} ${diff.text} shadow-sm`}>
-                        {trek.difficulty || "Moderate"}
-                      </span>
-                    </div> */}
-
-                    {/* {trek.duration && (
-                      <div className="absolute bottom-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-sm text-xs font-bold text-sky-800 shadow-sm">
-                        <Clock className="w-3.5 h-3.5 text-sky-500" />
-                        {trek.duration}
-                      </div>
-                    )} */}
                   </div>
 
                   <div className="p-6">

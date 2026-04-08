@@ -73,16 +73,6 @@ const AvailabilityCalendar = ({ trek }) => {
                   }
                 `}
               >
-                {/* Checkmark */}
-                {/* {available && (
-                  <div className="absolute top-1.5 left-1.5">
-                    <Check
-                      className="w-3.5 h-3.5 text-green-200"
-                      strokeWidth={3}
-                    />
-                  </div>
-                )} */}
-
                 {/* Month */}
                 <span className="text-sm font-semibold tracking-wide">{m}</span>
               </div>

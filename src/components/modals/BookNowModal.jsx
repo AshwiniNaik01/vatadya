@@ -95,19 +95,6 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
     }
   }, [availableAddons]);
 
-  // Fallback to default logic if no addons in trekData
-  //   const addons = [];
-  //   if (bookingType === "Trek + Camping") {
-  //     addons.push({ name: "Couple Tent", price: 500 });
-  //   }
-  //   if (bookingType === "Trip") {
-  //     addons.push({ name: "Private Room", price: 1500 });
-  //   }
-  //   addons.push({ name: "Meals Package", price: 800 });
-  //   addons.push({ name: "Photography Package", price: 1200 });
-  //   return addons;
-  // }, [bookingType, trekData]);
-
   // Build default addons (all selected by default since totalFee includes them)
   const defaultAddons = useMemo(() => {
     return availableAddons.map((a) => ({ name: a.name, price: a.price }));
@@ -196,23 +183,6 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
       setFormData((prev) => ({ ...prev, additionalMembers: [] }));
     }
   };
-
-  // const handleAddonToggle = (addon) => {
-  //   setFormData((prev) => {
-  //     const exists = prev.addons.find((a) => a.name === addon.name);
-  //     if (exists) {
-  //       return {
-  //         ...prev,
-  //         addons: prev.addons.filter((a) => a.name !== addon.name),
-  //       };
-  //     } else {
-  //       return {
-  //         ...prev,
-  //         addons: [...prev.addons, { name: addon.name, price: addon.price }],
-  //       };
-  //     }
-  //   });
-  // };
 
   const handleAddonToggle = (addon) => {
     setFormData((prev) => {
@@ -695,36 +665,6 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                         </p>
                       )}
                     </div>
-
-                    {/* Accommodation */}
-                    {/* {trekAccommodation.length > 0 && (
-                      <div className="space-y-4">
-                        <label className={labelCls}>Stay Preference <span className="text-red-400">*</span></label>
-                        <div className="grid gap-2">
-                          {trekAccommodation.map((stay, i) => (
-                            <label key={i} className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${formData.accommodation === stay ? "border-indigo-500 bg-indigo-50" : "border-gray-100 bg-gray-50/30 hover:bg-gray-50"}`}>
-                              <input type="radio" name="accommodation" value={stay} checked={formData.accommodation === stay} onChange={handleChange} className="w-4 h-4 text-indigo-600 focus:ring-indigo-500" />
-                              <span className="text-sm text-gray-700">{stay}</span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    )} */}
-
-                    {/* Suitable For */}
-                    {/* {trekSuitableFor.length > 0 && (
-                      <div className="space-y-4">
-                        <label className={labelCls}>Expedition Level <span className="text-red-400">*</span></label>
-                        <div className="grid gap-2">
-                          {trekSuitableFor.map((level, i) => (
-                            <label key={i} className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${formData.suitableFor === level ? "border-amber-500 bg-amber-50" : "border-gray-100 bg-gray-50/30 hover:bg-gray-50"}`}>
-                              <input type="radio" name="suitableFor" value={level} checked={formData.suitableFor === level} onChange={handleChange} className="w-4 h-4 text-amber-600 focus:ring-amber-500" />
-                              <span className="text-sm text-gray-700">{level}</span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    )} */}
                   </div>
                 </div>
 

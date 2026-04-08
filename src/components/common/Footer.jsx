@@ -47,14 +47,6 @@ const Footer = () => {
     { name: "CONTACT", path: "/contact", icon: <Phone size={12} /> },
   ];
 
-  // const resources = [
-  //   { name: "GEAR GUIDE", icon: <Shield size={12} /> },
-  //   { name: "SAFETY PROTOCOLS", icon: <Target size={12} /> },
-  //   { name: "BLOG", icon: <Activity size={12} /> },
-  //   { name: "FAQS", icon: <Radio size={12} /> },
-  //   { name: "TECH DOCS", icon: <Terminal size={12} /> },
-  // ];
-
   const socialLinks = [
     {
       icon: Facebook,
@@ -237,36 +229,6 @@ const Footer = () => {
               ))}
             </ul>
           </div>
-
-          {/* Resources - ColSpan 2 */}
-          {/* <div className="lg:col-span-2 space-y-6">
-            <div className="flex items-center gap-3">
-              <Shield className="w-4 h-4 text-sky-400" />
-              <h3 className="text-xs font-bold text-white/80 uppercase tracking-[0.3em]">
-                RESOURCES
-              </h3>
-            </div>
-            <ul className="space-y-3">
-              {resources.map((item, idx) => (
-                <li key={idx}>
-                  <a
-                    href="#"
-                    className="group flex items-center gap-3 text-sm text-white/60 
-                               hover:text-white transition-all"
-                  >
-                    <span
-                      className="w-1.5 h-1.5 rounded-full bg-white/20 
-                                   group-hover:bg-sky-400 transition-all"
-                    />
-                    <span className="flex items-center gap-2">
-                      {item.icon}
-                      {item.name}
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div> */}
 
           {/* Contact & Newsletter - ColSpan 4 */}
           <div className="lg:col-span-4 space-y-6">

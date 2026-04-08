@@ -1,8 +1,4 @@
-// src/api/authApi.js
-// import axios from "axios";
 import axiosInstance from "./axiosInstance";
-
-// const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000";
 
 export const sendOtp = async (email) => {
   try {
