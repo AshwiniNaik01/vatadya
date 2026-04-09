@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { X, Mail, ShieldCheck, ArrowRight, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
+import {
+  X,
+  Mail,
+  ShieldCheck,
+  ArrowRight,
+  Loader2,
+  AlertCircle,
+  CheckCircle2,
+} from "lucide-react";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { sendOtp, verifyOtp } from "../../api/authApi";
@@ -19,7 +27,7 @@ const LoginModal = ({ isOpen, onClose }) => {
     e?.preventDefault();
     const trimmedEmail = email.trim();
     if (!trimmedEmail) return;
-    
+
     setLoading(true);
     setError("");
     setSuccess("");
@@ -29,19 +37,29 @@ const LoginModal = ({ isOpen, onClose }) => {
       console.log("OTP Response:", res);
 
       // Robust handling of different response structures
-      const ref = res.data?.reference || res.reference || (typeof res.data === 'string' ? res.data : null);
-      
+      const ref =
+        res.data?.reference ||
+        res.reference ||
+        (typeof res.data === "string" ? res.data : null);
+
       if (ref) {
         setReference(ref);
         setStep(2);
         setSuccess("OTP sent successfully to your email.");
       } else {
-        throw new Error(res.message || "Failed to send OTP. Please check your email.");
+        throw new Error(
+          res.message || "Failed to send OTP. Please check your email.",
+        );
       }
     } catch (err) {
       console.error("LoginModal Error:", err);
       // Catch specific backend error strings if possible
-      const errorMessage = typeof err === 'string' ? err : (err.message || err.error || "Failed to initiate login. Please try again.");
+      const errorMessage =
+        typeof err === "string"
+          ? err
+          : err.message ||
+            err.error ||
+            "Failed to initiate login. Please try again.";
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -58,19 +76,21 @@ const LoginModal = ({ isOpen, onClose }) => {
       const res = await verifyOtp(reference, otp);
       // Assuming res structure is { success: true, data: { token: "...", user: { ... } } }
       const authData = res.data || res;
-      
+
       if (authData.token && authData.user) {
         // Save to cookies
         Cookies.set("token", authData.token, { expires: 7 });
-        Cookies.set("userId", authData.user._id || authData.user.id, { expires: 7 });
+        Cookies.set("userId", authData.user._id || authData.user.id, {
+          expires: 7,
+        });
         Cookies.set("email", authData.user.email, { expires: 7 });
         Cookies.set("user", JSON.stringify(authData.user), { expires: 7 });
 
         // Update Redux state
         dispatch(setUser(authData.user));
-        
+
         setSuccess("Login successful! Redirecting...");
-        
+
         setTimeout(() => {
           onClose();
           // Reset internal state
@@ -84,7 +104,11 @@ const LoginModal = ({ isOpen, onClose }) => {
         throw new Error(res.message || "Invalid OTP. Please try again.");
       }
     } catch (err) {
-      setError(err.message || err.error || "Verification failed. Please check the OTP.");
+      setError(
+        err.message ||
+          err.error ||
+          "Verification failed. Please check the OTP.",
+      );
     } finally {
       setLoading(false);
     }
@@ -95,32 +119,23 @@ const LoginModal = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
       {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-obsidian/40 backdrop-blur-md animate-in fade-in duration-300" 
+      <div
+        className="absolute inset-0 bg-obsidian/40 backdrop-blur-md animate-in fade-in duration-300"
         onClick={onClose}
       />
-      
+
       {/* Modal Container */}
       <div className="relative w-full max-w-md bg-white/95 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border border-sky-100 overflow-hidden animate-in zoom-in-95 duration-300">
-        
         {/* Decor elements */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-sky-100/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-24 h-24 bg-rose-50/50 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
-        
-        {/* Close Button */}
-        {/* <button 
-          onClick={onClose}
-          className="absolute top-6 right-6 p-2 text-sky-400 hover:text-sky-600 hover:bg-sky-50 rounded-xl transition-all z-10"
+
+        <button
+          onClick={() => onClose && onClose()}
+          className="absolute top-6 right-6 p-2 text-sky-400 hover:text-sky-600 hover:bg-sky-50 rounded-xl transition-all z-20"
         >
           <X size={20} />
-        </button> */}
-
-         <button
-    onClick={() => onClose && onClose()}
-    className="absolute top-6 right-6 p-2 text-sky-400 hover:text-sky-600 hover:bg-sky-50 rounded-xl transition-all z-20"
-  >
-    <X size={20} />
-  </button>
+        </button>
 
         <div className="p-10 sm:p-12 relative z-10">
           {/* Header */}
@@ -132,8 +147,8 @@ const LoginModal = ({ isOpen, onClose }) => {
               {step === 1 ? "Welcome Back" : "Verify Account"}
             </h2>
             <p className="text-sky-600/70 mt-2 font-medium">
-              {step === 1 
-                ? "Enter your email to receive a login OTP" 
+              {step === 1
+                ? "Enter your email to receive a login OTP"
                 : `We've sent a 6-digit code to ${email}`}
             </p>
           </div>
@@ -153,7 +168,10 @@ const LoginModal = ({ isOpen, onClose }) => {
           )}
 
           {/* Form */}
-          <form onSubmit={step === 1 ? handleSendOtp : handleVerifyOtp} className="space-y-6">
+          <form
+            onSubmit={step === 1 ? handleSendOtp : handleVerifyOtp}
+            className="space-y-6"
+          >
             {step === 1 ? (
               <div className="group relative">
                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-sky-400 group-focus-within:text-sky-600 transition-colors">
@@ -194,7 +212,10 @@ const LoginModal = ({ isOpen, onClose }) => {
               ) : (
                 <>
                   {step === 1 ? "Initialize Access" : "Verify & Connect"}
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight
+                    size={18}
+                    className="group-hover:translate-x-1 transition-transform"
+                  />
                 </>
               )}
             </button>
@@ -203,10 +224,12 @@ const LoginModal = ({ isOpen, onClose }) => {
           {/* Footer */}
           <div className="mt-10 pt-8 border-t border-sky-100 text-center">
             <p className="text-sky-500/60 text-xs font-bold uppercase tracking-widest">
-              {step === 1 ? "Secure biometric encryption" : "Didn't receive code?"}
+              {step === 1
+                ? "Secure biometric encryption"
+                : "Didn't receive code?"}
             </p>
             {step === 2 && (
-              <button 
+              <button
                 onClick={handleSendOtp}
                 className="mt-2 text-sky-600 hover:text-sky-800 font-black text-sm uppercase tracking-wider transition-colors"
                 disabled={loading}
@@ -215,12 +238,12 @@ const LoginModal = ({ isOpen, onClose }) => {
               </button>
             )}
             {step === 2 && (
-               <button 
-               onClick={() => setStep(1)}
-               className="block w-full mt-4 text-sky-400 hover:text-sky-600 font-bold text-xs uppercase tracking-widest transition-colors"
-             >
-               Change Email
-             </button>
+              <button
+                onClick={() => setStep(1)}
+                className="block w-full mt-4 text-sky-400 hover:text-sky-600 font-bold text-xs uppercase tracking-widest transition-colors"
+              >
+                Change Email
+              </button>
             )}
           </div>
         </div>
