@@ -254,13 +254,24 @@
 
 // export default LoginModal;
 
-
 import React, { useState } from "react";
-import { X, Mail, ShieldCheck, Lock, ArrowRight, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
+import {
+  X,
+  Mail,
+  ShieldCheck,
+  Lock,
+  ArrowRight,
+  Loader2,
+  AlertCircle,
+  CheckCircle2,
+} from "lucide-react";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { sendOtp, verifyOtp, loginUser, registerUser } from "../../api/authApi";
 import { setUser } from "../../store/slices/authSlice";
+// import Lottie from "lottie-react";
+// import hiking from "../../lotties/hiking.json";
+// import { Player } from "@lottiefiles/react-lottie-player";
 
 const LoginModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -277,29 +288,55 @@ const LoginModal = ({ isOpen, onClose }) => {
   const [reference, setReference] = useState("");
 
   const resetForm = () => {
-    setName(""); setEmail(""); setPassword(""); setOtp(""); setReference("");
-    setError(""); setSuccess("");
+    setName("");
+    setEmail("");
+    setPassword("");
+    setOtp("");
+    setReference("");
+    setError("");
+    setSuccess("");
   };
 
   // Register
   const handleRegister = async (e) => {
     e.preventDefault();
-    setLoading(true); setError(""); setSuccess("");
+    setLoading(true);
+    setError("");
+    setSuccess("");
 
     try {
       const res = await registerUser({ name, email, password });
       if (res.data) {
         setSuccess("Registration successful! Please login.");
-        setStep("login"); resetForm();
+        setStep("login");
+        resetForm();
       } else throw new Error(res.message || "Registration failed");
-    } catch (err) { setError(err.message || "Registration failed"); }
-    finally { setLoading(false); }
+    } catch (err) {
+      setError(err.message || "Registration failed");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  // const loginAnimation = {
+  //   HIKING: {
+  //     lottie: hiking,
+  //     color: "#3B82F6",
+  //     accent: "text-blue-600",
+
+  //     bg: "bg-blue-50",
+  //   },
+  // };
+
+  // console.log(typeof Lottie); // should be "function"
+  // console.log(loginAnimation.HIKING.lottie); // should be object (JSON)
 
   // Login
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true); setError(""); setSuccess("");
+    setLoading(true);
+    setError("");
+    setSuccess("");
 
     try {
       const res = await loginUser({ email, password });
@@ -308,32 +345,48 @@ const LoginModal = ({ isOpen, onClose }) => {
         Cookies.set("user", JSON.stringify(res.data.user), { expires: 7 });
         dispatch(setUser(res.data.user));
         setSuccess("Login successful!");
-        setTimeout(() => { onClose(); resetForm(); }, 1500);
+        setTimeout(() => {
+          onClose();
+          resetForm();
+        }, 1500);
       } else throw new Error(res.message || "Login failed");
-    } catch (err) { setError(err.message || "Login failed"); }
-    finally { setLoading(false); }
+    } catch (err) {
+      setError(err.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   // OTP Step 1 - Send OTP
   const handleSendOtp = async (e) => {
     e?.preventDefault();
     if (!email) return;
-    setLoading(true); setError(""); setSuccess("");
+    setLoading(true);
+    setError("");
+    setSuccess("");
 
     try {
       const res = await sendOtp(email);
       const ref = res.data?.reference || res.reference || null;
-      if (ref) { setReference(ref); setStep("otpStep2"); setSuccess("OTP sent successfully"); }
-      else throw new Error(res.message || "Failed to send OTP");
-    } catch (err) { setError(err.message || "Failed to send OTP"); }
-    finally { setLoading(false); }
+      if (ref) {
+        setReference(ref);
+        setStep("otpStep2");
+        setSuccess("OTP sent successfully");
+      } else throw new Error(res.message || "Failed to send OTP");
+    } catch (err) {
+      setError(err.message || "Failed to send OTP");
+    } finally {
+      setLoading(false);
+    }
   };
 
   // OTP Step 2 - Verify OTP
   const handleVerifyOtp = async (e) => {
     e?.preventDefault();
     if (!otp || !reference) return;
-    setLoading(true); setError(""); setSuccess("");
+    setLoading(true);
+    setError("");
+    setSuccess("");
 
     try {
       const res = await verifyOtp(reference, otp);
@@ -343,73 +396,233 @@ const LoginModal = ({ isOpen, onClose }) => {
         Cookies.set("user", JSON.stringify(authData.user), { expires: 7 });
         dispatch(setUser(authData.user));
         setSuccess("OTP verified! Logging in...");
-        setTimeout(() => { onClose(); resetForm(); }, 1500);
+        setTimeout(() => {
+          onClose();
+          resetForm();
+        }, 1500);
       } else throw new Error(res.message || "Invalid OTP");
-    } catch (err) { setError(err.message || "OTP verification failed"); }
-    finally { setLoading(false); }
+    } catch (err) {
+      setError(err.message || "OTP verification failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
-      <div className="absolute inset-0 bg-obsidian/40 backdrop-blur-md animate-in fade-in duration-300" onClick={onClose} />
+      <div
+        className="absolute inset-0 bg-obsidian/40 backdrop-blur-md animate-in fade-in duration-300"
+        onClick={() => {
+          setStep("login");
+          resetForm();
+          onClose();
+        }}
+      />
       <div className="relative w-full max-w-md bg-white/95 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border border-sky-100 overflow-hidden animate-in zoom-in-95 duration-300">
-        <button onClick={onClose} className="absolute top-6 right-6 p-2 text-sky-400 hover:text-sky-600 hover:bg-sky-50 rounded-xl z-20">
+        <button
+          onClick={() => {
+            setStep("login");
+            resetForm();
+            onClose();
+          }}
+          className="absolute top-6 right-6 p-2 text-sky-400 hover:text-sky-600 hover:bg-sky-50 rounded-xl z-20"
+        >
           <X size={20} />
         </button>
 
         <div className="p-10 sm:p-12 relative z-10">
+          {/* 🔥 Lottie Animation
+          <div className="flex justify-center mb-6">
+            <div className={`p-4 rounded-3xl ${loginAnimation.HIKING.bg}`}>
+              <Lottie
+                animationData={loginAnimation.HIKING.lottie}
+                loop
+                className="w-32 h-32"
+              />
+            </div>
+          </div> */}
           <div className="mb-10 text-center">
             <h2 className="text-3xl font-black text-sky-950 tracking-tight">
-              {step === "login" ? "Login" : step === "register" ? "Register" : step === "otpStep1" || step === "otpStep2" ? "Login with OTP" : ""}
+              {step === "login"
+                ? "Login"
+                : step === "register"
+                  ? "Register"
+                  : step === "otpStep1" || step === "otpStep2"
+                    ? "Login with OTP"
+                    : ""}
             </h2>
             <p className="text-sky-600/70 mt-2 font-medium">
-              {step === "login" ? "Use email and password" :
-               step === "register" ? "Create a new account" :
-               step === "otpStep1" ? "Enter email to receive OTP" :
-               step === "otpStep2" ? `Enter the OTP sent to ${email}` : ""}
+              {step === "login"
+                ? "Use email and password"
+                : step === "register"
+                  ? "Create a new account"
+                  : step === "otpStep1"
+                    ? "Enter email to receive OTP"
+                    : step === "otpStep2"
+                      ? `Enter the OTP sent to ${email}`
+                      : ""}
             </p>
           </div>
-
-          {error && <div className="mb-6 p-4 bg-rose-50 border border-rose-100 rounded-2xl text-rose-600 flex items-center gap-3 text-sm font-semibold"><AlertCircle size={18} />{error}</div>}
-          {success && <div className="mb-6 p-4 bg-emerald-50 border border-emerald-100 rounded-2xl text-emerald-600 flex items-center gap-3 text-sm font-semibold"><CheckCircle2 size={18} />{success}</div>}
-
+          {error && (
+            <div className="mb-6 p-4 bg-rose-50 border border-rose-100 rounded-2xl text-rose-600 flex items-center gap-3 text-sm font-semibold">
+              <AlertCircle size={18} />
+              {error}
+            </div>
+          )}
+          {success && (
+            <div className="mb-6 p-4 bg-emerald-50 border border-emerald-100 rounded-2xl text-emerald-600 flex items-center gap-3 text-sm font-semibold">
+              <CheckCircle2 size={18} />
+              {success}
+            </div>
+          )}
           <form
             onSubmit={
-              step === "login" ? handleLogin :
-              step === "register" ? handleRegister :
-              step === "otpStep1" ? handleSendOtp :
-              step === "otpStep2" ? handleVerifyOtp : null
+              step === "login"
+                ? handleLogin
+                : step === "register"
+                  ? handleRegister
+                  : step === "otpStep1"
+                    ? handleSendOtp
+                    : step === "otpStep2"
+                      ? handleVerifyOtp
+                      : null
             }
             className="space-y-6"
           >
-            {step === "register" && <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required className="w-full border rounded-2xl py-3 px-4" />}
-            {(step === "login" || step === "register") && <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full border rounded-2xl py-3 px-4" />}
-            {step === "login" || step === "register" ? <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full border rounded-2xl py-3 px-4" /> : null}
-            {step === "otpStep1" && <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full border rounded-2xl py-3 px-4" />}
-            {step === "otpStep2" && <input type="text" placeholder="Enter OTP" value={otp} onChange={(e) => setOtp(e.target.value)} maxLength={6} required className="w-full border rounded-2xl py-3 px-4 text-center tracking-[0.5em]" />}
+            {step === "register" && (
+              <input
+                type="text"
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                className="w-full border rounded-2xl py-3 px-4"
+              />
+            )}
+            {(step === "login" || step === "register") && (
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full border border-blue-200 text-black rounded-2xl py-3 px-4"
+              />
+            )}
+            {step === "login" || step === "register" ? (
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full border border-blue-200 text-black rounded-2xl py-3 px-4"
+              />
+            ) : null}
+            {step === "otpStep1" && (
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full border border-blue-200 text-black rounded-2xl py-3 px-4"
+              />
+            )}
+            {step === "otpStep2" && (
+              <input
+                type="text"
+                placeholder="Enter OTP"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                maxLength={6}
+                required
+                className="w-full border border-blue-200 text-black rounded-2xl py-3 px-4 text-center tracking-[0.5em]"
+              />
+            )}
 
-            <button disabled={loading} className="w-full bg-sky-500 text-white py-3 rounded-2xl flex items-center justify-center gap-3 font-bold">
-              {loading ? <Loader2 className="animate-spin" /> :
-                step === "login" ? "Login" :
-                step === "register" ? "Register" :
-                step === "otpStep1" ? "Send OTP" :
-                step === "otpStep2" ? "Verify OTP" : ""}
+            <button
+              disabled={loading}
+              className="w-full bg-sky-500 text-white py-3 rounded-2xl flex items-center justify-center gap-3 font-bold"
+            >
+              {loading ? (
+                <Loader2 className="animate-spin" />
+              ) : step === "login" ? (
+                "Login"
+              ) : step === "register" ? (
+                "Register"
+              ) : step === "otpStep1" ? (
+                "Send OTP"
+              ) : step === "otpStep2" ? (
+                "Verify OTP"
+              ) : (
+                ""
+              )}
               <ArrowRight size={18} />
             </button>
           </form>
-
           <div className="mt-6 text-center text-sm text-sky-600/70">
-            {step === "login" && <>
-              <span>Don't have an account? </span>
-              <button onClick={() => { setStep("register"); resetForm(); }} className="font-bold underline">Register</button>
-              <br />
-              <button onClick={() => { setStep("otpStep1"); resetForm(); }} className="mt-2 font-bold underline text-xs">Login with OTP</button>
-            </>}
-            {step === "register" && <button onClick={() => { setStep("login"); resetForm(); }} className="font-bold underline">Back to Login</button>}
-            {step === "otpStep1" && <button onClick={() => { setStep("login"); resetForm(); }} className="font-bold underline">Back to Login</button>}
-            {step === "otpStep2" && <button onClick={() => { setStep("otpStep1"); setOtp(""); setError(""); setSuccess(""); }} className="font-bold underline">Resend OTP</button>}
+            {step === "login" && (
+              <>
+                <span>Don't have an account? </span>
+                <button
+                  onClick={() => {
+                    setStep("register");
+                    resetForm();
+                  }}
+                  className="font-bold underline"
+                >
+                  Register
+                </button>
+                <br />
+                <button
+                  onClick={() => {
+                    setStep("otpStep1");
+                    resetForm();
+                  }}
+                  className="mt-2 font-bold underline text-xs"
+                >
+                  Login with OTP
+                </button>
+              </>
+            )}
+            {step === "register" && (
+              <button
+                onClick={() => {
+                  setStep("login");
+                  resetForm();
+                }}
+                className="font-bold underline"
+              >
+                Back to Login
+              </button>
+            )}
+            {step === "otpStep1" && (
+              <button
+                onClick={() => {
+                  setStep("login");
+                  resetForm();
+                }}
+                className="font-bold underline"
+              >
+                Back to Login
+              </button>
+            )}
+            {step === "otpStep2" && (
+              <button
+                onClick={() => {
+                  setStep("otpStep1");
+                  setOtp("");
+                  setError("");
+                  setSuccess("");
+                }}
+                className="font-bold underline"
+              >
+                Resend OTP
+              </button>
+            )}
           </div>
         </div>
       </div>

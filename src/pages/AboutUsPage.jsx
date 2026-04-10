@@ -361,7 +361,7 @@ const AboutUsPage = () => {
           </p>
 
           {/* Buttons */}
-          <div className="flex flex-wrap justify-center gap-4 px-4">
+          {/* <div className="flex flex-wrap justify-center gap-4 px-4">
             {[
               "TALK TO A TREK EXPERT",
               "SEE UPCOMING DEPARTURES",
@@ -369,12 +369,12 @@ const AboutUsPage = () => {
             ].map((text, i) => (
               <button
                 key={i}
-                className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-slate-800 font-bold text-xs sm:text-sm uppercase tracking-wide rounded-full shadow-lg hover:shadow-2xl hover:-translate-y-0.5 hover:bg-orange-50 transition-all duration-300"
+                className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-slate-400 font-bold text-xs sm:text-sm uppercase tracking-wide rounded-full shadow-lg hover:shadow-2xl hover:-translate-y-0.5 hover:bg-orange-50 transition-all duration-300"
               >
                 {text}
               </button>
             ))}
-          </div>
+          </div> */}
         </div>
 
         {/* LAYER 5 — Foreground Peak */}
@@ -399,7 +399,10 @@ const AboutUsPage = () => {
       </section>
 
       {/* ─────────────── IDENTITY ─────────────── */}
-      <section id="about-content" className="relative py-24 z-10 bg-white">
+      {/* <section
+        id="about-content"
+        className="relative py-28 z-10 overflow-hidden bg-gradient-to-b from-white via-orange-50/30 to-white"
+      >
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
           <div>
             <div className="inline-flex items-center gap-3 bg-orange-100/50 border border-orange-200 rounded-full px-5 py-2 mb-8">
@@ -466,6 +469,107 @@ const AboutUsPage = () => {
                 className="w-full h-[520px] object-cover transition-transform duration-[3s] group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent" />
+            </div>
+          </div>
+        </div>
+      </section> */}
+
+      <section
+        id="about-content"
+        className="relative py-28 z-10 overflow-hidden bg-gradient-to-b from-white via-orange-50/30 to-white"
+      >
+        {/* Background Glow */}
+        <div className="absolute top-[-100px] left-[-100px] w-[400px] h-[400px] bg-orange-300/20 blur-[120px] rounded-full"></div>
+        <div className="absolute bottom-[-120px] right-[-100px] w-[400px] h-[400px] bg-amber-400/20 blur-[120px] rounded-full"></div>
+
+        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center relative">
+          {/* LEFT CONTENT */}
+          <div>
+            {/* Badge */}
+            <div className="inline-flex items-center gap-3 bg-white/70 backdrop-blur-md border border-orange-200 rounded-full px-5 py-2 mb-8 shadow-sm">
+              <Target className="w-4 h-4 text-orange-600" />
+              <span className="text-orange-900 text-[10px] font-black uppercase tracking-[0.3em]">
+                {aboutData.missionSection.title}
+              </span>
+            </div>
+
+            {/* Heading */}
+            <h2 className="text-4xl md:text-6xl font-black text-slate-950 leading-[1] tracking-tight mb-4">
+              {aboutData.missionSection.description
+                .split(" ")
+                .slice(0, 2)
+                .join(" ")}{" "}
+              <span className="relative inline-block">
+                the
+                <span className="absolute -bottom-1 left-0 w-full h-[6px] bg-orange-300/40 rounded-full blur-sm"></span>
+              </span>
+              <br />
+              <span
+                className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-500"
+                dangerouslySetInnerHTML={{
+                  __html: aboutData?.missionSection?.description
+                    .split(" ")
+                    .slice(2)
+                    .join(" "),
+                }}
+              />
+            </h2>
+
+            {/* Description */}
+            <p
+              className="text-slate-700 text-lg leading-relaxed mb-3 font-medium"
+              dangerouslySetInnerHTML={{
+                __html: aboutData.missionSection.description,
+              }}
+            ></p>
+
+            <p className="text-slate-500 text-sm leading-relaxed mb-6 max-w-md">
+              {aboutData.missionSection.subDescription}
+            </p>
+
+            {/* CTA */}
+            <div className="flex items-center gap-6">
+              <Link
+                to="/contact"
+                className="relative px-10 py-5 rounded-2xl font-black tracking-widest text-[11px] uppercase overflow-hidden group"
+              >
+                <span className="absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 transition-all duration-500 group-hover:scale-105"></span>
+                <span className="relative text-white">GET IN TOUCH</span>
+              </Link>
+
+              <div className="flex items-center gap-3">
+                <div className="w-2.5 h-2.5 bg-orange-500 rounded-full animate-ping" />
+                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+                  Ready for Ops
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT IMAGE */}
+          <div className="relative group">
+            {/* Glow */}
+            <div className="absolute -inset-6 bg-gradient-to-r from-orange-400/30 to-amber-500/30 rounded-[3rem] blur-3xl opacity-0 group-hover:opacity-100 transition duration-1000"></div>
+
+            <div className="relative rounded-[2.5rem] overflow-hidden shadow-[0_20px_80px_rgba(0,0,0,0.15)] border border-white/40 backdrop-blur-xl">
+              <img
+                src={
+                  aboutData.missionSection.image?.cdnUrl ||
+                  "https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&q=80"
+                }
+                alt="Expedition Team"
+                className="w-full h-[520px] object-cover transition-transform duration-[2.5s] group-hover:scale-110"
+              />
+
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+
+              {/* Floating Badge */}
+              <div className="absolute bottom-6 left-6 bg-white/80 backdrop-blur-md px-5 py-3 rounded-xl shadow-lg border border-white/40">
+                <p className="text-xs font-bold text-slate-900 uppercase tracking-widest">
+                  Trusted Adventures
+                </p>
+              </div>
             </div>
           </div>
         </div>

@@ -18,6 +18,11 @@ import {
   TreePine,
   X,
 } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectWishlistItems,
+  toggleWishlistAsync,
+} from "../store/slices/wishlistSlice";
 
 /* ─────────────────────────────────────────
    Tiny helpers
@@ -111,9 +116,9 @@ const StayCard = ({ stay, index, liked, onToggleLike }) => {
           <button
             onClick={(e) => {
               e.preventDefault();
-              onToggleLike(stay._id);
+              onToggleLike({ stayId: stay._id });
             }}
-            className="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center border border-white/60 opacity-0 group-hover:opacity-100 transition-all duration-200 hover:scale-110 active:scale-95"
+            className="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center border border-white/60 opacity-90 hover:opacity-100  transition-all duration-200 hover:scale-110 active:scale-95"
             aria-label="Save to wishlist"
           >
             <Heart
@@ -189,6 +194,22 @@ const StayPage = () => {
   const [liked, setLiked] = useState(new Set());
   const [activeTag, setActiveTag] = useState(null);
   const inputRef = useRef(null);
+
+  const dispatch = useDispatch();
+  const wishlistItems = useSelector(selectWishlistItems);
+
+  const handleToggleLike = ({ stayId }) => {
+    const isAlreadyLiked = wishlistItems.some(
+      (item) => item.stay?._id === stayId,
+    );
+
+    dispatch(
+      toggleWishlistAsync({
+        stayId,
+        isWishlisted: isAlreadyLiked,
+      }),
+    );
+  };
 
   useEffect(() => {
     const fetchStays = async () => {
@@ -359,10 +380,10 @@ const StayPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="max-w-2xl"
+              className="max-w-2xl bg-gray-900"
             >
               <div
-                className="flex items-center gap-3 px-5 py-3 rounded-2xl border transition-all duration-300"
+                className="flex items-center gap-2 px-5 py-3 rounded-2xl border transition-all duration-300"
                 style={{
                   background: "rgba(255,255,255,0.06)",
                   borderColor: searchTerm
@@ -379,7 +400,7 @@ const StayPage = () => {
                   ref={inputRef}
                   type="text"
                   placeholder="Search by city, landmark, or vibe..."
-                  className="flex-1 bg-transparent border-none outline-none text-base font-normal text-white placeholder-white/40"
+                  className="flex-1 bg-gray-700 border-none py-3 px-3 rounded-xl outline-none text-base font-normal text-white placeholder-white/30"
                   value={searchTerm}
                   onChange={(e) => {
                     setSearchTerm(e.target.value);
@@ -500,7 +521,7 @@ const StayPage = () => {
                     stay={stay}
                     index={idx}
                     liked={liked}
-                    onToggleLike={toggleLike}
+                    onToggleLike={handleToggleLike}
                   />
                 ))}
               </motion.div>

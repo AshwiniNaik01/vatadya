@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useScroll, useTransform } from "framer-motion";
 import axiosInstance from "../api/axiosInstance";
+import { motion } from "framer-motion";
 import {
   MapPin,
   Star,
