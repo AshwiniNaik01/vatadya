@@ -269,7 +269,8 @@ import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { sendOtp, verifyOtp, loginUser, registerUser } from "../../api/authApi";
 import { setUser } from "../../store/slices/authSlice";
-// import Lottie from "lottie-react";
+import Lottie from "lottie-react";
+import hiking from "../../lotties/hiking.json";
 // import hiking from "../../lotties/hiking.json";
 // import { Player } from "@lottiefiles/react-lottie-player";
 
@@ -318,15 +319,11 @@ const LoginModal = ({ isOpen, onClose }) => {
     }
   };
 
-  // const loginAnimation = {
-  //   HIKING: {
-  //     lottie: hiking,
-  //     color: "#3B82F6",
-  //     accent: "text-blue-600",
-
-  //     bg: "bg-blue-50",
-  //   },
-  // };
+const loginAnimation = {
+  lottie: hiking,
+  bg: "bg-blue-50",
+};
+const LottieComponent = Lottie?.default || Lottie;
 
   // console.log(typeof Lottie); // should be "function"
   // console.log(loginAnimation.HIKING.lottie); // should be object (JSON)
@@ -433,16 +430,18 @@ const LoginModal = ({ isOpen, onClose }) => {
         </button>
 
         <div className="p-10 sm:p-12 relative z-10">
-          {/* 🔥 Lottie Animation
-          <div className="flex justify-center mb-6">
-            <div className={`p-4 rounded-3xl ${loginAnimation.HIKING.bg}`}>
-              <Lottie
-                animationData={loginAnimation.HIKING.lottie}
-                loop
-                className="w-32 h-32"
-              />
-            </div>
-          </div> */}
+         
+          {/* 🔥 Lottie Animation */}
+
+<div className="flex justify-center mb-6">
+  <div className={`p-4 rounded-3xl ${loginAnimation.bg}`}>
+    <LottieComponent
+      animationData={hiking?.default || hiking}
+      loop
+      className="w-32 h-32"
+    />
+  </div>
+</div>
           <div className="mb-10 text-center">
             <h2 className="text-3xl font-black text-sky-950 tracking-tight">
               {step === "login"
