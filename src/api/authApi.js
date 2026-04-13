@@ -72,7 +72,7 @@ export const loginUser = async ({ email, password }) => {
 export const registerUser = async ({ name, email, password }) => {
   try {
     const payload = { name, email, password };
-    const response = await axiosInstance.post(`/api/auth/register`, payload);
+    const response = await axiosInstance.post(`/api/user/register`, payload);
     // Expect response: { success: true, data: { user } }
     return response.data;
   } catch (error) {

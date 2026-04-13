@@ -280,6 +280,7 @@ const LoginModal = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isRegistering, setIsRegistering] = useState(false);
 
   // Form state
   const [name, setName] = useState("");
@@ -303,27 +304,78 @@ const LoginModal = ({ isOpen, onClose }) => {
     e.preventDefault();
     setLoading(true);
     setError("");
-    setSuccess("");
+    setSuccess(""); // Always clear previous success messages
 
     try {
-      const res = await registerUser({ name, email, password });
-      if (res.data) {
-        setSuccess("Registration successful! Please login.");
-        setStep("login");
-        resetForm();
-      } else throw new Error(res.message || "Registration failed");
+      // We only send the OTP here
+      const res = await sendOtp(email);
+
+      // Check various response structures
+      const ref =
+        res.data?.reference ||
+        res.reference ||
+        (typeof res.data === "string" ? res.data : null);
+
+      if (ref) {
+        setReference(ref);
+        setIsRegistering(true); // Crucial: This tells the UI we are verifying a NEW user
+        setStep("otpStep2"); // This triggers the UI switch
+        setSuccess("Verification code sent to your email!");
+      } else {
+        throw new Error("Failed to get a verification reference from server.");
+      }
     } catch (err) {
-      setError(err.message || "Registration failed");
+      setError(
+        err.response?.data?.message || err.message || "Registration failed",
+      );
     } finally {
       setLoading(false);
     }
   };
 
-const loginAnimation = {
-  lottie: hiking,
-  bg: "bg-blue-50",
-};
-const LottieComponent = Lottie?.default || Lottie;
+  // 2. Update handleVerifyOtp (The Final Step)
+  // const handleVerifyOtp = async (e) => {
+  //   e?.preventDefault();
+  //   setLoading(true);
+  //   setError("");
+
+  //   try {
+  //     // Step A: Verify the OTP code first
+  //     const res = await verifyOtp(reference, otp);
+
+  //     // Step B: If we are in "Registering" mode, NOW call the register API
+  //     if (isRegistering) {
+  //       const regRes = await registerUser({ name, email, password });
+  //       if (regRes.data) {
+  //         setSuccess("Account verified and created!");
+  //         const authData = regRes.data;
+  //         Cookies.set("token", authData.token, { expires: 7 });
+  //         dispatch(setUser(authData.user));
+  //       }
+  //     } else {
+  //       // Logic for standard OTP Login
+  //       const authData = res.data || res;
+  //       Cookies.set("token", authData.token, { expires: 7 });
+  //       dispatch(setUser(authData.user));
+  //       setSuccess("Login successful!");
+  //     }
+
+  //     setTimeout(() => {
+  //       onClose();
+  //       resetForm();
+  //     }, 1500);
+  //   } catch (err) {
+  //     setError(err.message || "Invalid OTP.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const loginAnimation = {
+    lottie: hiking,
+    bg: "white",
+  };
+  const LottieComponent = Lottie?.default || Lottie;
 
   // console.log(typeof Lottie); // should be "function"
   // console.log(loginAnimation.HIKING.lottie); // should be object (JSON)
@@ -383,32 +435,49 @@ const LottieComponent = Lottie?.default || Lottie;
     if (!otp || !reference) return;
     setLoading(true);
     setError("");
-    setSuccess("");
 
     try {
-      const res = await verifyOtp(reference, otp);
-      const authData = res.data || res;
-      if (authData.token && authData.user) {
+      // Step A: Verify the OTP itself
+      const verifyRes = await verifyOtp(reference, otp);
+
+      // Step B: If verification passed, check our intent
+      if (isRegistering) {
+        // Proceed to finalize registration in the backend
+        const regRes = await registerUser({ name, email, password });
+
+        if (regRes.data) {
+          setSuccess("Registration successful! Logging you in...");
+          // Handle post-registration (e.g., set cookies or redirect)
+          const authData = regRes.data;
+          Cookies.set("token", authData.token, { expires: 7 });
+          Cookies.set("user", JSON.stringify(authData.user), { expires: 7 });
+          dispatch(setUser(authData.user));
+        }
+      } else {
+        // Normal Login flow (OTP-only login)
+        const authData = verifyRes.data || verifyRes;
         Cookies.set("token", authData.token, { expires: 7 });
         Cookies.set("user", JSON.stringify(authData.user), { expires: 7 });
         dispatch(setUser(authData.user));
-        setSuccess("OTP verified! Logging in...");
-        setTimeout(() => {
-          onClose();
-          resetForm();
-        }, 1500);
-      } else throw new Error(res.message || "Invalid OTP");
+        setSuccess("Login successful!");
+      }
+
+      setTimeout(() => {
+        onClose();
+        resetForm();
+        setIsRegistering(false); // Reset intent
+      }, 1500);
     } catch (err) {
-      setError(err.message || "OTP verification failed");
+      setError(err.message || "Verification failed. Please check the code.");
     } finally {
       setLoading(false);
     }
   };
-
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-1 sm:p-6">
+      {/* Overlay */}
       <div
         className="absolute inset-0 bg-obsidian/40 backdrop-blur-md animate-in fade-in duration-300"
         onClick={() => {
@@ -417,33 +486,34 @@ const LottieComponent = Lottie?.default || Lottie;
           onClose();
         }}
       />
+
+      {/* Modal */}
       <div className="relative w-full max-w-md bg-white/95 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border border-sky-100 overflow-hidden animate-in zoom-in-95 duration-300">
+        {/* 🔥 FULL WIDTH LOTTIE (TOUCH TOP BORDER) */}
+        <div className="w-full  overflow-hidden rounded-t-[2.5rem]">
+          <LottieComponent
+            animationData={hiking?.default || hiking}
+            loop
+            className="w-full h-56 sm:h-37 object-fit mb-4 rounded-t-[2.5rem]"
+          />
+        </div>
+
         <button
           onClick={() => {
             setStep("login");
             resetForm();
             onClose();
           }}
-          className="absolute top-6 right-6 p-2 text-sky-400 hover:text-sky-600 hover:bg-sky-50 rounded-xl z-20"
+          className="absolute top-3 right-3 z-50 p-2 bg-white/80 backdrop-blur-sm text-sky-950 hover:bg-rose-500 hover:text-white rounded-full transition-colors shadow-sm"
         >
-          <X size={20} />
+          <X size={24} />
         </button>
 
-        <div className="p-10 sm:p-12 relative z-10">
-         
-          {/* 🔥 Lottie Animation */}
-
-<div className="flex justify-center mb-6">
-  <div className={`p-4 rounded-3xl ${loginAnimation.bg}`}>
-    <LottieComponent
-      animationData={hiking?.default || hiking}
-      loop
-      className="w-32 h-32"
-    />
-  </div>
-</div>
-          <div className="mb-10 text-center">
-            <h2 className="text-3xl font-black text-sky-950 tracking-tight">
+        {/* 🔽 FORM SECTION */}
+        <div className="pb-6 px-4 sm:px-5 relative mt-3">
+          {/* 🔥 TITLE */}
+          <div className="text-center mb-2">
+            {/* <h2 className="text-2xl sm:text-3xl font-black text-sky-950 tracking-tight mb-2">
               {step === "login"
                 ? "Login"
                 : step === "register"
@@ -451,8 +521,16 @@ const LottieComponent = Lottie?.default || Lottie;
                   : step === "otpStep1" || step === "otpStep2"
                     ? "Login with OTP"
                     : ""}
+            </h2> */}
+
+            <h2 className="text-2xl sm:text-3xl font-black text-sky-950 tracking-tight mb-2">
+              {step === "login" && "Login"}
+              {step === "register" && "Register"}
+              {step === "otpStep2" &&
+                (isRegistering ? "Verify Email" : "Login with OTP")}
             </h2>
-            <p className="text-sky-600/70 mt-2 font-medium">
+
+            {/* <p className="text-sky-600/70 font-medium text-sm leading-tight mb-6 ">
               {step === "login"
                 ? "Use email and password"
                 : step === "register"
@@ -462,33 +540,41 @@ const LottieComponent = Lottie?.default || Lottie;
                     : step === "otpStep2"
                       ? `Enter the OTP sent to ${email}`
                       : ""}
+            </p> */}
+
+            <p className="text-sky-600/70 font-medium text-sm leading-tight mb-6">
+              {step === "otpStep2"
+                ? `Enter the code sent to ${email} to ${isRegistering ? "create your account" : "login"}`
+                : "Please fill in your details"}
             </p>
           </div>
+
+          {/* ERROR */}
           {error && (
-            <div className="mb-6 p-4 bg-rose-50 border border-rose-100 rounded-2xl text-rose-600 flex items-center gap-3 text-sm font-semibold">
+            <div className="mb-4 p-3 bg-rose-50 border border-rose-100 rounded-2xl text-rose-600 flex items-center gap-3 text-sm font-semibold">
               <AlertCircle size={18} />
               {error}
             </div>
           )}
+
+          {/* SUCCESS */}
           {success && (
-            <div className="mb-6 p-4 bg-emerald-50 border border-emerald-100 rounded-2xl text-emerald-600 flex items-center gap-3 text-sm font-semibold">
+            <div className="mb-4 p-3 bg-emerald-50 border border-emerald-100 rounded-2xl text-emerald-600 flex items-center gap-3 text-sm font-semibold">
               <CheckCircle2 size={18} />
               {success}
             </div>
           )}
+
+          {/* FORM */}
           <form
             onSubmit={
               step === "login"
                 ? handleLogin
                 : step === "register"
                   ? handleRegister
-                  : step === "otpStep1"
-                    ? handleSendOtp
-                    : step === "otpStep2"
-                      ? handleVerifyOtp
-                      : null
+                  : handleVerifyOtp
             }
-            className="space-y-6"
+            className="space-y-3 mt-2 "
           >
             {step === "register" && (
               <input
@@ -497,9 +583,10 @@ const LottieComponent = Lottie?.default || Lottie;
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="w-full border rounded-2xl py-3 px-4"
+                className="w-full border border-blue-200 text-black rounded-2xl py-3 px-4 outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all"
               />
             )}
+
             {(step === "login" || step === "register") && (
               <input
                 type="email"
@@ -507,19 +594,21 @@ const LottieComponent = Lottie?.default || Lottie;
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full border border-blue-200 text-black rounded-2xl py-3 px-4"
+                className="w-full border border-blue-200 text-black rounded-2xl py-3 px-4 outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all"
               />
             )}
-            {step === "login" || step === "register" ? (
+
+            {(step === "login" || step === "register") && (
               <input
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full border border-blue-200 text-black rounded-2xl py-3 px-4"
+                className="w-full border border-blue-200 text-black rounded-2xl py-3 px-4 outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all"
               />
-            ) : null}
+            )}
+
             {step === "otpStep1" && (
               <input
                 type="email"
@@ -530,6 +619,7 @@ const LottieComponent = Lottie?.default || Lottie;
                 className="w-full border border-blue-200 text-black rounded-2xl py-3 px-4"
               />
             )}
+
             {step === "otpStep2" && (
               <input
                 type="text"
@@ -544,7 +634,7 @@ const LottieComponent = Lottie?.default || Lottie;
 
             <button
               disabled={loading}
-              className="w-full bg-sky-500 text-white py-3 rounded-2xl flex items-center justify-center gap-3 font-bold"
+              className="w-full bg-sky-500 hover:bg-sky-600 transition-all text-white py-3 rounded-2xl flex items-center justify-center gap-3 font-bold"
             >
               {loading ? (
                 <Loader2 className="animate-spin" />
@@ -559,10 +649,15 @@ const LottieComponent = Lottie?.default || Lottie;
               ) : (
                 ""
               )}
-              <ArrowRight size={18} />
+              <ArrowRight
+                size={18}
+                className="group-hover:translate-x-1 transition-transform"
+              />
             </button>
           </form>
-          <div className="mt-6 text-center text-sm text-sky-600/70">
+
+          {/* FOOTER */}
+          <div className="mt-4 text-center text-sm text-sky-600/70">
             {step === "login" && (
               <>
                 <span>Don't have an account? </span>
@@ -581,12 +676,13 @@ const LottieComponent = Lottie?.default || Lottie;
                     setStep("otpStep1");
                     resetForm();
                   }}
-                  className="mt-2 font-bold underline text-xs"
+                  className="mt-1 font-bold underline text-xs"
                 >
                   Login with OTP
                 </button>
               </>
             )}
+
             {step === "register" && (
               <button
                 onClick={() => {
@@ -598,6 +694,7 @@ const LottieComponent = Lottie?.default || Lottie;
                 Back to Login
               </button>
             )}
+
             {step === "otpStep1" && (
               <button
                 onClick={() => {
@@ -609,6 +706,7 @@ const LottieComponent = Lottie?.default || Lottie;
                 Back to Login
               </button>
             )}
+
             {step === "otpStep2" && (
               <button
                 onClick={() => {
