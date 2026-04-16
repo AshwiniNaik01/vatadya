@@ -2,12 +2,34 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useSearchParams } from "react-router-dom";
 import {
-  Calendar, MapPin, Mountain, Search, Sunrise, Users, X, Star,
-  ArrowRight, Terminal, Activity, Clock, Compass, Heart, Eye,
-  Footprints, Wind, Navigation, Zap, Filter, SlidersHorizontal
+  Calendar,
+  MapPin,
+  Mountain,
+  Search,
+  Sunrise,
+  Users,
+  X,
+  Star,
+  ArrowRight,
+  Terminal,
+  Activity,
+  Clock,
+  Compass,
+  Heart,
+  Eye,
+  Footprints,
+  Wind,
+  Navigation,
+  Zap,
+  Filter,
+  SlidersHorizontal,
 } from "lucide-react";
 import BookNowModal from "../components/modals/BookNowModal";
-import { selectAllTreks, fetchTreksAsync, fetchFilteredTreksAsync } from "../store/slices/trekSlice";
+import {
+  selectAllTreks,
+  fetchTreksAsync,
+  fetchFilteredTreksAsync,
+} from "../store/slices/trekSlice";
 import { openLoginModal } from "../store/slices/authSlice";
 import { toggleWishlistAsync } from "../store/slices/wishlistSlice";
 
@@ -36,8 +58,16 @@ const TrackPage = () => {
     const param = difficultyParam || categoryIdParam;
     if (param) {
       dispatch(fetchFilteredTreksAsync(param));
-      const standards = ["easy", "moderate", "challenging", "difficult", "extreme"];
-      setSelectedDifficulty(standards.includes(param?.toLowerCase()) ? param.toLowerCase() : "all");
+      const standards = [
+        "easy",
+        "moderate",
+        "challenging",
+        "difficult",
+        "extreme",
+      ];
+      setSelectedDifficulty(
+        standards.includes(param?.toLowerCase()) ? param.toLowerCase() : "all",
+      );
     } else if (status === "idle") {
       dispatch(fetchTreksAsync());
       setSelectedDifficulty("all");
@@ -51,7 +81,8 @@ const TrackPage = () => {
       trek.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       trek.location?.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesDifficulty =
-      selectedDifficulty === "all" || trek.difficulty?.toLowerCase() === selectedDifficulty;
+      selectedDifficulty === "all" ||
+      trek.difficulty?.toLowerCase() === selectedDifficulty;
     return matchesSearch && matchesDifficulty;
   });
 
@@ -62,34 +93,65 @@ const TrackPage = () => {
       dispatch(openLoginModal());
       return;
     }
-    dispatch(toggleWishlistAsync({ trekId: trek._id, isWishlisted: trek.isWishlisted }));
+    dispatch(
+      toggleWishlistAsync({
+        trekId: trek._id,
+        isWishlisted: trek.isWishlisted,
+      }),
+    );
   };
 
   const difficultyConfig = {
-    easy: { bg: "bg-emerald-100", text: "text-emerald-700", dot: "bg-emerald-500" },
-    moderate: { bg: "bg-amber-100", text: "text-amber-700", dot: "bg-amber-500" },
-    challenging: { bg: "bg-orange-100", text: "text-orange-700", dot: "bg-orange-500" },
+    easy: {
+      bg: "bg-emerald-100",
+      text: "text-emerald-700",
+      dot: "bg-emerald-500",
+    },
+    moderate: {
+      bg: "bg-amber-100",
+      text: "text-amber-700",
+      dot: "bg-amber-500",
+    },
+    challenging: {
+      bg: "bg-orange-100",
+      text: "text-orange-700",
+      dot: "bg-orange-500",
+    },
     difficult: { bg: "bg-red-100", text: "text-red-700", dot: "bg-red-500" },
-    extreme: { bg: "bg-purple-100", text: "text-purple-700", dot: "bg-purple-500" },
+    extreme: {
+      bg: "bg-purple-100",
+      text: "text-purple-700",
+      dot: "bg-purple-500",
+    },
   };
-  const getDiff = (d) => difficultyConfig[d?.toLowerCase()] || { bg: "bg-sky-100", text: "text-sky-700", dot: "bg-sky-500" };
+  const getDiff = (d) =>
+    difficultyConfig[d?.toLowerCase()] || {
+      bg: "bg-sky-100",
+      text: "text-sky-700",
+      dot: "bg-sky-500",
+    };
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return (
       <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-blue-50 flex flex-col items-center justify-center gap-5">
         <div className="relative w-20 h-20">
           <div className="w-20 h-20 border-4 border-sky-200 border-t-sky-500 rounded-full animate-spin" />
           <Mountain className="absolute inset-0 m-auto w-7 h-7 text-sky-400 animate-pulse" />
         </div>
-        <p className="text-sky-600 text-sm font-medium tracking-widest animate-pulse">Discovering expeditions...</p>
+        <p className="text-sky-600 text-sm font-medium tracking-widest animate-pulse">
+          Discovering expeditions...
+        </p>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-300 via-white to-blue-300 overflow-x-hidden">
-
-      <BookNowModal isOpen={isBookModalOpen} trekData={selectedTrek} onClose={() => setIsBookModalOpen(false)} />
+      <BookNowModal
+        isOpen={isBookModalOpen}
+        trekData={selectedTrek}
+        onClose={() => setIsBookModalOpen(false)}
+      />
 
       {/* ══════════ HERO (PRESERVED) ══════════ */}
       <section className="relative h-[45vh] min-h-[400px] flex items-center justify-center overflow-hidden">
@@ -100,14 +162,21 @@ const TrackPage = () => {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-sky-900/80 via-sky-900/60 to-sky-900/90" />
-          <div className="absolute inset-0 opacity-[0.05]"
-            style={{ backgroundImage: 'linear-gradient(to right, rgba(255,255,255,0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.2) 1px, transparent 1px)', backgroundSize: '50px 50px' }}
+          <div
+            className="absolute inset-0 opacity-[0.05]"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, rgba(255,255,255,0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.2) 1px, transparent 1px)",
+              backgroundSize: "50px 50px",
+            }}
           />
         </div>
         <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
           <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3 mb-8">
             <Terminal size={16} className="text-sky-300" />
-            <span className="text-sky-300 text-xs font-bold tracking-[0.3em] uppercase">MISSION ARCHIVE</span>
+            <span className="text-sky-300 text-xs font-bold tracking-[0.3em] uppercase">
+              MISSION ARCHIVE
+            </span>
           </div>
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
             Explore
@@ -116,7 +185,8 @@ const TrackPage = () => {
             </span>
           </h1>
           <p className="text-white/80 text-lg max-w-2xl mx-auto">
-            Access our curated expedition database and find the perfect trek for your next adventure.
+            Access our curated expedition database and find the perfect trek for
+            your next adventure.
           </p>
         </div>
       </section>
@@ -136,8 +206,10 @@ const TrackPage = () => {
                            placeholder:text-sky-400 focus:outline-none focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-100 transition-all"
               />
               {searchQuery && (
-                <button onClick={() => setSearchQuery("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center rounded-full bg-sky-200 text-sky-600 hover:bg-sky-300 transition-colors">
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center rounded-full bg-sky-200 text-sky-600 hover:bg-sky-300 transition-colors"
+                >
                   <X className="w-3 h-3" />
                 </button>
               )}
@@ -145,7 +217,8 @@ const TrackPage = () => {
 
             <div className="flex flex-wrap items-center gap-2">
               {["All", "Easy", "Moderate", "Difficult"].map((level) => {
-                const val = level.toLowerCase() === "all" ? "all" : level.toLowerCase();
+                const val =
+                  level.toLowerCase() === "all" ? "all" : level.toLowerCase();
                 const isActive = selectedDifficulty === val;
                 const cfg = getDiff(level);
                 return (
@@ -153,12 +226,17 @@ const TrackPage = () => {
                     key={level}
                     onClick={() => setSelectedDifficulty(val)}
                     className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wide transition-all duration-300
-                      ${isActive
-                        ? `${cfg.bg} ${cfg.text} shadow-sm scale-105 ring-2 ring-offset-1 ${cfg.text.replace('text', 'ring')}`
-                        : 'bg-white text-sky-600 border border-sky-200 hover:bg-sky-50 hover:border-sky-300'
+                      ${
+                        isActive
+                          ? `${cfg.bg} ${cfg.text} shadow-sm scale-105 ring-2 ring-offset-1 ${cfg.text.replace("text", "ring")}`
+                          : "bg-white text-sky-600 border border-sky-200 hover:bg-sky-50 hover:border-sky-300"
                       }`}
                   >
-                    {isActive && <span className={`inline-block w-1.5 h-1.5 rounded-full mr-1.5 ${cfg.dot}`} />}
+                    {isActive && (
+                      <span
+                        className={`inline-block w-1.5 h-1.5 rounded-full mr-1.5 ${cfg.dot}`}
+                      />
+                    )}
                     {level}
                   </button>
                 );
@@ -167,11 +245,19 @@ const TrackPage = () => {
 
             <div className="flex items-center gap-3 ml-auto">
               <span className="text-sky-600 text-sm font-medium hidden lg:block">
-                <span className="font-bold text-sky-800">{filteredTreks.length}</span> results
+                <span className="font-bold text-sky-800">
+                  {filteredTreks.length}
+                </span>{" "}
+                results
               </span>
               {(searchQuery || selectedDifficulty !== "all") && (
-                <button onClick={() => { setSearchQuery(""); setSelectedDifficulty("all"); }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-50 text-rose-600 text-xs font-bold border border-rose-200 hover:bg-rose-100 transition-colors">
+                <button
+                  onClick={() => {
+                    setSearchQuery("");
+                    setSelectedDifficulty("all");
+                  }}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-50 text-rose-600 text-xs font-bold border border-rose-200 hover:bg-rose-100 transition-colors"
+                >
                   <X className="w-3 h-3" /> Clear
                 </button>
               )}
@@ -183,9 +269,12 @@ const TrackPage = () => {
       <div className="max-w-7xl mx-auto px-6 pt-12 pb-6">
         <div>
           <h2 className="text-2xl font-bold text-sky-900">
-            {filteredTreks.length} {filteredTreks.length === 1 ? 'Expedition' : 'Expeditions'} Found
+            {filteredTreks.length}{" "}
+            {filteredTreks.length === 1 ? "Expedition" : "Expeditions"} Found
           </h2>
-          <p className="text-sky-600/70 text-sm mt-1">Pick your next mountain adventure</p>
+          <p className="text-sky-600/70 text-sm mt-1">
+            Pick your next mountain adventure
+          </p>
         </div>
       </div>
 
@@ -195,10 +284,20 @@ const TrackPage = () => {
             <div className="w-20 h-20 bg-sky-50 rounded-full flex items-center justify-center mx-auto mb-6">
               <Compass className="w-10 h-10 text-sky-300" />
             </div>
-            <h3 className="text-xl font-bold text-sky-900 mb-3">No Expeditions Found</h3>
-            <p className="text-sky-600/70 mb-8 max-w-sm mx-auto text-sm">Try adjusting your search or difficulty filter to find your perfect trek.</p>
-            <button onClick={() => { setSearchQuery(""); setSelectedDifficulty("all"); }}
-              className="px-8 py-4 bg-gradient-to-r from-sky-500 to-blue-500 text-white rounded-xl font-bold hover:from-sky-600 hover:to-blue-600 transition-all shadow-lg shadow-sky-200">
+            <h3 className="text-xl font-bold text-sky-900 mb-3">
+              No Expeditions Found
+            </h3>
+            <p className="text-sky-600/70 mb-8 max-w-sm mx-auto text-sm">
+              Try adjusting your search or difficulty filter to find your
+              perfect trek.
+            </p>
+            <button
+              onClick={() => {
+                setSearchQuery("");
+                setSelectedDifficulty("all");
+              }}
+              className="px-8 py-4 bg-gradient-to-r from-sky-500 to-blue-500 text-white rounded-xl font-bold hover:from-sky-600 hover:to-blue-600 transition-all shadow-lg shadow-sky-200"
+            >
               Reset Filters
             </button>
           </div>
@@ -212,13 +311,19 @@ const TrackPage = () => {
                   key={trek._id}
                   className="group bg-white rounded-xl overflow-hidden shadow-lg shadow-sky-100/60 border-4 border-sky-200
                              hover:shadow-2xl hover:shadow-sky-200/60 hover:-translate-y-2 transition-all duration-500"
-                  style={{ animation: `trackFadeUp 0.5s ease-out ${idx * 0.08}s both` }}
+                  style={{
+                    animation: `trackFadeUp 0.5s ease-out ${idx * 0.08}s both`,
+                  }}
                   onMouseEnter={() => setHoveredCard(trek._id)}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
                   <div className="relative h-[350px] overflow-hidden">
                     <img
-                      src={trek.image?.cdnUrl || trek.image || "https://images.unsplash.com/photo-1551632811-561732d1e306"}
+                      src={
+                        trek.image?.cdnUrl ||
+                        trek.image ||
+                        "https://images.unsplash.com/photo-1551632811-561732d1e306"
+                      }
                       alt={trek.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
@@ -230,26 +335,18 @@ const TrackPage = () => {
                                  bg-white/90 backdrop-blur-sm shadow-lg border border-white/50
                                  hover:bg-rose-50 hover:border-rose-200 transition-all duration-300 z-10"
                     >
-                      <Heart className={`w-4 h-4 transition-all duration-300 ${trek.isWishlisted ? 'fill-rose-500 text-rose-500' : 'text-sky-400'}`} />
+                      <Heart
+                        className={`w-4 h-4 transition-all duration-300 ${trek.isWishlisted ? "fill-rose-500 text-rose-500" : "text-sky-400"}`}
+                      />
                     </button>
 
                     <div className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-sm shadow-md">
-                      <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                      <span className="text-xs font-bold text-sky-900">{trek.rating || "0"}</span>
-                    </div>
-
-                    <div className="absolute bottom-4 left-4">
-                      <span className={`px-3 py-1.5 rounded-xl text-[11px] font-bold uppercase tracking-wide ${diff.bg} ${diff.text} shadow-sm`}>
+                      <span
+                        className={`px-3 py-1.5 rounded-xl text-[11px] font-bold uppercase tracking-wide ${diff.bg} ${diff.text} shadow-sm`}
+                      >
                         {trek.difficulty || "Moderate"}
                       </span>
                     </div>
-
-                    {trek.duration && (
-                      <div className="absolute bottom-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-sm text-xs font-bold text-sky-800 shadow-sm">
-                        <Clock className="w-3.5 h-3.5 text-sky-500" />
-                        {trek.duration}
-                      </div>
-                    )}
                   </div>
 
                   <div className="p-6">
@@ -264,22 +361,42 @@ const TrackPage = () => {
 
                     <div className="grid grid-cols-3 gap-2 mb-2">
                       {[
-                        { label: "Altitude", val: trek.altitude || "N/A", icon: Mountain },
-                        { label: "Group", val: trek.groupSize || "N/A", icon: Users },
-                        { label: "Season", val: trek.season || "YR", icon: Calendar },
+                        {
+                          label: "Altitude",
+                          val: trek.altitude || "N/A",
+                          icon: Mountain,
+                        },
+                        {
+                          label: "Group",
+                          val: trek.groupSize || "N/A",
+                          icon: Users,
+                        },
+                        {
+                          label: "Season",
+                          val: trek.season || "YR",
+                          icon: Calendar,
+                        },
                       ].map((s, i) => (
-                        <div key={i} className="bg-sky-50 rounded-xl p-3">
+                        <div key={i} className="bg-sky-50 rounded-xl p-2">
                           <s.icon className="w-4 h-4 text-sky-500 mb-1" />
-                          <div className="text-[10px] text-sky-500/70 uppercase">{s.label}</div>
-                          <div className="text-[11px] font-bold text-sky-800">{s.val}</div>
+                          <div className="text-[10px] text-sky-500/70 uppercase">
+                            {s.label}
+                          </div>
+                          <div className="text-[11px] font-bold text-sky-800">
+                            {s.val}
+                          </div>
                         </div>
                       ))}
                     </div>
 
-                    <div className="flex items-center justify-between pt-4 border-t border-sky-100">
-                      <div>
-                        <div className="text-[10px] text-sky-500 uppercase tracking-wider mb-0.5">Starting from</div>
-                        <div className="text-xl font-bold text-sky-900">₹{trek?.feeDetails?.totalFee?.toLocaleString()}</div>
+                    <div className="flex items-center justify-between p-2 border-t border-sky-100">
+                      <div className="">
+                        <div className=" text-[10px] text-sky-500  uppercase tracking-wider mb-0.5">
+                          Starting from
+                        </div>
+                        <div className="text-xl font-bold text-sky-900">
+                          ₹{trek?.feeDetails?.totalFee?.toLocaleString()}
+                        </div>
                       </div>
                       <div className="flex gap-2">
                         <Link

@@ -1,20 +1,29 @@
 import Cookies from "js-cookie";
 import axiosInstance from "./axiosInstance";
 
-export const addToWishlist = async (trekId) => {
+export const addToWishlist = async ({ trekId, stayId }) => {
   const userId = Cookies.get("userId");
+
   const response = await axiosInstance.post(`/api/wishlist`, {
     userId,
-    trekId,
+    trekId: trekId || null,
+    stayId: stayId || null,
   });
+
   return response.data;
 };
 
-export const removeFromWishlist = async (trekId) => {
+export const removeFromWishlist = async ({ trekId, stayId }) => {
   const userId = Cookies.get("userId");
-  const response = await axiosInstance.delete(`/api/wishlist/${trekId}`, {
-    data: { userId, trekId },
+
+  const response = await axiosInstance.delete(`/api/wishlist`, {
+    data: {
+      userId,
+      trekId: trekId || null,
+      stayId: stayId || null,
+    },
   });
+
   return response.data;
 };
 

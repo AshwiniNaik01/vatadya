@@ -347,7 +347,7 @@ const TrekDetailPage = () => {
       </div>
 
       {/* ══ STICKY: Tab Navigation ══ */}
-      <div className="sticky top-30 lg:top-46 z-40 bg-slate-900/95 backdrop-blur-xl border-b border-blue-800/50 shadow-2xl">
+      <div className="sticky top-[150px]  z-40 bg-slate-900/95 backdrop-blur-xl border-b border-blue-800/50 shadow-2xl">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex gap-1 py-2.5 overflow-x-auto no-scrollbar">
             {tabs.map((tab) => {
@@ -359,10 +359,11 @@ const TrekDetailPage = () => {
                   onClick={() => scrollToTab(tab.id)}
                   className={`relative flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider
                         whitespace-nowrap transition-all duration-300 flex-shrink-0
-              ${isActive
-                      ? `bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg shadow-blue-600/30`
-                      : "text-white hover:bg-slate-800/70 hover:text-cyan-200 border border-blue-800/30"
-                    }`}
+              ${
+                isActive
+                  ? `bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg shadow-blue-600/30`
+                  : "text-white hover:bg-slate-800/70 hover:text-cyan-200 border border-blue-800/30"
+              }`}
                 >
                   <Icon
                     className={`w-4 h-4 ${isActive ? "text-white" : "text-cyan-400/60"}`}
@@ -400,73 +401,6 @@ const TrekDetailPage = () => {
             <div className="flex-1 h-px bg-gradient-to-r from-sky-100 via-sky-50 to-transparent hidden md:block mb-4" />
           </div>
 
-          {/* <div className="relative rounded-3xl overflow-hidden mb-8 shadow-2xl shadow-sky-200/50 group">
-            <img
-              src={heroImg}
-              alt={trek.title}
-              className="w-full h-[340px] object-cover group-hover:scale-105 transition-transform duration-1000"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-sky-900/90 via-sky-900/60 to-transparent" />
-
-            <div className="absolute inset-0 flex flex-col justify-end p-10 md:p-14">
-              <div className="max-w-xl">
-                <div className="flex flex-wrap gap-3 mb-5">
-                  <span
-                    className={`px-4 py-1.5 rounded-full text-xs font-bold ${diff.badge}`}
-                  >
-                    {diff.label}
-                  </span>
-                  <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-white/10 text-white/80 border border-white/20 backdrop-blur-sm">
-                    {trek.location}
-                  </span>
-                </div>
-                <h3 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-4">
-                  {trek.title}
-                </h3>
-                {trek.description && (
-                  <p className="text-white/60 text-sm leading-relaxed line-clamp-2 max-w-lg">
-                    {trek.description}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div className="absolute right-10 top-10 hidden lg:flex flex-col gap-3">
-              {[
-                {
-                  label: "Duration",
-                  val: trek.duration,
-                  icon: Clock,
-                  color: "text-sky-400",
-                },
-                {
-                  label: "Altitude",
-                  val: trek.altitude || "N/A",
-                  icon: Mountain,
-                  color: "text-emerald-400",
-                },
-              ].map((s, i) => {
-                const Icon = s.icon;
-                return (
-                  <div
-                    key={i}
-                    className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-2.5"
-                  >
-                    <Icon className={`w-4 h-4 ${s.color} flex-shrink-0`} />
-                    <div>
-                      <div className="text-xs text-blue-800 uppercase tracking-wider font-bold">
-                        {s.label}
-                      </div>
-                      <div className="text-white text-xs font-bold">
-                        {s.val}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div> */}
-
           {trek?.description && (
             <div className="mb-12">
               {/* Clean Header */}
@@ -480,7 +414,9 @@ const TrekDetailPage = () => {
               <div className="max-w-8xl mx-auto md:mx-0">
                 <div
                   className="text-gray-600 text-lg leading-relaxed mb-6 prose prose-sky max-w-none"
-                  dangerouslySetInnerHTML={{ __html: trek.description || "No description available." }}
+                  dangerouslySetInnerHTML={{
+                    __html: trek.description || "No description available.",
+                  }}
                 />
               </div>
 
@@ -523,88 +459,10 @@ const TrekDetailPage = () => {
 
             <MapCard location={trek?.location} />
 
-            {/* <div className="relative grid grid-cols-12 gap-1 mt-6">
-  {[
-    "January","February","March","April","May","June",
-    "July","August","September","October","November","December"
-  ].map((m, i) => {
-    const active = trek?.availableMonths?.includes(m);
-    return (
-      <div key={i} className="flex flex-col items-center gap-1.5">
-        <div
-          className={`w-full h-8 rounded-lg transition-all duration-500
-          ${
-            active
-              ? "bg-emerald-500 shadow-lg shadow-emerald-200 scale-y-110"
-              : "bg-sky-100"
-          }`}
-        ></div>
-        <span
-          className={`text-xs font-black ${
-            active ? "text-emerald-600" : "text-sky-300"
-          }`}
-        >
-          {m.slice(0,3)}
-        </span>
-      </div>
-    );
-  })}
-</div> */}
-
             <div>
               <AvailabilityCalendar trek={trek} />
             </div>
           </div>
-
-          {/* {trek?.description && (
-            <div className="bg-white rounded-3xl border border-sky-100 shadow-lg shadow-sky-100/40 overflow-hidden mb-10">
-              <div className="h-1.5 bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-400" />
-              <div className="grid md:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-sky-100">
-                <div className="md:col-span-3 p-10">
-                  <div className="flex items-center gap-3 mb-6">
-                    <Info className="w-5 h-5 text-sky-500" />
-                    <h3 className="font-semibold text-sky-900 text-lg">
-                      About This Trek
-                    </h3>
-                  </div>
-                  <div className="relative pl-6 border-l-4 border-sky-300 mb-6">
-                    <p className="text-sky-700/80 leading-relaxed text-[15px] italic">
-                      "{trek.description.substring(0, 140)}..."
-                    </p>
-                  </div>
-                  <p className="text-sky-700/70 leading-relaxed text-sm">
-                    {trek.description.substring(140)}
-                  </p>
-                </div>
-                <div className="md:col-span-2 p-10 bg-white/40">
-                  <div className="flex items-center gap-3 mb-7">
-                    <BadgeCheck className="w-6 h-6 text-emerald-500" />
-                    <h3 className="font-semibold text-sky-900 text-lg">
-                      Trek Highlights
-                    </h3>
-                  </div>
-                  <div className="space-y-3">
-                    {trek?.highlight?.length ? (
-                      trek.highlight.map((item, i) => (
-                        <div key={i} className="flex items-start gap-4 group">
-                          <div className="w-7 h-7 rounded-full bg-sky-100 flex items-center justify-center group-hover:bg-sky-500 transition-all">
-                            <CheckCircle className="w-4 h-4 text-sky-500 group-hover:text-white transition" />
-                          </div>
-                          <p className="text-sky-700 text-sm md:text-base">
-                            {item}
-                          </p>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-sky-400 text-sm">
-                        No highlights available
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )} */}
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
             <SelectorGroup title="Pickup Location" items={trek.pickup} />
@@ -612,7 +470,6 @@ const TrekDetailPage = () => {
             <SelectorGroup title="Suitable For" items={trek.suitableFor} />
             <SelectorGroup title="Accommodation" items={trek.accommodation} />
           </div>
-
         </section>
 
         <section ref={feesRef} id="fees" className="scroll-mt-[150px]">

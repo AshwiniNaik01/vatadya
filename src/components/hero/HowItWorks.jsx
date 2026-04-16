@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Target,
-  Cpu,
-  Map,
-  Mountain,
-  Flag,
-  Zap
-} from "lucide-react";
+import { Target, Cpu, Map, Mountain, Flag, Zap } from "lucide-react";
 import axiosInstance from "../../api/axiosInstance";
 
 const HowItWorks = () => {
@@ -21,7 +14,7 @@ const HowItWorks = () => {
     "from-cyan-400 to-blue-500",
     "from-indigo-400 to-purple-500",
     "from-pink-400 to-rose-500",
-    "from-emerald-400 to-teal-500"
+    "from-emerald-400 to-teal-500",
   ];
 
   useEffect(() => {
@@ -34,7 +27,7 @@ const HowItWorks = () => {
           // Set header title & description
           setHeader({
             title: result.data.title,
-            description: result.data.description
+            description: result.data.description,
           });
 
           // Map phases from backend
@@ -43,7 +36,7 @@ const HowItWorks = () => {
             title: phase.title,
             desc: phase.description,
             icon: icons[idx] || Target,
-            color: colors[idx] || "from-yellow-300 to-orange-400"
+            color: colors[idx] || "from-yellow-300 to-orange-400",
           }));
 
           setPhases(formattedPhases);
@@ -81,7 +74,7 @@ const HowItWorks = () => {
           style={{
             backgroundImage:
               "linear-gradient(#facc15 1px, transparent 1px), linear-gradient(90deg, #facc15 1px, transparent 1px)",
-            backgroundSize: "60px 60px"
+            backgroundSize: "60px 60px",
           }}
         />
 
@@ -92,10 +85,12 @@ const HowItWorks = () => {
       <div className="container mx-auto px-6 relative z-20">
         {/* ===== Header ===== */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-3 
+          <div
+            className="inline-flex items-center gap-3 
                           bg-white/10 backdrop-blur-sm 
                           border border-white/20 rounded-full 
-                          px-6 py-2 mb-6">
+                          px-6 py-2 mb-6"
+          >
             <Zap className="w-4 h-4 text-yellow-300 animate-pulse" />
             <span className="text-white text-xs font-bold tracking-widest">
               HOW WE WORK
@@ -123,7 +118,10 @@ const HowItWorks = () => {
           </h2>
 
           {header.description && (
-            <p className="text-white/70 max-w-2xl mx-auto">{header.description}</p>
+            <p
+              className="text-white/70 max-w-2xl mx-auto"
+              dangerouslySetInnerHTML={{ __html: header.description }}
+            ></p>
           )}
         </div>
 
@@ -139,9 +137,11 @@ const HowItWorks = () => {
                 onClick={() => setActiveStep(index)}
                 className={`group relative p-6 rounded-2xl 
                             backdrop-blur-md border transition-all duration-500
-                            ${isActive
-                              ? "bg-white/20 border-yellow-300 shadow-xl scale-105"
-                              : "bg-white/10 border-white/20 hover:bg-white/20"}`}
+                            ${
+                              isActive
+                                ? "bg-white/20 border-yellow-300 shadow-xl scale-105"
+                                : "bg-white/10 border-white/20 hover:bg-white/20"
+                            }`}
               >
                 {/* Gradient Glow */}
                 <div
@@ -157,9 +157,14 @@ const HowItWorks = () => {
                     <Icon className="w-8 h-8 text-white" />
                   </div>
 
-                  <h3 className="text-lg font-bold text-white mb-2">{step.title}</h3>
+                  <h3 className="text-lg font-bold text-white mb-2">
+                    {step.title}
+                  </h3>
 
-                  <p className="text-sm text-white/70 mb-4">{step.desc}</p>
+                  <p
+                    className="text-sm text-white/70 mb-4"
+                    dangerouslySetInnerHTML={{ __html: step.desc }}
+                  ></p>
 
                   <span className="text-xs font-bold text-yellow-300 tracking-widest">
                     PHASE {step.id}

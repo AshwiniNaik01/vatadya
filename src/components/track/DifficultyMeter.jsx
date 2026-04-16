@@ -1,171 +1,25 @@
-// import React from "react";
-
-// const DifficultyMeter = ({ trek }) => {
-//   // Difficulty mapping with blue shades
-// const difficultyMap = {
-//   Easy: { 
-//     pct: 25, 
-//     badge: "bg-green-100 text-green-700", 
-//     gradient: ["#22c55e", "#4ade80"] 
-//   },
-//   Moderate: { 
-//     pct: 55, 
-//     badge: "bg-yellow-100 text-yellow-700", 
-//     gradient: ["#facc15", "#f59e0b"] 
-//   },
-//   Difficult: { 
-//     pct: 85, 
-//     badge: "bg-red-100 text-red-700", 
-//     gradient: ["#ef4444", "#dc2626"] 
-//   },
-// };
-
-//   const diff = difficultyMap[trek?.difficulty] || {
-//     pct: 45,
-//     badge: "bg-blue-100 text-blue-700",
-//     color: "from-blue-400 to-blue-500",
-//     successRate: "85%",
-//   };
-
-//   // Calculate needle rotation (0° to 180°)
-//   const needleRotation = (diff.pct / 100) * 180;
-
-//   return (
-//     <div className="relative overflow-hidden bg-white rounded-2xl border-2 border-blue-800 shadow-lg p-6 group hover:shadow-xl transition-all duration-500">
-
-//       {/* Background Accent */}
-//       <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-blue-100/50 via-cyan-100/50 to-indigo-100/50 rounded-full blur-2xl -translate-y-16 translate-x-16 pointer-events-none group-hover:scale-110 transition-transform"></div>
-
-//       {/* Header */}
-//       <div className="relative flex items-center justify-between mb-6">
-//         <div>
-//           <h3 className="text-sm font-semibold text-gray-700">Difficulty Level</h3>
-//           <p className="text-xs text-gray-400 mt-0.5">Based on technical requirements</p>
-//         </div>
-//         <div className={`px-3 py-1.5 rounded-lg text-xs font-bold ${diff.badge}`}>
-//           {trek?.difficulty || "Moderate"}
-//         </div>
-//       </div>
-
-//       {/* Gauge Container */}
-//       <div className="relative flex justify-center py-4">
-//         {/* Semi-circle Gauge */}
-//         <div className="relative w-56 h-28">
-//           {/* SVG Gauge */}
-//           <svg viewBox="0 0 200 100" className="w-full h-full">
-//             {/* Background Arc */}
-//             <path
-//               d="M 20 80 A 70 70 0 0 1 180 80"
-//               fill="none"
-//               stroke="#EFF6FF" // blue-50
-//               strokeWidth="14"
-//               strokeLinecap="round"
-//             />
-
-//             {/* Colored Progress Arc */}
-//             <path
-//               d="M 20 80 A 70 70 0 0 1 180 80"
-//               fill="none"
-//               stroke={`url(#gradient-${trek?.difficulty || 'Moderate'})`}
-//               strokeWidth="14"
-//               strokeLinecap="round"
-//               strokeDasharray="219.8" // Circumference for half circle
-//               strokeDashoffset={219.8 - (219.8 * diff.pct) / 100}
-//               className="transition-all duration-1000 ease-out"
-//             />
-
-//             {/* Gradient Definition */}
-//             <defs>
-//            <linearGradient
-//   id={`gradient-${trek?.difficulty || "Moderate"}`}
-//   x1="0%"
-//   y1="0%"
-//   x2="100%"
-//   y2="0%"
-// >
-//   <stop offset="0%" stopColor={diff.gradient[0]} />
-//   <stop offset="100%" stopColor={diff.gradient[1]} />
-// </linearGradient>
-//             </defs>
-
-//             {/* Scale Markers */}
-//             {[0, 25, 50, 75, 100].map((marker, i) => {
-//               const angle = (marker / 100) * Math.PI;
-//               const x = 100 + 60 * Math.cos(angle - Math.PI/2);
-//               const y = 80 + 60 * Math.sin(angle - Math.PI/2);
-//               return (
-//                 <g key={i}>
-//                   <circle cx={x} cy={y} r="2" fill="#94A3B8" className="opacity-50" />
-//                 </g>
-//               );
-//             })}
-//           </svg>
-
-//           {/* Needle Container */}
-//           <div 
-//             className="absolute bottom-0 left-1/2 origin-bottom transition-transform duration-1000 ease-out"
-//             style={{ 
-//               transform: `translateX(-50%) rotate(${needleRotation - 90}deg)`,
-//               bottom: '0px',
-//               left: '50%'
-//             }}
-//           >
-//             {/* Needle */}
-//             <div className="relative w-0.5 h-20 bg-gray-800 rounded-full">
-//               <div className="absolute -top-1 -left-1 w-2.5 h-2.5 bg-gray-800 rounded-full"></div>
-//             </div>
-//           </div>
-
-//           {/* Center Pivot */}
-//           <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/3 w-5 h-5 bg-white border-2 border-gray-800 rounded-full shadow-md z-10"></div>
-
-//           {/* Percentage Display */}
-//           <div className="absolute inset-x-0 bottom-0 text-center mb-2">
-//             <span className="text-2xl font-bold text-gray-800">{diff.pct}%</span>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Scale Labels */}
-//      <div className="flex justify-between px-6 mt-4 text-xs">
-//   <span className="font-semibold text-green-600">Easy</span>
-//   <span className="font-semibold text-yellow-600">Moderate</span>
-//   <span className="font-semibold text-red-600">Difficult</span>
-// </div>
-
-//       {/* Stats Grid */}
-   
-
-//       {/* Subtle Bottom Accent */}
-//       <div className="absolute bottom-0 left-6 right-6 h-0.5 bg-gradient-to-r from-blue-200 via-cyan-200 to-indigo-200 rounded-full"></div>
-//     </div>
-//   );
-// };
-
-// export default DifficultyMeter;
-
 import React from "react";
 
 const DifficultyMeter = ({ trek }) => {
   // Difficulty mapping with green-yellow-red shades
   const difficultyMap = {
-    Easy: { 
-      pct: 20, 
-      badge: "bg-green-100 text-green-700", 
+    Easy: {
+      pct: 20,
+      badge: "bg-green-100 text-green-700",
       gradient: ["#22c55e", "#84cc16"], // green to light green
-      color: "text-green-600"
+      color: "text-green-600",
     },
-    Moderate: { 
-      pct: 50, 
-      badge: "bg-yellow-100 text-yellow-700", 
+    Moderate: {
+      pct: 50,
+      badge: "bg-yellow-100 text-yellow-700",
       gradient: ["#facc15", "#f59e0b"], // yellow to orange
-      color: "text-yellow-600"
+      color: "text-yellow-600",
     },
-    Difficult: { 
-      pct: 85, 
-      badge: "bg-red-100 text-red-700", 
+    Difficult: {
+      pct: 85,
+      badge: "bg-red-100 text-red-700",
       gradient: ["#ef4444", "#b91c1c"], // red to dark red
-      color: "text-red-600"
+      color: "text-red-600",
     },
   };
 
@@ -180,7 +34,7 @@ const DifficultyMeter = ({ trek }) => {
     return {
       easy: "#22c55e",
       moderate: "#facc15",
-      difficult: "#ef4444"
+      difficult: "#ef4444",
     };
   };
 
@@ -188,26 +42,25 @@ const DifficultyMeter = ({ trek }) => {
 
   return (
     <div className="relative overflow-hidden bg-white rounded-2xl border-2 border-blue-800 shadow-lg p-4 group hover:shadow-xl transition-all duration-500">
-
       {/* Background Accent */}
       <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-green-100/30 via-yellow-100/30 to-red-100/30 rounded-full blur-2xl -translate-y-16 translate-x-16 pointer-events-none group-hover:scale-110 transition-transform"></div>
 
       {/* Header */}
-{/* Header */}
-<div className="-mx-6 -mt-6 mb-6 bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 border-b border-blue-800 px-6 py-4 rounded-t-2xl flex items-center justify-between">
-  <div>
-    <h3 className="text-sm font-semibold text-white">Difficulty Level</h3>
-    <p className="text-xs text-blue-200 mt-0.5">
-      Based on technical requirements
-    </p>
-  </div>
+      {/* Header */}
+      <div className="-mx-6 -mt-6 mb-6 bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 border-b border-blue-800 px-6 py-4 rounded-t-2xl flex items-center justify-between">
+        <div>
+          <h3 className="text-sm font-semibold text-white">Difficulty Level</h3>
+          <p className="text-xs text-blue-200 mt-0.5">
+            Based on technical requirements
+          </p>
+        </div>
 
-  <div
-    className={`px-3 py-1.5 rounded-lg text-xs font-bold backdrop-blur-sm bg-white border border-white/20 ${diff.badge}`}
-  >
-    {trek?.difficulty || "Moderate"}
-  </div>
-</div>
+        <div
+          className={`px-3 py-1.5 rounded-lg text-xs font-bold backdrop-blur-sm bg-white border border-white/20 ${diff.badge}`}
+        >
+          {trek?.difficulty || "Moderate"}
+        </div>
+      </div>
 
       {/* Gauge Container */}
       <div className="relative flex justify-center py-2">
@@ -259,7 +112,7 @@ const DifficultyMeter = ({ trek }) => {
             <path
               d="M 20 80 A 70 70 0 0 1 180 80"
               fill="none"
-              stroke={`url(#gradient-${trek?.difficulty || 'Moderate'})`}
+              stroke={`url(#gradient-${trek?.difficulty || "Moderate"})`}
               strokeWidth="14"
               strokeLinecap="round"
               strokeDasharray="219.8"
@@ -290,12 +143,12 @@ const DifficultyMeter = ({ trek }) => {
           </svg>
 
           {/* Needle Container */}
-          <div 
+          <div
             className="absolute bottom-0 left-1/2 origin-bottom transition-transform duration-1000 ease-out z-2"
-            style={{ 
+            style={{
               transform: `translateX(-50%) rotate(${needleRotation - 90}deg)`,
-              bottom: '0px',
-              left: '50%'
+              bottom: "0px",
+              left: "50%",
             }}
           >
             {/* Needle */}
@@ -312,7 +165,9 @@ const DifficultyMeter = ({ trek }) => {
 
           {/* Percentage Display */}
           <div className="absolute inset-x-0 bottom-0 text-center mb-2">
-            <span className="text-2xl font-bold text-gray-800">{diff.pct}%</span>
+            <span className="text-2xl font-bold text-gray-800">
+              {diff.pct}%
+            </span>
           </div>
         </div>
       </div>
@@ -354,9 +209,15 @@ const DifficultyMeter = ({ trek }) => {
 
       {/* Zone Indicators */}
       <div className="flex gap-1 mt-4">
-        <div className={`h-1 flex-1 rounded-l-full ${diff.pct >= 20 ? 'bg-green-500' : 'bg-gray-200'}`}></div>
-        <div className={`h-1 flex-1 ${diff.pct >= 50 ? 'bg-yellow-500' : 'bg-gray-200'}`}></div>
-        <div className={`h-1 flex-1 rounded-r-full ${diff.pct >= 85  ? 'bg-red-500' : 'bg-gray-200'}`}></div>
+        <div
+          className={`h-1 flex-1 rounded-l-full ${diff.pct >= 20 ? "bg-green-500" : "bg-gray-200"}`}
+        ></div>
+        <div
+          className={`h-1 flex-1 ${diff.pct >= 50 ? "bg-yellow-500" : "bg-gray-200"}`}
+        ></div>
+        <div
+          className={`h-1 flex-1 rounded-r-full ${diff.pct >= 85 ? "bg-red-500" : "bg-gray-200"}`}
+        ></div>
       </div>
 
       {/* Subtle Bottom Accent */}

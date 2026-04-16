@@ -47,14 +47,6 @@ const Footer = () => {
     { name: "CONTACT", path: "/contact", icon: <Phone size={12} /> },
   ];
 
-  const resources = [
-    { name: "GEAR GUIDE", icon: <Shield size={12} /> },
-    { name: "SAFETY PROTOCOLS", icon: <Target size={12} /> },
-    { name: "BLOG", icon: <Activity size={12} /> },
-    { name: "FAQS", icon: <Radio size={12} /> },
-    { name: "TECH DOCS", icon: <Terminal size={12} /> },
-  ];
-
   const socialLinks = [
     {
       icon: Facebook,
@@ -136,7 +128,7 @@ const Footer = () => {
 
       <div className="container px-6 relative z-10  mx-auto max-w-7xl">
         {/* ===== Main Footer Content ===== */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-10 gap-8 mb-16">
           {/* Brand Section - ColSpan 4 */}
           <div className="lg:col-span-4 space-y-6">
             <Link to="/" className="flex items-center gap-4 group">
@@ -161,7 +153,7 @@ const Footer = () => {
                 </h2>
                 <div className="flex items-center gap-2 mt-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
-                  <p className="text-[8px] text-white/40 font-bold uppercase tracking-[0.3em]">
+                  <p className="text-[9px] text-white/60 font-bold uppercase tracking-[0.3em]">
                     {brand?.tagline}
                   </p>
                 </div>
@@ -233,36 +225,6 @@ const Footer = () => {
                       {link.name}
                     </span>
                   </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Resources - ColSpan 2 */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="flex items-center gap-3">
-              <Shield className="w-4 h-4 text-sky-400" />
-              <h3 className="text-xs font-bold text-white/80 uppercase tracking-[0.3em]">
-                RESOURCES
-              </h3>
-            </div>
-            <ul className="space-y-3">
-              {resources.map((item, idx) => (
-                <li key={idx}>
-                  <a
-                    href="#"
-                    className="group flex items-center gap-3 text-sm text-white/60 
-                               hover:text-white transition-all"
-                  >
-                    <span
-                      className="w-1.5 h-1.5 rounded-full bg-white/20 
-                                   group-hover:bg-sky-400 transition-all"
-                    />
-                    <span className="flex items-center gap-2">
-                      {item.icon}
-                      {item.name}
-                    </span>
-                  </a>
                 </li>
               ))}
             </ul>

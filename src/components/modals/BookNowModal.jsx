@@ -95,19 +95,6 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
     }
   }, [availableAddons]);
 
-  // Fallback to default logic if no addons in trekData
-  //   const addons = [];
-  //   if (bookingType === "Trek + Camping") {
-  //     addons.push({ name: "Couple Tent", price: 500 });
-  //   }
-  //   if (bookingType === "Trip") {
-  //     addons.push({ name: "Private Room", price: 1500 });
-  //   }
-  //   addons.push({ name: "Meals Package", price: 800 });
-  //   addons.push({ name: "Photography Package", price: 1200 });
-  //   return addons;
-  // }, [bookingType, trekData]);
-
   // Build default addons (all selected by default since totalFee includes them)
   const defaultAddons = useMemo(() => {
     return availableAddons.map((a) => ({ name: a.name, price: a.price }));
@@ -197,23 +184,6 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
     }
   };
 
-  // const handleAddonToggle = (addon) => {
-  //   setFormData((prev) => {
-  //     const exists = prev.addons.find((a) => a.name === addon.name);
-  //     if (exists) {
-  //       return {
-  //         ...prev,
-  //         addons: prev.addons.filter((a) => a.name !== addon.name),
-  //       };
-  //     } else {
-  //       return {
-  //         ...prev,
-  //         addons: [...prev.addons, { name: addon.name, price: addon.price }],
-  //       };
-  //     }
-  //   });
-  // };
-
   const handleAddonToggle = (addon) => {
     setFormData((prev) => {
       const exists = prev.addons.some((a) => a.id === addon._id);
@@ -299,6 +269,10 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
     if (!formData.bloodGroup) newErrors.bloodGroup = "Blood group is required";
     // if (!formData.alternativeContact.trim())
     //   newErrors.alternativeContact = "Alternative contact is required";
+
+    if (!formData.emergencyContactName.trim())
+      newErrors.emergencyContactName = "Emergency name is required";
+
     if (!formData.emergencyContact.trim())
       newErrors.emergencyContact = "Emergency contact is required";
     if (!formData.departureDate)
@@ -390,7 +364,8 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
 
   // Shared input className
   const inputCls = (hasError) =>
-    `w-full px-4 py-3 rounded-xl border text-gray-800 text-sm ${hasError ? "border-red-400 bg-red-50/50" : "border-gray-200"
+    `w-full px-4 py-3 rounded-xl border text-gray-800 text-sm ${
+      hasError ? "border-red-400 bg-red-50/50" : "border-gray-200"
     } focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400 shadow-sm hover:shadow-md transition-all bg-gray-50/80 focus:bg-white`;
 
   const selectCls = (hasError) =>
@@ -690,36 +665,6 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                         </p>
                       )}
                     </div>
-
-                    {/* Accommodation */}
-                    {/* {trekAccommodation.length > 0 && (
-                      <div className="space-y-4">
-                        <label className={labelCls}>Stay Preference <span className="text-red-400">*</span></label>
-                        <div className="grid gap-2">
-                          {trekAccommodation.map((stay, i) => (
-                            <label key={i} className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${formData.accommodation === stay ? "border-indigo-500 bg-indigo-50" : "border-gray-100 bg-gray-50/30 hover:bg-gray-50"}`}>
-                              <input type="radio" name="accommodation" value={stay} checked={formData.accommodation === stay} onChange={handleChange} className="w-4 h-4 text-indigo-600 focus:ring-indigo-500" />
-                              <span className="text-sm text-gray-700">{stay}</span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    )} */}
-
-                    {/* Suitable For */}
-                    {/* {trekSuitableFor.length > 0 && (
-                      <div className="space-y-4">
-                        <label className={labelCls}>Expedition Level <span className="text-red-400">*</span></label>
-                        <div className="grid gap-2">
-                          {trekSuitableFor.map((level, i) => (
-                            <label key={i} className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${formData.suitableFor === level ? "border-amber-500 bg-amber-50" : "border-gray-100 bg-gray-50/30 hover:bg-gray-50"}`}>
-                              <input type="radio" name="suitableFor" value={level} checked={formData.suitableFor === level} onChange={handleChange} className="w-4 h-4 text-amber-600 focus:ring-amber-500" />
-                              <span className="text-sm text-gray-700">{level}</span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    )} */}
                   </div>
                 </div>
 
@@ -784,15 +729,24 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                      <label className={labelCls}>Emergency Contact Name</label>
+                      <label className={labelCls}>
+                        Emergency Contact Name{" "}
+                        <span className="text-red-400">*</span>
+                      </label>
+
                       <input
                         type="text"
                         name="emergencyContactName"
                         value={formData.emergencyContactName}
                         onChange={handleChange}
                         placeholder="Contact person name"
-                        className={inputCls(false)}
+                        className={inputCls(errors.emergencyName)}
                       />
+                      {errors.emergencyContactName && (
+                        <p className="text-red-500 text-xs mt-1 ml-1">
+                          {errors.emergencyContactName}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label className={labelCls}>
@@ -958,9 +912,10 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                             type="button"
                             onClick={() => handleAddonToggle(addon)}
                             className={`relative flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-300 text-left group
-                              ${isSelected
-                                ? "border-purple-400 bg-purple-50 shadow-md shadow-purple-100"
-                                : "border-gray-200 bg-white hover:border-purple-200 hover:shadow-sm"
+                              ${
+                                isSelected
+                                  ? "border-purple-400 bg-purple-50 shadow-md shadow-purple-100"
+                                  : "border-gray-200 bg-white hover:border-purple-200 hover:shadow-sm"
                               }`}
                           >
                             <div
@@ -1016,15 +971,15 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                       </div>
                       {formData.additionalMembers.length <
                         requiredAdditionalMembers && (
-                          <button
-                            type="button"
-                            onClick={handleAddMember}
-                            className="flex items-center gap-2 px-4 py-2 bg-teal-50 text-teal-700 rounded-xl hover:bg-teal-100 transition-all text-sm font-semibold"
-                          >
-                            <Plus size={16} />
-                            Add Member
-                          </button>
-                        )}
+                        <button
+                          type="button"
+                          onClick={handleAddMember}
+                          className="flex items-center gap-2 px-4 py-2 bg-teal-50 text-teal-700 rounded-xl hover:bg-teal-100 transition-all text-sm font-semibold"
+                        >
+                          <Plus size={16} />
+                          Add Member
+                        </button>
+                      )}
                     </div>
 
                     {errors.additionalMembers && (
