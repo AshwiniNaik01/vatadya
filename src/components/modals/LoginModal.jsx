@@ -392,6 +392,7 @@ const LoginModal = ({ isOpen, onClose }) => {
       if (res.data?.token) {
         Cookies.set("token", res.data.token, { expires: 7 });
         Cookies.set("user", JSON.stringify(res.data.user), { expires: 7 });
+        Cookies.set("userId", res.data.user._id, { expires: 7 });
         dispatch(setUser(res.data.user));
         setSuccess("Login successful!");
         setTimeout(() => {

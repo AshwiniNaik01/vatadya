@@ -35,6 +35,7 @@ const WishlistPage = () => {
   const { isLoggedIn } = useSelector((state) => state.auth);
 
   const [sortBy, setSortBy] = useState("added");
+  const [activeTab, setActiveTab] = useState("trek");
 
   useEffect(() => {
     // Force a fetch when the page loads if logged in
@@ -167,7 +168,7 @@ const WishlistPage = () => {
               {wishlistData.length}
             </span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-sky-900 leading-tight mb-3">
+          <h1 className="text-4xl md:text-5xl font-bold text-sky-900 leading-tight mb-2">
             Saved{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 inline">
               Adventures
@@ -184,7 +185,7 @@ const WishlistPage = () => {
             return (
               <div
                 key={i}
-                className={`relative bg-white rounded-2xl border ${stat.border} shadow-md shadow-sky-100/60 p-5 overflow-hidden
+                className={`relative bg-white rounded-2xl border ${stat.border} shadow-md shadow-sky-100/60 p-3 overflow-hidden
                            hover:-translate-y-1 hover:shadow-xl hover:shadow-sky-200/50 transition-all duration-400 group`}
               >
                 <div
@@ -201,10 +202,10 @@ const WishlistPage = () => {
                     <div className="text-[10px] font-black text-sky-400 uppercase tracking-[0.3em] mb-1">
                       {stat.label}
                     </div>
-                    <div className={`text-3xl font-bold ${stat.text}`}>
+                    <div className={`text-xl font-bold ${stat.text}`}>
                       {stat.value}
                     </div>
-                    <div className="text-xs text-sky-500/60 mt-0.5">
+                    <div className="text-xs text-sky-500/70 mt-0.5">
                       {stat.desc}
                     </div>
                   </div>
@@ -212,6 +213,32 @@ const WishlistPage = () => {
               </div>
             );
           })}
+        </div>
+
+        <div className="flex justify-center items-center mb-3 mt-4">
+          <div className="border border-blue-300 bg-white rounded-lg flex overflow-hidden">
+            <button
+              onClick={() => setActiveTab("trek")}
+              className={`font-bold text-2xl px-10 py-2 transition-all duration-200 ${
+                activeTab === "trek"
+                  ? "bg-blue-500 text-white"
+                  : "text-blue-500 "
+              }`}
+            >
+              Trek
+            </button>
+
+            <button
+              onClick={() => setActiveTab("stay")}
+              className={`font-bold text-2xl px-10 py-2 transition-all duration-200 ${
+                activeTab === "stay"
+                  ? "bg-blue-500 text-white"
+                  : "text-blue-500 "
+              }`}
+            >
+              Stay
+            </button>
+          </div>
         </div>
 
         {wishlistStatus === "loading" && wishlistData.length === 0 ? (

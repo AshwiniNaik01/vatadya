@@ -54,6 +54,8 @@ const TrackPage = () => {
     setIsBookModalOpen(true);
   };
 
+  const { trekIds, stayIds } = useSelector((state) => state.wishlist);
+
   useEffect(() => {
     const param = difficultyParam || categoryIdParam;
     if (param) {
@@ -86,17 +88,33 @@ const TrackPage = () => {
     return matchesSearch && matchesDifficulty;
   });
 
-  const handleWishlist = (e, trek) => {
+  // const handleWishlist = (e, trek) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   if (!isLoggedIn) {
+  //     dispatch(openLoginModal());
+  //     return;
+  //   }
+  //   dispatch(
+  //     toggleWishlistAsync({
+  //       trekId: trek._id,
+  //       isWishlisted: trek.isWishlisted,
+  //     }),
+  //   );
+  // };
+
+  const handleWishlist = (e, item, type) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!isLoggedIn) {
-      dispatch(openLoginModal());
-      return;
-    }
+
     dispatch(
       toggleWishlistAsync({
-        trekId: trek._id,
-        isWishlisted: trek.isWishlisted,
+        trekId: type === "trek" ? item._id : null,
+        stayId: type === "stay" ? item._id : null,
+        isWishlisted:
+          type === "trek"
+            ? trekIds.includes(item._id)
+            : stayIds.includes(item._id),
       }),
     );
   };
@@ -330,7 +348,7 @@ const TrackPage = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-sky-900/60 via-transparent to-transparent" />
 
                     <button
-                      onClick={(e) => handleWishlist(e, trek)}
+                      onClick={(e) => handleWishlist(e, trek, "trek")}
                       className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-xl
                                  bg-white/90 backdrop-blur-sm shadow-lg border border-white/50
                                  hover:bg-rose-50 hover:border-rose-200 transition-all duration-300 z-10"

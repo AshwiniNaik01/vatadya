@@ -1,10 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  addToWishlist,
-  removeFromWishlist,
-  fetchWishlist,
-} from "../../api/wishlistApi";
+import { addToWishlist, fetchWishlist } from "../../api/wishlistApi";
 import { updateTrekWishlistStatus } from "./trekSlice";
+import Cookies from "js-cookie";
 
 // Fetch wishlist from backend
 export const fetchWishlistAsync = createAsyncThunk(
@@ -30,14 +27,21 @@ export const toggleWishlistAsync = createAsyncThunk(
     { dispatch, rejectWithValue },
   ) => {
     try {
-      if (isWishlisted) {
-        await removeFromWishlist({ trekId, stayId });
-      } else {
-        await addToWishlist({ trekId, stayId });
+      const userId = Cookies.get("userId");
+
+      if (!trekId && !stayId) {
+        return rejectWithValue("Invalid trekId/stryId");
       }
+
+      await addToWishlist({ trekId, stayId, userId });
+
       // Update trek state immediately for better UX
       dispatch(
-        updateTrekWishlistStatus({ trekId, isWishlisted: !isWishlisted }),
+        updateTrekWishlistStatus({
+          trekId,
+          stayId,
+          isWishlisted: !isWishlisted,
+        }),
       );
       return {
         trekId,
@@ -50,6 +54,8 @@ export const toggleWishlistAsync = createAsyncThunk(
     }
   },
 );
+
+console.log("UserId:", Cookies.get("userId"));
 
 const wishlistSlice = createSlice({
   name: "wishlist",
@@ -114,10 +120,14 @@ const wishlistSlice = createSlice({
               state.trekIds.push(trekId);
             }
 
+            const exists = state.items.some((i) => i.trek?._id === trekId);
+
             // ✅ add to items (instant UI)
-            state.items.push({
-              item: itemData,
-            });
+            if (!exists && itemData) {
+              state.items.push({
+                trek: itemData,
+              });
+            }
           } else {
             state.trekIds = state.trekIds.filter((id) => id !== trekId);
 
@@ -133,9 +143,13 @@ const wishlistSlice = createSlice({
               state.stayIds.push(stayId);
             }
 
-            state.items.push({
-              stay: itemData,
-            });
+            const exists = state.items.some((i) => i.stay?._id === stayId);
+
+            if (!exists && itemData) {
+              state.items.push({
+                stay: itemData,
+              });
+            }
           } else {
             state.stayIds = state.stayIds.filter((id) => id !== stayId);
 
