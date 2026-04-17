@@ -43,6 +43,7 @@ export const toggleWishlistAsync = createAsyncThunk(
           isWishlisted: !isWishlisted,
         }),
       );
+      dispatch(fetchWishlistAsync());
       return {
         trekId,
         stayId,
@@ -76,12 +77,12 @@ const wishlistSlice = createSlice({
         state.status = "succeeded";
         state.items = action.payload;
         state.trekIds = action.payload
-          .filter((item) => item.item)
+          .filter((item) => item.itemType === "Trek")
           .map((item) => item.item._id);
 
         state.stayIds = action.payload
-          .filter((item) => item.stay)
-          .map((item) => item.stay._id);
+          .filter((item) => item.itemType === "Stay")
+          .map((item) => item.item._id);
       })
       .addCase(fetchWishlistAsync.rejected, (state, action) => {
         state.status = "failed";
@@ -120,12 +121,13 @@ const wishlistSlice = createSlice({
               state.trekIds.push(trekId);
             }
 
-            const exists = state.items.some((i) => i.trek?._id === trekId);
+            const exists = state.items.some((i) => i.item?._id === trekId);
 
             // ✅ add to items (instant UI)
             if (!exists && itemData) {
               state.items.push({
-                trek: itemData,
+                itemType: "Trek",
+                item: itemData,
               });
             }
           } else {
@@ -143,17 +145,18 @@ const wishlistSlice = createSlice({
               state.stayIds.push(stayId);
             }
 
-            const exists = state.items.some((i) => i.stay?._id === stayId);
+            const exists = state.items.some((i) => i.item?._id === stayId);
 
             if (!exists && itemData) {
               state.items.push({
-                stay: itemData,
+                itemType: "Stay",
+                item: itemData,
               });
             }
           } else {
             state.stayIds = state.stayIds.filter((id) => id !== stayId);
 
-            state.items = state.items.filter((i) => i.stay?._id !== stayId);
+            state.items = state.items.filter((i) => i.item?._id !== stayId);
           }
         }
       });

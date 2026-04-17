@@ -369,8 +369,10 @@ const StayPage = () => {
 
     dispatch(
       toggleWishlistAsync({
-        stayId,
-        isWishlisted: isAlreadyLiked,
+        trekId: null,
+        stayId: stay._id,
+        isWishlisted: stay.isWishlisted,
+        trekData: stay, // 🔥 same variable used
       }),
     );
   };

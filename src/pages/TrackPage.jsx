@@ -107,6 +107,11 @@ const TrackPage = () => {
     e.preventDefault();
     e.stopPropagation();
 
+    if (!isLoggedIn) {
+      dispatch(openLoginModal());
+      return;
+    }
+
     dispatch(
       toggleWishlistAsync({
         trekId: type === "trek" ? item._id : null,
@@ -115,6 +120,7 @@ const TrackPage = () => {
           type === "trek"
             ? trekIds.includes(item._id)
             : stayIds.includes(item._id),
+        trekData: item, // 🔥 THIS FIXES YOUR ISSUE
       }),
     );
   };

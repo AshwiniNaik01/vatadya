@@ -41,6 +41,7 @@ const WishlistPage = () => {
     // Force a fetch when the page loads if logged in
     if (isLoggedIn) {
       dispatch(fetchWishlistAsync());
+      console.log("wishlist fetched");
     }
   }, [isLoggedIn, dispatch]);
 
@@ -51,13 +52,12 @@ const WishlistPage = () => {
 
   const wishlistData = wishlistItems
     .map((item) => {
-      if (item.item) {
-        return { ...item.item, type: "trek" };
-      }
-      if (item.stay) {
-        return { ...item.stay, type: "stay" };
-      }
-      return null;
+      if (!item.item) return null;
+
+      return {
+        ...item.item,
+        type: item.itemType?.toLowerCase(), // 🔥 "stay" or "trek"
+      };
     })
     .filter(Boolean);
 
@@ -70,14 +70,36 @@ const WishlistPage = () => {
     return 0;
   });
 
+  const filteredItems = sorteditems.filter((item) => item.type === activeTab);
+
+  // const removeItem = (item) => {
+  //   dispatch(
+  //     toggleWishlistAsync({
+  //       itemId: item.type === "trek" ? item._id : null,
+  //       stayId: item.type === "stay" ? item._id : null,
+  //       isWishlisted: false,
+  //     }),
+  //   );
+  // };
+
   const removeItem = (item) => {
-    dispatch(
-      toggleWishlistAsync({
-        itemId: item.type === "trek" ? item._id : null,
-        stayId: item.type === "stay" ? item._id : null,
-        isWishlisted: true,
-      }),
-    );
+    if (item.type === "trek") {
+      dispatch(
+        toggleWishlistAsync({
+          trekId: item._id,
+          stayId: null,
+          isWishlisted: false,
+        }),
+      );
+    } else if (item.type === "stay") {
+      dispatch(
+        toggleWishlistAsync({
+          itemId: null,
+          stayId: item._id,
+          isWishlisted: false,
+        }),
+      );
+    }
   };
 
   const totalValue = wishlistData.reduce(
@@ -267,7 +289,7 @@ const WishlistPage = () => {
                   </select>
                 </div>
                 <div className="text-sky-400 text-xs font-medium">
-                  Showing {wishlistData.length} saved items
+                  Showing {filteredItems.length} saved items
                 </div>
               </div>
             )}
@@ -307,7 +329,7 @@ const WishlistPage = () => {
               </div>
             ) : (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {sorteditems.map((item, idx) => (
+                {filteredItems.map((item, idx) => (
                   <div
                     key={item._id}
                     style={{
@@ -318,7 +340,7 @@ const WishlistPage = () => {
                   </div>
                 ))}
                 <Link
-                  to="/items"
+                  to={activeTab === "stay" ? "/stay" : "/treks"}
                   className="rounded-3xl border-2 border-dashed border-sky-200 bg-white/50 min-h-[480px] flex flex-col items-center justify-center gap-5 group
                              hover:border-sky-400 hover:bg-sky-50 transition-all duration-400 cursor-pointer"
                 >
