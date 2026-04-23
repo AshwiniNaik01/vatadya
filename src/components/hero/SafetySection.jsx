@@ -107,7 +107,7 @@ const SafetySection = () => {
         </div>
 
         {/* Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {protocols.map((item, index) => {
             // Dark gray shades for cards
             const cardShades = [
@@ -124,13 +124,13 @@ const SafetySection = () => {
                 className={`relative rounded-2xl overflow-hidden group shadow-xl ${bgClass}`}
               >
                 {/* Dark Overlay */}
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-all"></div>
+                {/* <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-all"></div> */}
 
                 {/* Left Accent Border */}
-                <div className="absolute left-0 top-0 h-full w-2 bg-gradient-to-b from-yellow-300 to-orange-400"></div>
+                {/* <div className="absolute left-0 top-0 h-full w-2 bg-gradient-to-b from-yellow-300 to-orange-400"></div> */}
 
                 {/* Content */}
-                <div className="relative z-10 p-8 text-white h-full flex flex-col justify-end">
+                {/* <div className="relative z-10 p-8 text-white h-full flex flex-col justify-end">
                   <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
                   <p
                     className="text-sm text-white/80 leading-relaxed"
@@ -140,7 +140,70 @@ const SafetySection = () => {
               </div>
             );
           })}
+        </div> */} 
+
+
+<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+
+  {protocols.map((item, index) => {
+
+    const colors = [
+      "from-sky-200 to-sky-100 border-sky-400",
+      "from-emerald-200 to-emerald-100 border-emerald-400",
+      "from-amber-100 to-amber-50 border-amber-300",
+      "from-indigo-100 to-indigo-50 border-indigo-300",
+      "from-rose-100 to-rose-50 border-rose-300",
+      "from-teal-100 to-teal-50 border-teal-300",
+    ];
+
+    const Icon = item.icon;
+
+    return (
+      <div
+        key={index}
+        className={`relative rounded-[50px_0px_50px_0px] border-4 bg-gradient-to-br ${colors[index % colors.length]} shadow-sm hover:shadow-md transition p-5`}
+      >
+
+        {/* TOP ROW: NUMBER + ICON */}
+        <div className="flex items-center gap-3 mb-4">
+
+          {/* NUMBER BADGE */}
+          <div className="relative -top-7.5 -left-4.5" >
+          <div className="w-15 h-15 rounded-full bg-white border-4 border-slate-800/30 flex items-center justify-center shadow-sm">
+            <span className="text-md font-bold text-slate-700">
+              {index + 1}
+            </span>
+          </div>
+          </div>
+
+          {/* ICON */}
+          {/* <div className="w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center">
+            {Icon && <Icon className="w-5 h-5 text-slate-700" />}
+          </div> */}
+
         </div>
+
+        {/* TITLE */}
+        <h3 className="text-sm font-semibold text-slate-800 mb-2">
+          {item.title}
+        </h3>
+
+        {/* DESCRIPTION */}
+        <p
+          className="text-xs text-slate-600 leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: item.desc }}
+        />
+
+        {/* SOFT BOTTOM ACCENT LINE */}
+        <div className="mt-4 h-[2px] w-full bg-white/60 rounded-full overflow-hidden">
+          <div className="h-full w-1/2 bg-gradient-to-r from-sky-400 to-emerald-400 opacity-40" />
+        </div>
+
+      </div>
+    );
+  })}
+
+</div>
       </div>
     </section>
   );

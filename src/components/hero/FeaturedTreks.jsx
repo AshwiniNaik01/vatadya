@@ -386,7 +386,7 @@ const Features = () => {
             <Activity className="w-4 h-4 text-sky-400 animate-pulse" />
           </div>
 
-          <h2 className="text-4xl md:text-6xl font-bold text-sky-900 leading-tight mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-sky-900 leading-tight mb-2">
             <span>{mainTitle?.split(" ")[0]} </span>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-600">
               {mainTitle?.split(" ").slice(1).join(" ")}
@@ -468,16 +468,17 @@ const Features = () => {
                       }}
                     />
 
-                    <div className="flex justify-center pt-4 border-t border-sky-100">
-                      <div className="text-center">
+                    <div className="flex flex-col justify-between pt-2 border-t border-sky-100">
+                      <div className="flex flex-row justify-between items-center">
+                        <div className="text-xs text-sky-500">
+                          {feature.statLabel}
+                        </div>
                         <div
                           className={`text-xl font-bold bg-gradient-to-r ${feature.color} bg-clip-text text-transparent`}
                         >
                           {feature.stats}
                         </div>
-                        <div className="text-xs text-sky-500">
-                          {feature.statLabel}
-                        </div>
+                        
                       </div>
                     </div>
 
