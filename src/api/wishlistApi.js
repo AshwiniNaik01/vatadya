@@ -13,19 +13,19 @@ export const addToWishlist = async ({ trekId, stayId }) => {
   return response.data;
 };
 
-export const removeFromWishlist = async ({ trekId, stayId }) => {
-  const userId = Cookies.get("userId");
+// export const removeFromWishlist = async ({ trekId, stayId }) => {
+//   const userId = Cookies.get("userId");
 
-  const response = await axiosInstance.delete(`/api/wishlist`, {
-    data: {
-      userId,
-      trekId: trekId || null,
-      stayId: stayId || null,
-    },
-  });
+//   const response = await axiosInstance.delete(`/api/wishlist`, {
+//     data: {
+//       userId,
+//       trekId: trekId || null,
+//       stayId: stayId || null,
+//     },
+//   });
 
-  return response.data;
-};
+//   return response.data;
+// };
 
 export const fetchWishlist = async () => {
   const userId = Cookies.get("userId");

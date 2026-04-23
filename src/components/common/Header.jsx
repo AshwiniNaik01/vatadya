@@ -1,4 +1,4 @@
-import { Heart, LogOut, User, Menu, X } from "lucide-react";
+import { Heart, LogOut, User, Menu, X, FileText, Package } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -74,21 +74,27 @@ const Header = () => {
       />
 
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 py-3 ${
           showSolidBackground
-            ? "bg-black/70 backdrop-blur-xl py-3 border-b border-white/10"
-            : "bg-black/80 py-4"
+            ? "bg-black/40 backdrop-blur-2xl border-b border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.6)]"
+            : "bg-transparent"
         }`}
       >
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-transparent pointer-events-none" />
         <div className="max-w-8xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-4">
-            <img
-              src="/vatadya_logo.png"
-              alt="VataDya Logo"
-              className="w-10 h-10 object-contain"
-            />
-            <h1 className="text-xl font-black text-white uppercase tracking-tighter">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="relative">
+              <div className="absolute inset-0 bg-yellow-400 blur-lg opacity-20 group-hover:opacity-40 transition"></div>
+
+              <img
+                src="/vatadya_logo.png"
+                alt="VataDya Logo"
+                className="relative w-12 h-12 object-contain rounded-xl drop-shadow-[0_0_10px_rgba(255,215,0,0.5)]"
+              />
+            </div>
+
+            <h1 className="text-xl animate-glow font-bold tracking-[0.1em] text-white group-hover:text-white transition">
               VATADYA
             </h1>
           </Link>
@@ -99,13 +105,18 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`px-6 py-2 text-xs font-black uppercase tracking-[0.2em] transition-all duration-300 ${
+                className={`relative px-5 py-2 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 group ${
                   location.pathname === item.href
-                    ? "text-primary"
-                    : "text-white/80 hover:text-primary"
+                    ? "text-white bg-amber-700/90 rounded-full"
+                    : "text-white/60 hover:text-white"
                 }`}
               >
-                {item.name}
+                {/* {item.name} */}
+                <span className="relative z-10">{item.name}</span>
+
+                <div className="absolute inset-0 rounded-full bg-amber-600/90 scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+
+                <div className="absolute bottom-0 left-1/2 w-0 h-[1px] bg-gradient-to-r from-transparent via-yellow-400 to-transparent group-hover:w-full group-hover:left-0 transition-all duration-300"></div>
               </Link>
             ))}
           </nav>
@@ -120,32 +131,75 @@ const Header = () => {
                   dispatch(openLoginModal());
                 }
               }}
-              className="w-11 h-11 flex items-center justify-center rounded-lg border border-white/10 text-white hover:border-white/30 transition"
+              className="relative w-11 h-11 flex items-center justify-center rounded-xl bg-white/5 border-2 border-amber-700/80 backdrop-blur-md hover:bg-white/10 transition-all duration-300 group overflow-hidden"
             >
+              <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-transparent opacity-0 group-hover:opacity-100 transition "></div>
               <User className="w-5 h-5" />
             </button>
 
             {isUserMenuOpen && isLoggedIn && (
-              <div className="absolute right-0 mt-4 w-56 bg-black/70 backdrop-blur-xl border border-white/10 rounded-xl py-2 z-50 shadow-xl">
-                <button
-                  onClick={() => {
-                    navigate("/wishlist");
-                    setIsUserMenuOpen(false);
-                  }}
-                  className="w-full text-left px-5 py-3 text-xs font-black text-white hover:bg-white/5 hover:text-primary flex items-center justify-between uppercase tracking-[0.2em]"
+              <div className="absolute right-0 top-14 w-64 bg-black/80 backdrop-blur-xl border border-white/10 rounded-xl p-2 z-[999]">
+                {/* HEADER */}
+                {/* <div className="px-4 py-3 border-b border-white/10">
+      <p className="text-sm text-white font-medium">Welcome</p>
+    </div> */}
+
+                {/* PROFILE */}
+                {/* <button
+                  onClick={() => navigate("/profile")}
+                  className="group flex items-center justify-between w-full px-4 py-3 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition"
                 >
-                  WISHLIST
-                  <Heart className="w-4 h-4" />
+                  <div className="flex items-center gap-3">
+                    <User className="w-4 h-4 opacity-70 group-hover:opacity-100" />
+                    <span className="text-sm">Profile</span>
+                  </div>
+                </button> */}
+
+                {/* BOOKINGS */}
+                {/* <button
+                  onClick={() => navigate("/bookings")}
+                  className="group flex items-center justify-between w-full px-4 py-3 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <Package className="w-4 h-4 opacity-70 group-hover:opacity-100" />
+                    <span className="text-sm">Bookings</span>
+                  </div>
+                </button> */}
+
+                {/* WISHLIST */}
+                <button
+                  onClick={() => navigate("/wishlist")}
+                  className="group flex items-center justify-between w-full px-4 py-3 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <Heart className="w-4 h-4 opacity-70 group-hover:opacity-100" />
+                    <span className="text-sm">Wishlist</span>
+                  </div>
                 </button>
 
-                <div className="h-px bg-white/10 mx-4 my-1"></div>
+                {/* INVOICES */}
+                {/* <button
+                  onClick={() => navigate("/invoices")}
+                  className="group flex items-center justify-between w-full px-4 py-3 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <FileText className="w-4 h-4 opacity-70 group-hover:opacity-100" />
+                    <span className="text-sm">Invoices</span>
+                  </div>
+                </button> */}
 
+                {/* DIVIDER */}
+                <div className="h-px bg-white/10 my-2"></div>
+
+                {/* LOGOUT */}
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left px-5 py-3 text-xs font-black text-rose-200 hover:bg-red-500/10 hover:text-red-400 flex items-center justify-between uppercase tracking-[0.2em]"
+                  className="group flex items-center justify-between w-full px-4 py-3 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition"
                 >
-                  LOGOUT
-                  <LogOut className="w-4 h-4" />
+                  <div className="flex items-center gap-3">
+                    <LogOut className="w-4 h-4 opacity-80 group-hover:opacity-100" />
+                    <span className="text-sm">Logout</span>
+                  </div>
                 </button>
               </div>
             )}
@@ -172,7 +226,7 @@ const Header = () => {
               : "max-h-0 opacity-0 -translate-y-4"
           }`}
         >
-          <div className="mx-6 mt-4 bg-black/80 backdrop-blur-xl border border-white/10 rounded-xl p-6 flex flex-col gap-3">
+          <div className="mx-6 mt-4 bg-black/50 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 flex flex-col gap-3 shadow-[0_0_40px_rgba(0,0,0,0.6)]">
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -183,16 +237,6 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
-
-            <button
-              onClick={() => {
-                setIsMenuOpen(false);
-                setIsBookingModalOpen(true);
-              }}
-              className="w-full mt-4 py-4 bg-primary text-white font-bold rounded-lg uppercase tracking-wider"
-            >
-              INITIALIZE_DEPLOYMENT
-            </button>
           </div>
         </div>
       </header>

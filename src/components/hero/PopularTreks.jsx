@@ -314,12 +314,12 @@ const PopularTreks = () => {
       <div className="container mx-auto px-6 relative z-10">
         {/* ===== Header with 3D Tilt ===== */}
         <div
-          className="text-center mb-12 perspective-1000"
+          className="text-center mb-6 perspective-1000"
           style={{
             transform: `rotateX(${mousePosition.y * 0.2}deg) rotateY(${mousePosition.x * 0.2}deg)`,
           }}
         >
-          <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-sky-200 rounded-full px-5 py-2 mb-6 shadow-sm">
+          <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-sky-200 rounded-full px-5 py-2 mb-2 shadow-sm">
             <Sparkles className="w-4 h-4 text-sky-500" />
             <span className="text-sky-700 text-xs font-medium tracking-wide">
               POPULAR TREKS
@@ -328,8 +328,8 @@ const PopularTreks = () => {
 
           <h2
             className="flex flex-wrap items-center justify-center gap-4
-     text-5xl md:text-6xl font-black 
-     leading-none tracking-tight mb-6"
+     text-5xl md:text-6xl font-semibold 
+     leading-none tracking-tight mb-2"
           >
             <span className="text-white">Conquer</span>
 
@@ -344,118 +344,128 @@ const PopularTreks = () => {
         </div>
 
         {/* ===== Search & Filter Console ===== */}
-        <div className="max-w-5xl mx-auto mb-20">
-          {/* Search Bar */}
-          <div className="relative group mb-8 perspective-1000 shadow-lg">
-            <div
-              className="absolute -inset-1 bg-gradient-to-r from-sky-400/20 via-blue-400/20 to-indigo-400/20 
-                            rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            />
-            <div
-              className="relative bg-white backdrop-blur-xl 
-                            border border-sky-800/30 rounded-2xl
-                            p-2 flex items-center
-                            group-hover:border-sky-400/60 transition-all"
-            >
-              <div className="flex-1 flex items-center px-4">
-                <Search className="w-5 h-5 text-sky-800/60 group-hover:text-sky-900 transition-colors" />
-                <div className="flex-1 ml-4 relative h-12 overflow-hidden">
-                  <div
-                    className={`absolute inset-0 transition-transform duration-500 ease-in-out ${
-                      searchQuery
-                        ? "opacity-0 pointer-events-none"
-                        : "opacity-100"
-                    }`}
-                    style={{ transform: `translateY(-${activeIndex * 48}px)` }}
-                  >
-                    {placeholders.map((p, i) => (
-                      <div
-                        key={i}
-                        className="h-12 text-sky-900/40 flex items-center text-lg"
-                      >
-                        {p}
-                      </div>
-                    ))}
-                  </div>
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="absolute inset-0 w-full bg-transparent border-none 
-                               outline-none text-black text-lg placeholder-transparent
-                               focus:ring-0"
-                    placeholder=""
-                  />
-                </div>
-              </div>
-              <button
-                className="px-8 py-4 bg-gradient-to-r from-sky-500 to-blue-500 
-                                 text-white rounded-xl font-medium 
-                                 hover:from-sky-600 hover:to-blue-600 
-                                 transition-all shadow-lg shadow-sky-500/30
-                                 flex items-center gap-2 group/btn"
-              >
-                <span>SCAN</span>
-                <Zap className="w-4 h-4 group-hover/btn:rotate-12 transition-transform" />
-              </button>
-            </div>
-          </div>
+        {/* <div className="max-w-7xl mx-auto mb-8 flex flex-col gap-6">
 
-          {/* Filter Chips */}
-          <div className="flex flex-wrap justify-center gap-3">
-            {difficulties.map(({ name, label, icon: Icon, color }) => (
-              <button
-                key={name}
-                onClick={() => setSelectedDifficulty(name)}
-                className={`group relative px-6 py-3 rounded-xl font-medium 
-                           transition-all duration-300 overflow-hidden
-                           ${
-                             selectedDifficulty === name
-                               ? "bg-gradient-to-r from-sky-500 to-blue-500 text-white shadow-lg shadow-sky-500/30 scale-105"
-                               : "bg-white/5 text-white shadow-lg hover:text-white border border-sky-800 hover:border-sky-400/60"
-                           }`}
-              >
+  {/* TOP ROW: SEARCH + FILTERS */}
+  {/* <div className="flex flex-col lg:flex-row gap-6 items-center"> */}
+
+    {/* Search Bar */}
+    {/* <div className="relative group mb-0 flex-1 perspective-1000 shadow-lg w-full">
+      <div
+        className="absolute -inset-1 bg-gradient-to-r from-sky-400/20 via-blue-400/20 to-indigo-400/20 
+                      rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+      />
+
+      <div
+        className="relative bg-white backdrop-blur-xl 
+                      border border-sky-800/30 rounded-2xl p-1
+                      flex items-center
+                      group-hover:border-sky-400/60 transition-all"
+      >
+        <div className="flex-1 flex items-center px-4">
+          <Search className="w-5 h-5 text-sky-800/60 group-hover:text-sky-900 transition-colors" />
+
+          <div className="flex-1 ml-4 relative h-12 overflow-hidden">
+            <div
+              className={`absolute inset-0 transition-transform duration-500 ease-in-out ${
+                searchQuery ? "opacity-0 pointer-events-none" : "opacity-100"
+              }`}
+              style={{ transform: `translateY(-${activeIndex * 48}px)` }}
+            >
+              {placeholders.map((p, i) => (
                 <div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent 
-                                -translate-x-full group-hover:translate-x-full transition-transform duration-700"
-                />
-                <div className="relative flex items-center gap-2">
-                  <Icon className="w-4 h-4" />
-                  {label}
+                  key={i}
+                  className="h-12 text-sky-900/40 flex items-center text-lg"
+                >
+                  {p}
                 </div>
-              </button>
-            ))}
-          </div>
-
-          {/* Active Filters Display */}
-          {(searchQuery ||
-            selectedDifficulty !== "all" ||
-            selectedSeason !== "all") && (
-            <div
-              className="mt-8 flex items-center justify-between 
-                            pt-6 border-t border-sky-400/20"
-            >
-              <div className="flex items-center gap-3 text-sky-300">
-                <Activity className="w-4 h-4 animate-pulse" />
-                <span className="text-sm font-medium">
-                  {filteredTreks.length} expeditions match your criteria
-                </span>
-              </div>
-              <button
-                onClick={() => {
-                  setSearchQuery("");
-                  setSelectedDifficulty("all");
-                  setSelectedSeason("all");
-                }}
-                className="text-sm text-sky-400/60 hover:text-sky-400 
-                           transition-colors flex items-center gap-1
-                           px-4 py-2 rounded-full bg-white/5"
-              >
-                Clear filters
-              </button>
+              ))}
             </div>
-          )}
+
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="absolute inset-0 w-full bg-transparent border-none 
+                         outline-none text-black text-lg placeholder-transparent
+                         focus:ring-0"
+            />
+          </div>
         </div>
+
+        <button
+          className="px-8 py-2 bg-gradient-to-r from-sky-500 to-blue-500 
+                           text-white rounded-xl font-medium 
+                           hover:from-sky-600 hover:to-blue-600 
+                           transition-all shadow-lg shadow-sky-500/30
+                           flex items-center gap-2 group/btn"
+        >
+          <span>SCAN</span>
+          <Zap className="w-4 h-4 group-hover/btn:rotate-12 transition-transform" />
+        </button>
+      </div>
+    </div> */}
+
+    {/* Filter Chips */}
+    {/* <div className="flex flex-wrap justify-center gap-3 w-full lg:w-auto">
+
+      {difficulties.map(({ name, label, icon: Icon, color }) => (
+        <button
+          key={name}
+          onClick={() => setSelectedDifficulty(name)}
+          className={`group relative px-6 py-2 rounded-lg font-medium 
+                       transition-all duration-300 overflow-hidden
+                       ${
+                         selectedDifficulty === name
+                           ? "bg-gradient-to-r from-sky-500 to-blue-500 text-white shadow-lg shadow-sky-500/30 scale-105"
+                           : "bg-white/5 text-white shadow-lg hover:text-white border border-sky-800 hover:border-sky-400/60"
+                       }`}
+        >
+          <div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent 
+                          -translate-x-full group-hover:translate-x-full transition-transform duration-700"
+          />
+          <div className="relative flex items-center gap-2">
+            <Icon className="w-4 h-4" />
+            {label}
+          </div>
+        </button>
+      ))}
+
+    </div> */}
+
+  {/* </div> */}
+
+  {/* Active Filters Display (UNCHANGED) */}
+  {/* {(searchQuery ||
+    selectedDifficulty !== "all" ||
+    selectedSeason !== "all") && (
+    <div
+      className="mt-8 flex items-center justify-between 
+                    pt-6 border-t border-sky-400/20"
+    >
+      <div className="flex items-center gap-3 text-sky-300">
+        <Activity className="w-4 h-4 animate-pulse" />
+        <span className="text-sm font-medium">
+          {filteredTreks.length} expeditions match your criteria
+        </span>
+      </div>
+
+      <button
+        onClick={() => {
+          setSearchQuery("");
+          setSelectedDifficulty("all");
+          setSelectedSeason("all");
+        }}
+        className="text-sm text-sky-400/60 hover:text-sky-400 
+                   transition-colors flex items-center gap-1
+                   px-4 py-2 rounded-full bg-white/5"
+      >
+        Clear filters
+      </button>
+    </div>
+  )}
+</div> */}
 
         {/* ===== Cards Grid ===== */}
         {/* Dynamic Trek Grid */}
@@ -467,159 +477,182 @@ const PopularTreks = () => {
             </span>
           </div>
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 mx-auto max-w-7xl">
-            {filteredTreks.map((trek, idx) => {
-              const DifficultyIcon = getDifficultyIcon(trek.difficulty);
+         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-12 mx-auto max-w-7xl">
+  {filteredTreks.map((trek) => {
+    const DifficultyIcon = getDifficultyIcon(trek.difficulty);
 
-              return (
-                <div
-                  key={trek._id}
-                  className="relative h-[520px] group perspective-1000"
-                >
-                  {/* Cube Container */}
-                  <div className="relative w-full h-full transform-style-preserve-3d shadow-2xl rounded-3xl bg-transparent">
-                    {/* Card Faces Layered */}
-                    <div
-                      className="absolute inset-0 rounded-xl overflow-hidden border border-white/10
-                          bg-gradient-to-tr from-blue-500/10 via-purple-500/10 to-pink-500/10 
-                          shadow-[0_20px_50px_rgba(0,0,0,0.4)]"
-                    >
-                      {/* Main Image */}
-                      <img
-                        src={
-                          trek.image?.cdnUrl ||
-                          trek.image ||
-                          "https://upload.wikimedia.org/wikipedia/commons/c/c8/Altja_j%C3%B5gi_Lahemaal.jpg"
-                        }
-                        alt={trek.title}
-                        className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-1000 "
-                      />
+    return (
+      <div
+        key={trek._id}
+        className="group relative h-[500px]"
+      >
+        {/* CARD */}
+        <div
+          className="relative h-full rounded-lg overflow-hidden
+          bg-[#0B0F19] border-2 border-white/50
+          shadow-[0_25px_80px_rgba(0,0,0,0.6)]
+          transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]
+          group-hover:-translate-y-3 group-hover:shadow-[0_40px_120px_rgba(0,0,0,0.8)]"
+        >
 
-                      {/* Top Meta Floating Glass */}
-                      <div className="absolute top-6 left-6 z-20">
-                        <div
-                          className={`flex items-center gap-2 px-4 py-1.5 rounded-xl
-                              backdrop-blur-md bg-white/10 border border-white/20 text-white
-                              text-[10px] font-bold`}
-                        >
-                          <DifficultyIcon className="w-3 h-3 text-primary" />
-                          {trek.difficulty || "Moderate"}
-                        </div>
-                      </div>
-                      {/* Save Button */}
-                      <button
-                        onClick={(e) => handleWishlist(e, trek)}
-                        className={`absolute top-6 right-6 w-12 h-12 flex items-center justify-center
-                                rounded-xl border border-white/20 bg-white/5 transition-all duration-300
-                                ${trek.isWishlisted ? "text-pink-500 shadow-[0_0_15px_rgba(236,72,153,0.4)] border-pink-500/50" : "text-white/70 hover:text-pink-400"}
-                                hover:shadow-[0_0_10px_rgba(255,105,180,0.7)]`}
-                      >
-                        <Heart
-                          className={`w-5 h-5 ${trek.isWishlisted ? "fill-current" : ""}`}
-                        />
-                      </button>
+          {/* IMAGE */}
+          <img
+            src={
+              trek.image?.cdnUrl ||
+              trek.image ||
+              ""
+            }
+            alt={trek.title}
+            className="absolute inset-0 w-full h-full object-cover
+            scale-105 group-hover:scale-110 transition duration-[1200ms]"
+          />
 
-                      {/* Bottom Content */}
-                      <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col gap-4">
-                        {/* Title */}
-                        <h3
-                          className="text-3xl font-bold tracking-tight text-white
-               [text-shadow:0_0_4px_rgba(0,0,0,0.8),0_0_6px_rgba(0,0,0,0.8),0_0_8px_rgba(0,0,0,0.8)]"
-                        >
-                          {trek.title}
-                        </h3>
+          {/* DARK OVERLAY */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
-                        {/* Location */}
-                        <div className="flex items-center gap-2 text-white/80 text-sm drop-shadow-sm">
-                          <MapPin className="w-4 h-4 text-primary" />
-                          {trek.location}
-                        </div>
+          {/* TOP BAR */}
+          <div className="absolute top-5 left-5 right-5 flex justify-between items-center z-20">
 
-                        {/* Price + Button */}
-                        <div className="flex items-center justify-between mt-2 backdrop-blur-md bg-black/50 border border-white/20 rounded-xl p-4 text-white">
-                          <div>
-                            <div className="text-[12px] text-white">
-                              Starting From
-                            </div>
-                            <div className="text-xl font-bold">
-                              ₹{trek?.feeDetails?.totalFee?.toLocaleString()}
-                              <span className="text-xs text-white ml-1">
-                                /person
-                              </span>
-                            </div>
-                          </div>
+            {/* Difficulty */}
+            <div
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full
+              bg-white/10 backdrop-blur-md border border-white/20
+              text-[10px] font-semibold text-white tracking-wide"
+            >
+              <DifficultyIcon className="w-3 h-3 text-amber-400" />
+              {trek.difficulty || "Unknown"}
+            </div>
 
-                          <div className="flex gap-3">
-                            <Link
-                              to={`/trek/${trek._id}`}
-                              className="w-12 h-12 flex items-center justify-center rounded-xl border border-black/20 bg-white/5 hover:bg-blue-400/20 transition-all"
-                            >
-                              <Eye className="w-5 h-5" />
-                            </Link>
-                            <button
-                              onClick={() => handleBookNow(trek)}
-                              className="px-4 py-3 rounded-xl border border-blue-400/30 bg-blue-500/10 hover:bg-blue-500 hover:text-white font-extrabold uppercase"
-                            >
-                              Book
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Neon Bottom Glow Line */}
-                      <div className="absolute bottom-0 left-0 w-full h-[4px] overflow-hidden">
-                        <div
-                          className="w-1/2 h-full bg-gradient-to-r from-transparent via-primary to-transparent 
-                              -translate-x-[200%] group-hover:translate-x-[250%] transition-transform duration-1000 ease-linear"
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+            {/* Wishlist */}
+            <button
+              onClick={(e) => handleWishlist(e, trek)}
+              className={`w-10 h-10 flex items-center justify-center rounded-full
+              backdrop-blur-md border border-white/20 transition-all duration-300
+              ${
+                trek.isWishlisted
+                  ? "bg-rose-500/20 text-rose-400 border-rose-400/40"
+                  : "bg-white/5 text-white/70 hover:text-rose-400 hover:bg-rose-500/10"
+              }`}
+            >
+              <Heart
+                className={`w-4 h-4 ${
+                  trek.isWishlisted ? "fill-current" : ""
+                }`}
+              />
+            </button>
           </div>
+
+          {/* CONTENT */}
+          <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col gap-4 z-20">
+
+            {/* TITLE */}
+            <h3 className="text-2xl font-semibold text-white leading-tight tracking-tight">
+              {trek.title}
+            </h3>
+
+            {/* LOCATION */}
+            <div className="flex items-center gap-2 text-white/70 text-sm">
+              <MapPin className="w-4 h-4 text-amber-400" />
+              {trek.location}
+            </div>
+
+            {/* INFO STRIP */}
+            <div className="flex items-center justify-between text-white/60 text-xs border-t border-white/10 pt-3">
+              <span>{trek.duration || "--"}</span>
+              <span>Group: {trek.groupSize || "--"}</span>
+              <span>{trek.altitude || "--"} ft</span>
+            </div>
+
+            {/* PRICE + CTA */}
+            <div
+              className="flex items-center justify-between mt-2
+              bg-white/[0.05] backdrop-blur-xl border border-white/10
+              rounded-xl px-4 py-3"
+            >
+              {/* PRICE */}
+              <div>
+                <p className="text-[10px] text-white/40 uppercase tracking-wider">
+                  Starting from
+                </p>
+
+                <p className="text-xl font-bold bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">
+                  ₹{trek?.feeDetails?.totalFee?.toLocaleString() || "--"}
+                </p>
+
+                <p className="text-[10px] text-white/40">
+                  per person
+                </p>
+              </div>
+
+              {/* ACTIONS */}
+              <div className="flex items-center gap-2">
+
+                {/* View */}
+                <Link
+                  to={`/trek/${trek._id}`}
+                  className="w-10 h-10 flex items-center justify-center rounded-full
+                  bg-white/5 border border-white/10 hover:bg-white/10 transition"
+                >
+                  <Eye className="w-4 h-4 text-white" />
+                </Link>
+
+                {/* BOOK BUTTON */}
+                <button
+                  onClick={() => handleBookNow(trek)}
+                  className="px-4 py-2 rounded-full
+                  bg-gradient-to-r from-amber-500 to-amber-600
+                  text-black text-xs font-semibold tracking-wide
+                  hover:scale-105 active:scale-95 transition-all duration-300"
+                >
+                  Book Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* PREMIUM HOVER LIGHT */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-700">
+            <div className="absolute -top-20 -right-20 w-72 h-72 bg-amber-400/10 blur-3xl rounded-full" />
+          </div>
+
+        </div>
+      </div>
+    );
+  })}
+</div>
         )}
         {/* ===== View All Link ===== */}
-        <div className="text-center mt-20">
-          <Link
-            to="/treks"
-            className="group inline-flex items-center gap-4
-                       px-10 py-5 bg-white/5 backdrop-blur-sm
-                       border border-sky-400/30 rounded-2xl
-                       hover:border-sky-400/60 hover:bg-white/10
-                       transition-all relative overflow-hidden"
-          >
-            <div
-              className="absolute inset-0 bg-gradient-to-r from-sky-500/20 to-blue-500/20 
-                            opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            />
-            <div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent 
-                            -translate-x-full group-hover:translate-x-full transition-transform duration-700"
-            />
+       <div className="text-center mt-5">
 
-            <span
-              onClick={() => navigate("/treks")}
-              className="relative text-lg font-medium text-white cursor-pointer"
-            >
-              Explore Full Expedition Archive
-            </span>
-            <div
-              className="relative w-12 h-12 rounded-full
-                            border-2 border-sky-400/30
-                            group-hover:border-sky-400
-                            flex items-center justify-center
-                            group-hover:scale-110 transition-all"
-            >
-              <Globe
-                className="w-5 h-5 text-sky-400 
-                                group-hover:rotate-180 
-                                transition-transform duration-700"
-              />
-            </div>
-          </Link>
-        </div>
+  <Link
+    to="/treks"
+    className="group inline-flex items-center gap-3
+    px-6 py-3 rounded-3xl
+    bg-white/5 backdrop-blur-md
+    border border-white/10
+    hover:border-amber-400/40 hover:bg-white/10
+    transition-all duration-500 relative overflow-hidden"
+  >
+
+    {/* soft glow */}
+    <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition duration-500" />
+
+    {/* shimmer line */}
+    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+    {/* text */}
+    <span className="relative text-sm font-medium text-white tracking-wide">
+      Explore Expedition Archive
+    </span>
+
+    {/* icon */}
+    <div className="relative w-9 h-9 rounded-full border border-white/15 flex items-center justify-center group-hover:border-amber-400/60 transition">
+      <Globe className="w-4 h-4 text-amber-400 group-hover:rotate-180 transition-transform duration-700" />
+    </div>
+
+  </Link>
+
+</div>
       </div>
 
       {/* ===== Custom Animations ===== */}

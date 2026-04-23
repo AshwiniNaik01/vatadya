@@ -63,10 +63,173 @@ const LoadingScreen = () => (
 /* ─────────────────────────────────────────
    Stay Card
 ───────────────────────────────────────── */
-const StayCard = ({ stay, index, liked, onToggleLike }) => {
+// const StayCard = ({ stay, index, liked, onToggleLike }) => {
+//   const dispatch = useDispatch();
+//   const dur = duration(stay);
+//   const guests = guestCount(stay);
+//   const isLiked = stayIds.includes(stay._id);
+
+//   const { trekIds, stayIds } = useSelector((state) => state.wishlist);
+
+//   const handleWishlist = (e, item, type) => {
+//     e.preventDefault();
+//     e.stopPropagation();
+
+//     dispatch(
+//       toggleWishlistAsync({
+//         trekId: type === "trek" ? item._id : null,
+//         stayId: type === "stay" ? item._id : null,
+//         isWishlisted:
+//           type === "stay"
+//             ? stayIds.includes(item._id)
+//             : trekIds.includes(item._id),
+//       }),
+//     );
+//   };
+
+//   return (
+//     <motion.div
+//       initial={{ opacity: 0, y: 28 }}
+//       animate={{ opacity: 1, y: 0 }}
+//       transition={{
+//         delay: index * 0.07,
+//         duration: 0.5,
+//         ease: [0.22, 1, 0.36, 1],
+//       }}
+//     >
+//       <Link to={`/stay/${stay._id}`} className="group block">
+//         {/* Image */}
+//         <div className="relative aspect-[4/3] rounded-[20px] overflow-hidden mb-5 bg-stone-100">
+//           <img
+//             src={
+//               stay.image?.cdnUrl ||
+//               stay.image ||
+//               "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80"
+//             }
+//             alt={stay.title}
+//             className="w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
+//           />
+
+//           {/* Dark overlay on hover */}
+//           <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0f]/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+//           {/* Top badges */}
+//           <div className="absolute top-3 left-3 flex gap-2 flex-wrap">
+//             <span
+//               className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-[8px] border border-white/20 backdrop-blur-sm"
+//               style={{ background: "rgba(45,106,79,0.85)", color: "#fff" }}
+//             >
+//               {stay.reg_type}
+//             </span>
+//             {stay.featured && (
+//               <span
+//                 className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-[8px] border border-white/20 backdrop-blur-sm"
+//                 style={{ background: "rgba(201,168,76,0.88)", color: "#fff" }}
+//               >
+//                 Featured
+//               </span>
+//             )}
+//           </div>
+
+//           {/* Wishlist */}
+//           <button
+//             onClick={(e) => handleWishlist(e, stay, "stay")}
+//             className="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center border border-white/60 opacity-90 hover:opacity-100  transition-all duration-200 hover:scale-110 active:scale-95"
+//             aria-label="Save to wishlist"
+//           >
+//             {/* <Heart
+//               className={`w-4 h-4 transition-all duration-300 ${stay.isWishlisted ? "fill-rose-500 text-rose-500" : "text-sky-400"} `}
+//             /> */}
+
+//             <Heart
+//               className={`w-4 h-4 transition-all duration-300 ${
+//                 isLiked ? "fill-rose-500 text-rose-500" : "text-sky-400"
+//               }`}
+//             />
+//           </button>
+
+//           {/* Private badge bottom left */}
+//           {stay.privateRoom && (
+//             <div className="absolute bottom-3 left-3 flex items-center gap-1 text-[9px] font-black text-emerald-600 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md uppercase tracking-wider">
+//               <Zap className="w-2.5 h-2.5" />
+//               Private
+//             </div>
+//           )}
+//         </div>
+
+//         {/* Card body */}
+//         <div className="px-1">
+//           <div className="flex items-start justify-between gap-3 mb-3">
+//             <div className="flex-1 min-w-0">
+//               {/* Location */}
+//               <div className="flex items-center gap-1 mb-1.5">
+//                 <MapPin className="w-3 h-3 text-[#52b788] flex-shrink-0" />
+//                 <span className="text-[10px] font-medium text-stone-400 uppercase tracking-wider truncate">
+//                   {stay.address?.city}, {stay.address?.state}
+//                 </span>
+//               </div>
+//               {/* Title */}
+//               <h3 className="text-base font-black text-[#0d0d0f] group-hover:text-[#2d6a4f] transition-colors duration-200 leading-tight tracking-tight">
+//                 {stay.title}
+//               </h3>
+//             </div>
+//             {/* Price */}
+//             <div className="text-right flex-shrink-0">
+//               <p className="text-[9px] font-medium text-stone-400 uppercase tracking-wider">
+//                 from
+//               </p>
+//               <p className="text-lg font-black text-[#2d6a4f] leading-tight">
+//                 ₹{stay.price?.toLocaleString() || 0}
+//               </p>
+//             </div>
+//           </div>
+
+//           {/* Divider */}
+//           <div className="h-px bg-stone-100 mb-3" />
+
+//           {/* Meta */}
+//           <div className="flex items-center justify-between">
+//             <div className="flex items-center gap-4">
+//               <div className="flex items-center gap-1.5 text-[10px] font-medium text-stone-400 uppercase tracking-wider">
+//                 <Users className="w-3.5 h-3.5 text-[#52b788]" />
+//                 {guests} guests
+//               </div>
+//             </div>
+//             <div className="w-7 h-7 rounded-full bg-gradient-to-r from-blue-500 to-teal-400 flex items-center justify-center  transition-all duration-300 group-hover:translate-x-1">
+//               <ArrowRight className="w-3 h-3 text-white" />
+//             </div>
+//           </div>
+//         </div>
+//       </Link>
+//     </motion.div>
+//   );
+// };
+
+const StayCard = ({ stay, index }) => {
+  const dispatch = useDispatch();
+
+  // ✅ Get wishlist state from Redux
+  const { stayIds } = useSelector((state) => state.wishlist);
+
+  // ✅ Check if current stay is liked
+  const isLiked = stayIds.includes(stay._id);
+
   const dur = duration(stay);
   const guests = guestCount(stay);
-  const isLiked = liked.has(stay._id);
+
+  // ✅ Handle wishlist toggle
+  const handleWishlist = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    dispatch(
+      toggleWishlistAsync({
+        trekId: null,
+        stayId: stay._id,
+        isWishlisted: isLiked,
+      }),
+    );
+  };
 
   return (
     <motion.div
@@ -91,7 +254,7 @@ const StayCard = ({ stay, index, liked, onToggleLike }) => {
             className="w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
           />
 
-          {/* Dark overlay on hover */}
+          {/* Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0f]/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
           {/* Top badges */}
@@ -102,6 +265,7 @@ const StayCard = ({ stay, index, liked, onToggleLike }) => {
             >
               {stay.reg_type}
             </span>
+
             {stay.featured && (
               <span
                 className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-[8px] border border-white/20 backdrop-blur-sm"
@@ -112,22 +276,22 @@ const StayCard = ({ stay, index, liked, onToggleLike }) => {
             )}
           </div>
 
-          {/* Wishlist */}
+          {/* ❤️ Wishlist Button */}
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              onToggleLike({ stayId: stay._id });
-            }}
-            className="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center border border-white/60 opacity-90 hover:opacity-100  transition-all duration-200 hover:scale-110 active:scale-95"
+            onClick={handleWishlist}
+            className="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center border border-white/60 opacity-90 hover:opacity-100 transition-all duration-200 hover:scale-110 active:scale-95"
             aria-label="Save to wishlist"
           >
             <Heart
-              className="w-3.5 h-3.5 transition-colors"
-              style={{ color: "#e05c5c", fill: isLiked ? "#e05c5c" : "none" }}
+              className={`w-4 h-4 transition-all duration-300 ${
+                isLiked
+                  ? "fill-rose-500 text-rose-500 scale-110"
+                  : "text-sky-400"
+              }`}
             />
           </button>
 
-          {/* Private badge bottom left */}
+          {/* Private badge */}
           {stay.privateRoom && (
             <div className="absolute bottom-3 left-3 flex items-center gap-1 text-[9px] font-black text-emerald-600 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md uppercase tracking-wider">
               <Zap className="w-2.5 h-2.5" />
@@ -142,22 +306,22 @@ const StayCard = ({ stay, index, liked, onToggleLike }) => {
             <div className="flex-1 min-w-0">
               {/* Location */}
               <div className="flex items-center gap-1 mb-1.5">
-                <MapPin className="w-3 h-3 text-[#52b788] flex-shrink-0" />
+                <MapPin className="w-3 h-3 text-[#52b788]" />
                 <span className="text-[10px] font-medium text-stone-400 uppercase tracking-wider truncate">
                   {stay.address?.city}, {stay.address?.state}
                 </span>
               </div>
+
               {/* Title */}
-              <h3 className="text-base font-black text-[#0d0d0f] group-hover:text-[#2d6a4f] transition-colors duration-200 leading-tight tracking-tight">
+              <h3 className="text-base font-black text-[#0d0d0f] group-hover:text-[#2d6a4f] transition-colors duration-200 leading-tight">
                 {stay.title}
               </h3>
             </div>
+
             {/* Price */}
-            <div className="text-right flex-shrink-0">
-              <p className="text-[9px] font-medium text-stone-400 uppercase tracking-wider">
-                from
-              </p>
-              <p className="text-lg font-black text-[#2d6a4f] leading-tight">
+            <div className="text-right">
+              <p className="text-[9px] text-stone-400 uppercase">from</p>
+              <p className="text-lg font-black text-[#2d6a4f]">
                 ₹{stay.price?.toLocaleString() || 0}
               </p>
             </div>
@@ -169,12 +333,13 @@ const StayCard = ({ stay, index, liked, onToggleLike }) => {
           {/* Meta */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-1.5 text-[10px] font-medium text-stone-400 uppercase tracking-wider">
+              <div className="flex items-center gap-1.5 text-[10px] text-stone-400 uppercase">
                 <Users className="w-3.5 h-3.5 text-[#52b788]" />
                 {guests} guests
               </div>
             </div>
-            <div className="w-7 h-7 rounded-full bg-gradient-to-r from-blue-500 to-teal-400 flex items-center justify-center  transition-all duration-300 group-hover:translate-x-1">
+
+            <div className="w-7 h-7 rounded-full bg-gradient-to-r from-blue-500 to-teal-400 flex items-center justify-center group-hover:translate-x-1 transition-all">
               <ArrowRight className="w-3 h-3 text-white" />
             </div>
           </div>
@@ -183,7 +348,6 @@ const StayCard = ({ stay, index, liked, onToggleLike }) => {
     </motion.div>
   );
 };
-
 /* ─────────────────────────────────────────
    Main Page
 ───────────────────────────────────────── */
@@ -205,8 +369,10 @@ const StayPage = () => {
 
     dispatch(
       toggleWishlistAsync({
-        stayId,
-        isWishlisted: isAlreadyLiked,
+        trekId: null,
+        stayId: stay._id,
+        isWishlisted: stay.isWishlisted,
+        trekData: stay, // 🔥 same variable used
       }),
     );
   };

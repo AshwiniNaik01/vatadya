@@ -120,6 +120,49 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
 
   const [errors, setErrors] = useState({});
 
+  const [couponCode, setCouponCode] = useState("");
+  const [couponLoading, setCouponLoading] = useState(false);
+  const [couponError, setCouponError] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+
+  const handleValidateCoupon = async () => {
+    if (!couponCode.trim()) {
+      setCouponError("Please enter a coupon code");
+      return;
+    }
+
+    setCouponLoading(true);
+    setCouponError("");
+
+    try {
+      const response = await axios.post(`${API_BASE_URL}/api/coupons/validate`, {
+        name: couponCode,
+        noOfBookings: Number(formData.numberOfPeople),
+        trekId: trekData?._id,
+      });
+
+      if (response.data.success) {
+        setAppliedCoupon(response.data.data);
+        setCouponError("");
+      } else {
+        setCouponError(response.data.message || "Invalid coupon code");
+        setAppliedCoupon(null);
+      }
+    } catch (error) {
+      setCouponError(
+        error.response?.data?.message || "Error validating coupon code"
+      );
+      setAppliedCoupon(null);
+    } finally {
+      setCouponLoading(false);
+    }
+  };
+
+  const removeCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponCode("");
+  };
+
   // --- Price Calculation ---
   const priceBreakdown = useMemo(() => {
     const numPeople = Number(formData.numberOfPeople) || 1;
@@ -129,13 +172,13 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
     // Total price of ALL available add-ons
     const allAddonsTotal = availableAddons.reduce(
       (sum, a) => sum + (a.price || 0) * numPeople,
-      0,
+      0
     );
 
     // Price of currently selected add-ons
     const selectedAddonsTotal = formData.addons.reduce(
       (sum, a) => sum + (a.price || 0) * numPeople,
-      0,
+      0
     );
 
     // Amount to subtract from the "full package" if items are deselected
@@ -144,10 +187,20 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
     const packageSubtotal = baseTotal;
     const subtotal = baseTotal + selectedAddonsTotal;
 
-    const discountAmount =
+    // Standard trek discount
+    const standardDiscountAmount =
       discountPercent > 0 ? Math.round((baseTotal * discountPercent) / 100) : 0;
 
-    const grandTotal = subtotal - discountAmount;
+    // Coupon discount
+    const couponDiscountPercent = appliedCoupon ? appliedCoupon.percentage : 0;
+    const couponDiscountAmount =
+      couponDiscountPercent > 0
+        ? Math.round((baseTotal * couponDiscountPercent) / 100)
+        : 0;
+
+    const totalDiscountAmount = standardDiscountAmount + couponDiscountAmount;
+
+    const grandTotal = subtotal - totalDiscountAmount;
 
     return {
       numPeople,
@@ -157,8 +210,11 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
       deductions,
       packageSubtotal,
       subtotal,
-      discountAmount,
+      standardDiscountAmount,
+      couponDiscountAmount,
+      totalDiscountAmount,
       grandTotal,
+      couponDiscountPercent,
     };
   }, [
     formData.numberOfPeople,
@@ -166,7 +222,12 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
     availableAddons,
     totalFee,
     discountPercent,
+    appliedCoupon,
   ]);
+
+  const totalAmount = useMemo(() => {
+    return priceBreakdown.grandTotal;
+  }, [priceBreakdown]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -238,21 +299,6 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
       additionalMembers: updatedMembers,
     }));
   };
-
-  const totalAmount = useMemo(() => {
-    const people = Number(formData.numberOfPeople) || 1;
-
-    // Base trek price (adjust key if needed)
-    const basePrice = trekData?.price || 0;
-
-    let total = basePrice * people;
-
-    const addonsTotal = formData.addons.reduce((sum, addon) => {
-      return sum + addon.price * people; // 🔥 multiply here
-    }, 0);
-
-    return total + addonsTotal;
-  }, [formData.numberOfPeople, formData.addons, trekData]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -1261,6 +1307,68 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                   </div>
                 )}
 
+                {/* ══════ SECTION: Coupon Code ══════ */}
+                <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-100">
+                  <div className="flex items-center gap-2.5 mb-4">
+                    <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+                      <Mountain className="w-4 h-4 text-blue-600" />
+                    </div>
+                    <h3 className="text-sm font-bold text-gray-800">
+                      Have a Coupon?
+                    </h3>
+                  </div>
+
+                  {!appliedCoupon ? (
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={couponCode}
+                        onChange={(e) =>
+                          setCouponCode(e.target.value.toUpperCase())
+                        }
+                        placeholder="Enter coupon code"
+                        className="flex-1 px-4 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleValidateCoupon}
+                        disabled={couponLoading}
+                        className="px-6 py-2 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 disabled:opacity-50 transition-all"
+                      >
+                        {couponLoading ? "..." : "Apply"}
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between bg-emerald-50 border border-emerald-200 p-3 rounded-xl">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center">
+                          <Check className="w-4 h-4 text-emerald-600" />
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-emerald-700 uppercase tracking-wider">
+                            {appliedCoupon.name} Applied!
+                          </p>
+                          <p className="text-[10px] text-emerald-600 font-medium">
+                            {appliedCoupon.percentage}% extra discount
+                          </p>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={removeCoupon}
+                        className="text-emerald-700 hover:text-red-500 p-1.5 transition-colors"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  )}
+                  {couponError && (
+                    <p className="text-red-500 text-[10px] mt-2 font-bold ml-1">
+                      {couponError}
+                    </p>
+                  )}
+                </div>
+
                 {/* ══════ PRICE BREAKDOWN ══════ */}
                 <div className="bg-gradient-to-br from-gray-50 to-blue-50/50 rounded-2xl border border-gray-200 p-6">
                   <div className="flex items-center gap-2.5 mb-5">
@@ -1308,13 +1416,27 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                       </div>
                     </div>
 
-                    {priceBreakdown.discountAmount > 0 && (
+                    {priceBreakdown.standardDiscountAmount > 0 && (
                       <div className="flex justify-between items-center text-sm">
                         <span className="text-emerald-600 font-medium">
-                          Coupon Discount ({discountPercent}%)
+                          Trek Discount ({discountPercent}%)
                         </span>
                         <span className="font-semibold text-emerald-600">
-                          - ₹{priceBreakdown.discountAmount.toLocaleString()}
+                          - ₹
+                          {priceBreakdown.standardDiscountAmount.toLocaleString()}
+                        </span>
+                      </div>
+                    )}
+
+                    {priceBreakdown.couponDiscountAmount > 0 && (
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-emerald-600 font-medium">
+                          Coupon Discount ({priceBreakdown.couponDiscountPercent}
+                          %)
+                        </span>
+                        <span className="font-semibold text-emerald-600">
+                          - ₹
+                          {priceBreakdown.couponDiscountAmount.toLocaleString()}
                         </span>
                       </div>
                     )}

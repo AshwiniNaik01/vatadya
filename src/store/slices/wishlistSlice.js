@@ -1,10 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  addToWishlist,
-  removeFromWishlist,
-  fetchWishlist,
-} from "../../api/wishlistApi";
+import { addToWishlist, fetchWishlist } from "../../api/wishlistApi";
 import { updateTrekWishlistStatus } from "./trekSlice";
+import Cookies from "js-cookie";
 
 // Fetch wishlist from backend
 export const fetchWishlistAsync = createAsyncThunk(
@@ -30,15 +27,23 @@ export const toggleWishlistAsync = createAsyncThunk(
     { dispatch, rejectWithValue },
   ) => {
     try {
-      if (isWishlisted) {
-        await removeFromWishlist({ trekId, stayId });
-      } else {
-        await addToWishlist({ trekId, stayId });
+      const userId = Cookies.get("userId");
+
+      if (!trekId && !stayId) {
+        return rejectWithValue("Invalid trekId/stryId");
       }
+
+      await addToWishlist({ trekId, stayId, userId });
+
       // Update trek state immediately for better UX
       dispatch(
-        updateTrekWishlistStatus({ trekId, isWishlisted: !isWishlisted }),
+        updateTrekWishlistStatus({
+          trekId,
+          stayId,
+          isWishlisted: !isWishlisted,
+        }),
       );
+      dispatch(fetchWishlistAsync());
       return {
         trekId,
         stayId,
@@ -50,6 +55,8 @@ export const toggleWishlistAsync = createAsyncThunk(
     }
   },
 );
+
+console.log("UserId:", Cookies.get("userId"));
 
 const wishlistSlice = createSlice({
   name: "wishlist",
@@ -70,12 +77,12 @@ const wishlistSlice = createSlice({
         state.status = "succeeded";
         state.items = action.payload;
         state.trekIds = action.payload
-          .filter((item) => item.item)
+          .filter((item) => item.itemType === "Trek")
           .map((item) => item.item._id);
 
         state.stayIds = action.payload
-          .filter((item) => item.stay)
-          .map((item) => item.stay._id);
+          .filter((item) => item.itemType === "Stay")
+          .map((item) => item.item._id);
       })
       .addCase(fetchWishlistAsync.rejected, (state, action) => {
         state.status = "failed";
@@ -114,10 +121,15 @@ const wishlistSlice = createSlice({
               state.trekIds.push(trekId);
             }
 
+            const exists = state.items.some((i) => i.item?._id === trekId);
+
             // ✅ add to items (instant UI)
-            state.items.push({
-              item: itemData,
-            });
+            if (!exists && itemData) {
+              state.items.push({
+                itemType: "Trek",
+                item: itemData,
+              });
+            }
           } else {
             state.trekIds = state.trekIds.filter((id) => id !== trekId);
 
@@ -133,13 +145,18 @@ const wishlistSlice = createSlice({
               state.stayIds.push(stayId);
             }
 
-            state.items.push({
-              stay: itemData,
-            });
+            const exists = state.items.some((i) => i.item?._id === stayId);
+
+            if (!exists && itemData) {
+              state.items.push({
+                itemType: "Stay",
+                item: itemData,
+              });
+            }
           } else {
             state.stayIds = state.stayIds.filter((id) => id !== stayId);
 
-            state.items = state.items.filter((i) => i.stay?._id !== stayId);
+            state.items = state.items.filter((i) => i.item?._id !== stayId);
           }
         }
       });
