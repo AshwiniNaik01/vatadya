@@ -84,7 +84,7 @@ const TrackReview = () => {
           <div className="max-w-xl">
             <div className="inline-flex items-center gap-4 bg-primary/5 border border-primary/20 rounded-sm px-4 py-2 mb-8 hud-corners">
               <Terminal size={14} className="text-primary" />
-              <span className="data-text text-primary text-[10px] font-black tracking-[0.4em]">INTEL_ARCHIVE_REPORTS</span>
+              <span className="data-text text-primary text-[10px] font-black tracking-[0.4em]">INTEL_REPORTS</span>
             </div>
             <h2 className="text-3xl md:text-6xl font-black text-white mb-6 uppercase tracking-tighter italic">
               After Action <span className="command-gradient">Debriefs</span>

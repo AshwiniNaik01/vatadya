@@ -585,7 +585,7 @@ const TrekDetailPage = () => {
                 <h2 className="text-4xl font-black text-sky-950 tracking-tight">
                   Visual{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-indigo-600">
-                    Archive
+                    Gallery
                   </span>
                 </h2>
               </div>

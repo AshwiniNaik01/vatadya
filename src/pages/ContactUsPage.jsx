@@ -113,46 +113,45 @@ const ContactUsPage = () => {
   const inputClass = (name) => `
     w-full px-5 py-4 rounded-xl text-sm text-sky-900 transition-all duration-300 outline-none resize-none
     placeholder:text-sky-300 border bg-sky-50/50
-    ${
-      focusedField === name
-        ? "border-sky-400 bg-white shadow-lg shadow-sky-100 ring-4 ring-sky-100"
-        : "border-sky-200 hover:border-sky-300"
+    ${focusedField === name
+      ? "border-sky-400 bg-white shadow-lg shadow-sky-100 ring-4 ring-sky-100"
+      : "border-sky-200 hover:border-sky-300"
     }
   `;
 
   const contactChannels = contactData
     ? [
-        {
-          icon: Phone,
-          label: "Call Us",
-          title: contactData.contactInfo?.callUs?.value,
-          sub: contactData.contactInfo?.callUs?.subValue,
-          color: "text-sky-600",
-          bg: "bg-sky-50",
-          border: "border-sky-100",
-          gradient: "from-sky-400 to-blue-500",
-        },
-        {
-          icon: Mail,
-          label: "Email Us",
-          title: contactData.contactInfo?.emailUs?.value,
-          sub: contactData.contactInfo?.emailUs?.subValue,
-          color: "text-emerald-600",
-          bg: "bg-emerald-50",
-          border: "border-emerald-100",
-          gradient: "from-emerald-400 to-teal-500",
-        },
-        {
-          icon: MapPin,
-          label: "Visit Us",
-          title: contactData.contactInfo?.visitUs?.value,
-          sub: contactData.contactInfo?.visitUs?.subValue,
-          color: "text-rose-600",
-          bg: "bg-rose-50",
-          border: "border-rose-100",
-          gradient: "from-rose-400 to-pink-500",
-        },
-      ]
+      {
+        icon: Phone,
+        label: "Call Us",
+        title: contactData.contactInfo?.callUs?.value,
+        sub: contactData.contactInfo?.callUs?.subValue,
+        color: "text-sky-600",
+        bg: "bg-sky-50",
+        border: "border-sky-100",
+        gradient: "from-sky-400 to-blue-500",
+      },
+      {
+        icon: Mail,
+        label: "Email Us",
+        title: contactData.contactInfo?.emailUs?.value,
+        sub: contactData.contactInfo?.emailUs?.subValue,
+        color: "text-emerald-600",
+        bg: "bg-emerald-50",
+        border: "border-emerald-100",
+        gradient: "from-emerald-400 to-teal-500",
+      },
+      {
+        icon: MapPin,
+        label: "Visit Us",
+        title: contactData.contactInfo?.visitUs?.value,
+        sub: contactData.contactInfo?.visitUs?.subValue,
+        color: "text-rose-600",
+        bg: "bg-rose-50",
+        border: "border-rose-100",
+        gradient: "from-rose-400 to-pink-500",
+      },
+    ]
     : [];
   console.log(contactData);
 
@@ -178,36 +177,84 @@ const ContactUsPage = () => {
 
         {/* ──────────── SCROLLING IMAGE STRIP ──────────── */}
         <div className="absolute bottom-0 left-0 w-full overflow-hidden pb-12 z-20">
-          {/* Gradient fade edges */}
-          <div className="absolute left-0 top-0 h-full w-20 bg-gradient-to-r from-slate-900 to-transparent z-30 pointer-events-none" />
-          <div className="absolute right-0 top-0 h-full w-20 bg-gradient-to-l from-slate-900 to-transparent z-30 pointer-events-none" />
 
-          {/* Scrolling container */}
+          {/* Soft edge fade (premium look) */}
+          {/* <div className="absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-slate-900 to-transparent z-30 pointer-events-none" />
+  <div className="absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-slate-900 to-transparent z-30 pointer-events-none" /> */}
+
+          {/* NAVIGATION BUTTONS */}
+          <button
+            onClick={() => gsap.to(elementsRef.current, { x: "+=200", duration: 0.6, ease: "power3.out" })}
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-40
+               bg-white/10 hover:bg-white/20 backdrop-blur-md
+               text-white p-3 rounded-full border border-white/20 shadow-xl"
+          >
+            ‹
+          </button>
+
+          <button
+            onClick={() => gsap.to(elementsRef.current, { x: "-=200", duration: 0.6, ease: "power3.out" })}
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-40
+               bg-white/10 hover:bg-white/20 backdrop-blur-md
+               text-white p-3 rounded-full border border-white/20 shadow-xl"
+          >
+            ›
+          </button>
+
+          {/* SCROLLING STRIP */}
           <div
             ref={(el) => (elementsRef.current = el)}
-            className="flex gap-6 md:gap-60 w-max pl-0 pr-6 md:px-20"
+            className="flex items-center gap-6 md:gap-20 w-max pl-12 pr-20 md:px-30"
             onMouseEnter={() => gsap.globalTimeline.pause()}
             onMouseLeave={() => gsap.globalTimeline.resume()}
           >
             {[
-              ...(contactData?.contactOtherImages || []).slice(0, 3),
-              ...(contactData?.contactOtherImages || []).slice(0, 3),
+              ...(contactData?.contactOtherImages || []).slice(0, 6),
+              ...(contactData?.contactOtherImages || []).slice(0, 6),
             ].map((img, i) => (
               <div
                 key={i}
-                className="relative w-40 md:w-56 aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl border-4 border-blue-200 flex-shrink-0"
+                className="group relative w-44 md:w-52 aspect-[3/4] flex-shrink-0
+                   rounded-2xl overflow-hidden
+                   border border-white/10
+                   bg-white/5 backdrop-blur-xl
+                   shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)]
+                   hover:scale-[1.05] transition-all duration-500"
               >
+
+                {/* IMAGE */}
                 <img
-                  src={img?.cdnUrl}
-                  className="w-full h-full object-cover"
-                  alt={`scroll-img-${i}`}
+                  src={img?.image?.cdnUrl}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  alt={`team-${i}`}
                 />
 
-                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/60 to-transparent">
-                  <span className="text-white text-[10px] font-bold uppercase tracking-widest">
-                    EXPEDITION
-                  </span>
+                {/* DARK PREMIUM OVERLAY */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+
+                {/* TOP GLOW EDGE */}
+                <div className="absolute inset-0 ring-1 ring-white/10 rounded-2xl" />
+
+                {/* CONTENT */}
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+
+                  {/* NAME */}
+                  <h3 className="text-white text-sm font-bold tracking-wide uppercase">
+                    {img?.name || `Team Member ${(i % 6) + 1}`}
+                  </h3>
+
+                  {/* ROLE / DESCRIPTION */}
+                  <p className="text-white/70 text-[11px] mt-1 leading-snug">
+                    {img?.description || "Professional team member"}
+                  </p>
+
+                  {/* DECOR LINE */}
+                  <div className="mt-3 h-[2px] w-10 bg-gradient-to-r from-blue-400 to-transparent rounded-full" />
                 </div>
+
+                {/* HOVER LIGHT GLOW */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-blue-500/10" />
+
               </div>
             ))}
           </div>
@@ -402,11 +449,10 @@ const ContactUsPage = () => {
               {submitStatus.message && (
                 <div
                   className={`mb-8 p-5 rounded-xl flex items-start gap-4 border text-sm font-semibold
-                  ${
-                    submitStatus.type === "success"
+                  ${submitStatus.type === "success"
                       ? "bg-emerald-50 border-emerald-200 text-emerald-700"
                       : "bg-rose-50 border-rose-200 text-rose-700"
-                  }`}
+                    }`}
                 >
                   {submitStatus.type === "success" ? (
                     <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
@@ -430,7 +476,7 @@ const ContactUsPage = () => {
                       onChange={handleChange}
                       onFocus={() => setFocusedField("name")}
                       onBlur={() => setFocusedField(null)}
-                      placeholder="John Doe"
+                      placeholder="Enter your full name"
                       required
                       className={inputClass("name")}
                     />
@@ -446,7 +492,7 @@ const ContactUsPage = () => {
                       onChange={handleChange}
                       onFocus={() => setFocusedField("email")}
                       onBlur={() => setFocusedField(null)}
-                      placeholder="john@example.com"
+                      placeholder="Enter your email address"
                       required
                       className={inputClass("email")}
                     />
@@ -464,7 +510,7 @@ const ContactUsPage = () => {
                     onChange={handleChange}
                     onFocus={() => setFocusedField("mobile_no")}
                     onBlur={() => setFocusedField(null)}
-                    placeholder="+91 90000 00000"
+                    placeholder="Enter your phone number"
                     required
                     className={inputClass("mobile_no")}
                   />
@@ -491,10 +537,9 @@ const ContactUsPage = () => {
                   type="submit"
                   disabled={isSubmitting}
                   className={`w-full py-4 rounded-xl font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all duration-300
-                    ${
-                      isSubmitting
-                        ? "bg-sky-100 text-sky-400 cursor-not-allowed"
-                        : "bg-gradient-to-r from-sky-500 to-blue-500 text-white hover:from-sky-600 hover:to-blue-600 hover:shadow-xl hover:shadow-sky-200 hover:-translate-y-0.5 group"
+                    ${isSubmitting
+                      ? "bg-sky-100 text-sky-400 cursor-not-allowed"
+                      : "bg-gradient-to-r from-sky-500 to-blue-500 text-white hover:from-sky-600 hover:to-blue-600 hover:shadow-xl hover:shadow-sky-200 hover:-translate-y-0.5 group"
                     }`}
                 >
                   {isSubmitting ? (

@@ -199,7 +199,7 @@ const TrackPage = () => {
           <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3 mb-8">
             <Terminal size={16} className="text-sky-300" />
             <span className="text-sky-300 text-xs font-bold tracking-[0.3em] uppercase">
-              MISSION ARCHIVE
+              MISSION LOGS
             </span>
           </div>
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
@@ -432,12 +432,16 @@ const TrackPage = () => {
                         </Link>
                         <button
                           onClick={() => handleBookNow(trek)}
-                          className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs text-white uppercase tracking-wide
-                                     bg-gradient-to-r from-sky-500 to-blue-500
-                                     hover:from-sky-600 hover:to-blue-600 hover:shadow-lg hover:shadow-sky-200 transition-all group/b"
+                          disabled={trek.status?.toLowerCase() === 'completed'}
+                          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs text-white uppercase tracking-wide
+                                     bg-gradient-to-r from-sky-500 to-blue-500 transition-all ${trek.status?.toLowerCase() === 'completed' ? 'opacity-50 cursor-not-allowed' : 'hover:from-sky-600 hover:to-blue-600 hover:shadow-lg hover:shadow-sky-200 group/b'}`}
                         >
-                          Book Now
-                          <ArrowRight className="w-3.5 h-3.5 group-hover/b:translate-x-0.5 transition-transform" />
+                          {trek.status?.toLowerCase() === 'completed' ? 'Completed' : (
+                            <>
+                              Book Now
+                              <ArrowRight className="w-3.5 h-3.5 group-hover/b:translate-x-0.5 transition-transform" />
+                            </>
+                          )}
                         </button>
                       </div>
                     </div>

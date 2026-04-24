@@ -168,7 +168,7 @@ const Testimonials = () => {
           <div className="inline-flex items-center gap-3 bg-sky-500/10 px-4 py-2 rounded-full mb-6">
             <ClipboardCheck className="w-4 h-4 text-sky-400" />
             <span className="text-xs text-sky-400 tracking-widest uppercase">
-              Mission Debrief Archive
+              Mission Debrief
             </span>
             <Sparkles className="w-4 h-4 text-sky-400 animate-pulse" />
           </div>
