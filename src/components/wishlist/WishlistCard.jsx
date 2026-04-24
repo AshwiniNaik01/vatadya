@@ -96,11 +96,13 @@ return (
           </div>
         </div>
 
-        <button className="bg-gradient-to-r from-amber-500 to-orange-500
+        <button 
+          disabled={trek.status?.toLowerCase() === 'completed'}
+          className={`bg-gradient-to-r from-amber-500 to-orange-500
                            hover:from-amber-600 hover:to-orange-600
                            text-white px-6 py-3 rounded-xl font-bold text-sm
-                           transition-all duration-300 shadow-lg hover:shadow-xl">
-          Book Now
+                           transition-all duration-300 shadow-lg hover:shadow-xl ${trek.status?.toLowerCase() === 'completed' ? 'opacity-50 cursor-not-allowed' : ''}`}>
+          {trek.status?.toLowerCase() === 'completed' ? 'Completed' : 'Book Now'}
         </button>
       </div>
     </div>

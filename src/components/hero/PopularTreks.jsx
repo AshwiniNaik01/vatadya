@@ -599,12 +599,13 @@ const PopularTreks = () => {
                 {/* BOOK BUTTON */}
                 <button
                   onClick={() => handleBookNow(trek)}
-                  className="px-4 py-2 rounded-full
+                  disabled={trek.status?.toLowerCase() === 'completed'}
+                  className={`px-4 py-2 rounded-full
                   bg-gradient-to-r from-amber-500 to-amber-600
                   text-black text-xs font-semibold tracking-wide
-                  hover:scale-105 active:scale-95 transition-all duration-300"
+                  transition-all duration-300 ${trek.status?.toLowerCase() === 'completed' ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
                 >
-                  Book Now
+                  {trek.status?.toLowerCase() === 'completed' ? 'Completed' : 'Book Now'}
                 </button>
               </div>
             </div>
@@ -642,7 +643,7 @@ const PopularTreks = () => {
 
     {/* text */}
     <span className="relative text-sm font-medium text-white tracking-wide">
-      Explore Expedition Archive
+      Explore Expeditions
     </span>
 
     {/* icon */}

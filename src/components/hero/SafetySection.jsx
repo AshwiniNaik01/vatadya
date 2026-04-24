@@ -165,7 +165,7 @@ const SafetySection = () => {
       >
 
         {/* TOP ROW: NUMBER + ICON */}
-        <div className="flex items-center gap-3 mb-4">
+        <div className="flex items-center gap-3 mb-2">
 
           {/* NUMBER BADGE */}
           <div className="relative -top-7.5 -left-4.5" >

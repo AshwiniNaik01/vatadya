@@ -60,12 +60,12 @@ const Footer = () => {
       label: "INSTAGRAM",
       color: "hover:text-pink-500",
     },
-    {
-      icon: Twitter,
-      href: socialLinksData?.twitter,
-      label: "TWITTER",
-      color: "hover:text-sky-400",
-    },
+    // {
+    //   icon: Twitter,
+    //   href: socialLinksData?.twitter,
+    //   label: "TWITTER",
+    //   color: "hover:text-sky-400",
+    // },
     {
       icon: Youtube,
       href: socialLinksData?.youtube,
@@ -232,12 +232,12 @@ const Footer = () => {
 
           {/* Contact & Newsletter - ColSpan 4 */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="flex items-center gap-3">
+            {/* <div className="flex items-center gap-3">
               <Radio className="w-4 h-4 text-sky-400 animate-pulse" />
               <h3 className="text-xs font-bold text-white/80 uppercase tracking-[0.3em]">
                 SIGNAL UPLINK
               </h3>
-            </div>
+            </div> */}
 
             {/* Contact Info */}
             <div className="space-y-4">
@@ -292,14 +292,14 @@ const Footer = () => {
                   <MapPin className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <div className="text-[8px] text-white/40 uppercase tracking-wider mb-1">
+                  <div className="text-sm text-white font-bold uppercase tracking-wider mb-1">
                     {contact?.address?.line1}
                     <br />
                   </div>
-                  <div className="text-sm text-white/80 leading-relaxed">
+                  <div className="text-[11px] text-white/80 leading-relaxed">
                     {contact?.address?.line2}
                     <br />
-                    <br />
+                    {/* <br /> */}
                     {contact?.address?.city}
                     <br />
                     {contact?.address?.country} -{contact?.address?.pincode}
@@ -329,7 +329,7 @@ const Footer = () => {
             </div>
 
             {/* Legal Links */}
-            <div className="flex flex-wrap justify-center gap-6">
+            {/* <div className="flex flex-wrap justify-center gap-6">
               {["PRIVACY", "TERMS", "COOKIES", "SITEMAP"].map((item) => (
                 <a
                   key={item}
@@ -339,7 +339,7 @@ const Footer = () => {
                   {item}
                 </a>
               ))}
-            </div>
+            </div> */}
 
             {/* Back to Top */}
             <button
@@ -359,14 +359,14 @@ const Footer = () => {
           </div>
 
           {/* Global Archive Indicator */}
-          <div className="flex justify-center mt-6 opacity-20">
+          {/* <div className="flex justify-center mt-6 opacity-20">
             <div className="flex items-center gap-2">
               <Globe className="w-4 h-4 animate-spin-slow" />
               <span className="text-[8px] uppercase tracking-widest text-white/40">
                 GLOBAL EXPEDITION ARCHIVE • {currentYear}
               </span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 

@@ -49,22 +49,12 @@ const TrekPageWithFees = ({ trek }) => {
   const inclusions =
     trek?.inclusions?.length > 0
       ? trek.inclusions
-      : [
-          "Expert certified mountain guides",
-          "All meals during the trek",
-          "Accommodation at campsites",
-          "Emergency first-aid & medical support",
-        ];
+      : [];
 
   const exclusions =
     trek?.exclusions?.length > 0
       ? trek.exclusions
-      : [
-          "Personal trekking gear & clothing",
-          "Travel insurance (recommended)",
-          "Travel to/from base camp",
-          "Personal expenses",
-        ];
+      : [];
 
   return (
     <div className="relative">

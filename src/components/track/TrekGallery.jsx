@@ -102,7 +102,7 @@ const TrekGallery = ({ trek }) => {
           >
             <Camera size={16} className="text-sky-400 animate-pulse" />
             <span className="text-sky-400 text-xs font-bold tracking-[0.3em] uppercase">
-              PHOTOGRAPHY ARCHIVE
+              PHOTOGRAPHY
             </span>
             <Sparkles size={14} className="text-sky-400 animate-sparkle" />
           </div>

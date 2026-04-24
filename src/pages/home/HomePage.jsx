@@ -118,9 +118,9 @@ const HomePage = () => {
         <SafetySection />
       </SectionWrapper>
 
-      <SectionWrapper minHeight="500px">
+      {/* <SectionWrapper minHeight="500px">
         <Testimonials />
-      </SectionWrapper>
+      </SectionWrapper> */}
 
       <SectionWrapper minHeight="400px">
         <FAQs />

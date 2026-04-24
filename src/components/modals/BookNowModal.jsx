@@ -514,6 +514,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                         name="whatsappNumber"
                         value={formData.whatsappNumber}
                         onChange={handleChange}
+                         maxLength={10}
                         placeholder="Enter your WhatsApp number"
                         className={inputCls(errors.whatsappNumber)}
                       />
@@ -804,6 +805,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                         name="emergencyContact"
                         value={formData.emergencyContact}
                         onChange={handleChange}
+                         maxLength={10}
                         placeholder="Emergency contact number"
                         className={inputCls(errors.emergencyContact)}
                       />
@@ -822,6 +824,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                         type="tel"
                         name="alternativeContact"
                         value={formData.alternativeContact}
+                         maxLength={10}
                         onChange={handleChange}
                         placeholder="Alternative contact number"
                         className={inputCls(errors.alternativeContact)}
@@ -1091,7 +1094,8 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                               <input
                                 type="tel"
                                 value={member.whatsappNumber || ""}
-                                placeholder="+91 98765 43210"
+                                 maxLength={10}
+                                placeholder="+91 00000 00000"
                                 onChange={(e) =>
                                   handleMemberChange(
                                     index,
@@ -1116,6 +1120,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                                 type="tel"
                                 value={member.contactNumber || ""}
                                 placeholder="Contact Number"
+                                  maxLength={10}
                                 onChange={(e) =>
                                   handleMemberChange(
                                     index,

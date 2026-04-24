@@ -134,18 +134,27 @@ const TrekIntroCard = ({ onBookNow, onWishlist, trek }) => {
               {/* Book Now Button */}
               <button
                 onClick={onBookNow}
-                className="group relative px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold text-sm overflow-hidden shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 transform hover:scale-105"
+                disabled={trek.status?.toLowerCase() === 'completed'}
+                className={`group relative px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold text-sm overflow-hidden shadow-lg transition-all duration-300 transform ${trek.status?.toLowerCase() === 'completed' ? 'opacity-50 cursor-not-allowed' : 'shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105'}`}
               >
-                <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
-                <div className="relative flex items-center gap-2.5">
-                  <span className="text-lg group-hover:rotate-12 transition-transform">
-                    🎒
-                  </span>
-                  <span className="tracking-wide">BOOK NOW</span>
-                  <span className="text-lg group-hover:translate-x-1 transition-transform">
-                    →
-                  </span>
-                </div>
+                {trek.status?.toLowerCase() === 'completed' ? (
+                  <div className="relative flex items-center gap-2.5">
+                    <span className="tracking-wide">COMPLETED</span>
+                  </div>
+                ) : (
+                  <>
+                    <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
+                    <div className="relative flex items-center gap-2.5">
+                      <span className="text-lg group-hover:rotate-12 transition-transform">
+                        🎒
+                      </span>
+                      <span className="tracking-wide">BOOK NOW</span>
+                      <span className="text-lg group-hover:translate-x-1 transition-transform">
+                        →
+                      </span>
+                    </div>
+                  </>
+                )}
               </button>
             </div>
           </div>

@@ -83,9 +83,9 @@ const TrekCategories = () => {
         <div className="mb-20 text-center md:text-left md:flex md:justify-between md:items-end">
           <div className="max-w-3xl mx-auto md:mx-0">
             <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border-2 border-sky-800/70 rounded-full px-5 py-2 mb-6 shadow-sm">
-              <Terminal size={14} className="text-sky-500" />
+              <Sparkles size={14} className="text-sky-500" />
               <span className="text-sky-700 text-xs font-medium tracking-wide">
-                SECTOR CATEGORIZATION
+                Mission
               </span>
             </div>
             <h2 className="text-4xl md:text-5xl font-light text-sky-900 mb-4 flex items-center gap-3 justify-center md:justify-start">

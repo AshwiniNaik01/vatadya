@@ -68,10 +68,10 @@ const TrekFeeSidebar = ({ trek }) => {
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 text-emerald-600 text-xs">
+          {/* <div className="flex items-center gap-1.5 text-emerald-600 text-xs">
             <ShieldCheck className="w-3.5 h-3.5" />
             <span className="font-medium">Includes GST & basic insurance</span>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -89,7 +89,7 @@ const TrekFeeSidebar = ({ trek }) => {
               label: "Insurance",
               value: trek.feeDetails?.insurance?.amount
                 ? `₹${trek.feeDetails.insurance.amount.toLocaleString()}`
-                : "Included",
+                : "Not Included",
               color: "emerald",
             },
             {
@@ -277,7 +277,7 @@ const TrekFeeSidebar = ({ trek }) => {
       </div>
 
       {/* ===== TREKKING TIP ===== */}
-      <div className="bg-slate-50 rounded-lg p-3 border border-slate-200 mt-4">
+      {/* <div className="bg-slate-50 rounded-lg p-3 border border-slate-200 mt-4">
         <div className="flex items-start gap-2">
           <div className="w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0 mt-0.5">
             <Compass className="w-3.5 h-3.5 text-amber-600" />
@@ -291,7 +291,7 @@ const TrekFeeSidebar = ({ trek }) => {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

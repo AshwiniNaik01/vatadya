@@ -111,7 +111,7 @@ const Gallery = () => {
           <Camera className="relative w-16 h-16 text-sky-400 animate-pulse" />
         </div>
         <p className="text-sky-400/80 text-sm font-light tracking-[0.3em] uppercase animate-pulse">
-          LOADING PHOTOGRAPHY ARCHIVE
+          LOADING PHOTOGRAPHY 
         </p>
       </div>
     );
@@ -195,7 +195,7 @@ const Gallery = () => {
                        transition-all shadow-lg shadow-sky-500/10"
           >
             <span className="text-white text-sm font-medium tracking-wide">
-              VIEW FULL ARCHIVE
+              VIEW FULL GALLERY
             </span>
             <ArrowRight
               size={16}
