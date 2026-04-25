@@ -370,6 +370,21 @@ const TrackPage = () => {
                       >
                         {trek.difficulty || "Moderate"}
                       </span>
+                      {trek.status && (
+                        <span
+                          className={`px-3 py-1.5 rounded-xl text-[11px] font-bold uppercase tracking-wide shadow-sm ${
+                            trek.status.toLowerCase() === 'completed'
+                              ? 'bg-rose-100 text-rose-700'
+                              : trek.status.toLowerCase() === 'upcoming'
+                              ? 'bg-emerald-100 text-emerald-700'
+                              : trek.status.toLowerCase() === 'ongoing'
+                              ? 'bg-amber-100 text-amber-700'
+                              : 'bg-blue-100 text-blue-700'
+                          }`}
+                        >
+                          {trek.status}
+                        </span>
+                      )}
                     </div>
                   </div>
 

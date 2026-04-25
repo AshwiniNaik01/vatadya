@@ -85,6 +85,21 @@ const TrekIntroCard = ({ onBookNow, onWishlist, trek }) => {
                 <h2 className="text-2xl font-bold text-gray-900 truncate hover:text-clip tracking-tight">
                   {trek.title}
                 </h2>
+                {trek.status && (
+                  <span
+                    className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border shadow-sm ${
+                      trek.status.toLowerCase() === 'completed'
+                        ? 'bg-rose-50 text-rose-600 border-rose-200'
+                        : trek.status.toLowerCase() === 'upcoming'
+                        ? 'bg-emerald-50 text-emerald-600 border-emerald-200'
+                        : trek.status.toLowerCase() === 'ongoing'
+                        ? 'bg-amber-50 text-amber-600 border-amber-200'
+                        : 'bg-blue-50 text-blue-600 border-blue-200'
+                    }`}
+                  >
+                    {trek.status}
+                  </span>
+                )}
               </div>
 
               <div className="flex items-center gap-5 text-sm text-gray-600 flex-wrap">

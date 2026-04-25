@@ -513,14 +513,33 @@ const PopularTreks = () => {
           {/* TOP BAR */}
           <div className="absolute top-5 left-5 right-5 flex justify-between items-center z-20">
 
-            {/* Difficulty */}
-            <div
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full
-              bg-white/10 backdrop-blur-md border border-white/20
-              text-[10px] font-semibold text-white tracking-wide"
-            >
-              <DifficultyIcon className="w-3 h-3 text-amber-400" />
-              {trek.difficulty || "Unknown"}
+            <div className="flex gap-2">
+              {/* Difficulty */}
+              <div
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full
+                bg-white/10 backdrop-blur-md border border-white/20
+                text-[10px] font-semibold text-white tracking-wide"
+              >
+                <DifficultyIcon className="w-3 h-3 text-amber-400" />
+                {trek.difficulty || "Unknown"}
+              </div>
+
+              {/* Status */}
+              {trek.status && (
+                <div
+                  className={`flex items-center px-3 py-1.5 rounded-full backdrop-blur-md border border-white/20 text-[10px] font-bold uppercase tracking-wide ${
+                    trek.status.toLowerCase() === 'completed' 
+                      ? 'bg-rose-500/80 text-white' 
+                      : trek.status.toLowerCase() === 'upcoming'
+                      ? 'bg-emerald-500/80 text-white'
+                      : trek.status.toLowerCase() === 'ongoing'
+                      ? 'bg-amber-500/80 text-white'
+                      : 'bg-blue-500/80 text-white'
+                  }`}
+                >
+                  {trek.status}
+                </div>
+              )}
             </div>
 
             {/* Wishlist */}
