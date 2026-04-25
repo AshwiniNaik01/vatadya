@@ -314,9 +314,26 @@ const UpcomingDepartures = () => {
                 {/* TOP */}
 
                 {/* TITLE */}
-                <h3 className="text-2xl lg:text-3xl font-semibold text-white leading-snug mb-2 tracking-tight z-10">
-                  {departures[activeSlide].title}
-                </h3>
+                <div className="flex items-center gap-3 mb-2 z-10 flex-wrap">
+                  <h3 className="text-2xl lg:text-3xl font-semibold text-white leading-snug tracking-tight">
+                    {departures[activeSlide].title}
+                  </h3>
+                  {departures[activeSlide].status && (
+                    <span
+                      className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border shadow-sm ${
+                        departures[activeSlide].status.toLowerCase() === 'completed'
+                          ? 'bg-rose-500/20 text-rose-300 border-rose-500/30'
+                          : departures[activeSlide].status.toLowerCase() === 'upcoming'
+                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+                          : departures[activeSlide].status.toLowerCase() === 'ongoing'
+                          ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
+                          : 'bg-blue-500/20 text-blue-300 border-blue-500/30'
+                      }`}
+                    >
+                      {departures[activeSlide].status}
+                    </span>
+                  )}
+                </div>
 
                 {/* LOCATION */}
                 <p className="text-xs text-white/50 mb-5 tracking-wide z-10">

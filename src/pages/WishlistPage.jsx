@@ -428,12 +428,27 @@ const WishlistitemCard = ({ item, onRemove }) => {
           </span>
         </div>
 
-        <div className="absolute bottom-4 left-4">
+        <div className="absolute bottom-4 left-4 flex items-center gap-1.5">
           <span
-            className={`px-3 py-1.5 rounded-xl text-[11px] font-bold uppercase tracking-wide ${diffConfig(item.difficulty)}`}
+            className={`px-3 py-1.5 rounded-xl text-[11px] font-bold uppercase tracking-wide ${diffConfig(item.difficulty)} shadow-sm`}
           >
             {item.difficulty || "Moderate"}
           </span>
+          {item.status && (
+            <span
+              className={`px-3 py-1.5 rounded-xl text-[11px] font-bold uppercase tracking-wide shadow-sm ${
+                item.status.toLowerCase() === 'completed'
+                  ? 'bg-rose-100 text-rose-700'
+                  : item.status.toLowerCase() === 'upcoming'
+                  ? 'bg-emerald-100 text-emerald-700'
+                  : item.status.toLowerCase() === 'ongoing'
+                  ? 'bg-amber-100 text-amber-700'
+                  : 'bg-blue-100 text-blue-700'
+              }`}
+            >
+              {item.status}
+            </span>
+          )}
         </div>
       </div>
 
