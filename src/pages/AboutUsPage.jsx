@@ -488,8 +488,8 @@ const AboutUsPage = () => {
             {/* Badge */}
             <div className="inline-flex items-center gap-3 bg-white/70 backdrop-blur-md border border-orange-200 rounded-full px-5 py-2 mb-8 shadow-sm">
               <Target className="w-4 h-4 text-orange-600" />
-              <span className="text-orange-900 text-[10px] font-black uppercase tracking-[0.3em]">
-                {aboutData.missionSection.title}
+              <span className="text-orange-900 text-[10px] font-black uppercase tracking-[0.3em]"
+                dangerouslySetInnerHTML={{ __html: aboutData?.missionSection?.title }}>
               </span>
             </div>
 
@@ -555,7 +555,7 @@ const AboutUsPage = () => {
               <img
                 src={
                   aboutData.missionSection.image?.cdnUrl ||
-                  "https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&q=80"
+                  ""
                 }
                 alt="Expedition Team"
                 className="w-full h-[520px] object-cover transition-transform duration-[2.5s] group-hover:scale-110"
@@ -632,27 +632,24 @@ const AboutUsPage = () => {
                 <div
                   key={item._id || i}
                   onClick={() => setActiveValue(isActive ? null : i)}
-                  className={`group bg-white rounded-3xl border shadow-lg p-8 text-center cursor-pointer transition-all duration-500 ${
-                    isActive
-                      ? `${item.border} shadow-orange-500/20 -translate-y-2 bg-orange-50`
-                      : "border-gray-50 hover:-translate-y-1 hover:shadow-2xl hover:border-gray-200"
-                  }`}
+                  className={`group bg-white rounded-3xl border shadow-lg p-8 text-center cursor-pointer transition-all duration-500 ${isActive
+                    ? `${item.border} shadow-orange-500/20 -translate-y-2 bg-orange-50`
+                    : "border-gray-50 hover:-translate-y-1 hover:shadow-2xl hover:border-gray-200"
+                    }`}
                 >
                   <div
-                    className={`w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 ${
-                      isActive
-                        ? "bg-slate-900 scale-110"
-                        : `${item.bg} group-hover:scale-110`
-                    }`}
+                    className={`w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 ${isActive
+                      ? "bg-slate-900 scale-110"
+                      : `${item.bg} group-hover:scale-110`
+                      }`}
                   >
                     <Icon
                       className={`w-6 h-6 ${isActive ? "text-white" : item.color} transition-colors`}
                     />
                   </div>
                   <h3
-                    className={`text-[10px] font-black uppercase tracking-widest transition-colors ${
-                      isActive ? "text-slate-900" : "text-slate-600"
-                    }`}
+                    className={`text-[10px] font-black uppercase tracking-widest transition-colors ${isActive ? "text-slate-900" : "text-slate-600"
+                      }`}
                   >
                     {item.title}
                   </h3>
