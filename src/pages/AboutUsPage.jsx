@@ -501,7 +501,7 @@ const AboutUsPage = () => {
                   : ""}
               </span>{" "}
               <span className="relative inline-block">
-                the
+
                 <span className="absolute -bottom-1 left-0 w-full h-[6px] bg-orange-300/40 rounded-full blur-sm"></span>
               </span>
               <br />
@@ -513,16 +513,16 @@ const AboutUsPage = () => {
             </h2>
 
             {/* Description */}
-            <p
+            {/* <p
               className="text-slate-700 text-lg leading-relaxed mb-3 font-medium"
               dangerouslySetInnerHTML={{
                 __html: aboutData.missionSection.description,
               }}
-            ></p>
+            ></p> */}
 
-            <p className="text-slate-500 text-sm leading-relaxed mb-6 max-w-md">
+            {/* <p className="text-slate-500 text-sm leading-relaxed mb-6 max-w-md">
               {aboutData.missionSection.subDescription}
-            </p>
+            </p> */}
 
             {/* CTA */}
             <div className="flex items-center gap-6">
