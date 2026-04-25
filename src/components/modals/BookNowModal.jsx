@@ -1332,7 +1332,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                           setCouponCode(e.target.value.toUpperCase())
                         }
                         placeholder="Enter coupon code"
-                        className="flex-1 px-4 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                        className="flex-1 px-4 py-2 rounded-xl text-blue-900 border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40"
                       />
                       <button
                         type="button"
