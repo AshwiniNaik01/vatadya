@@ -488,31 +488,28 @@ const AboutUsPage = () => {
             {/* Badge */}
             <div className="inline-flex items-center gap-3 bg-white/70 backdrop-blur-md border border-orange-200 rounded-full px-5 py-2 mb-8 shadow-sm">
               <Target className="w-4 h-4 text-orange-600" />
-              <span className="text-orange-900 text-[10px] font-black uppercase tracking-[0.3em]"
-                dangerouslySetInnerHTML={{ __html: aboutData?.missionSection?.title }}>
+              <span className="text-orange-900 text-[10px] font-black uppercase tracking-[0.3em]">
+                {aboutData.missionSection.title}
               </span>
             </div>
 
             {/* Heading */}
             <h2 className="text-4xl md:text-6xl font-black text-slate-950 leading-[1] tracking-tight mb-4">
-              {aboutData.missionSection.description
-                .split(" ")
-                .slice(0, 2)
-                .join(" ")}{" "}
+              <span>
+                {aboutData?.missionSection?.description
+                  ? aboutData.missionSection.description.replace(/<[^>]+>/g, '').split(" ").slice(0, 2).join(" ")
+                  : ""}
+              </span>{" "}
               <span className="relative inline-block">
                 the
                 <span className="absolute -bottom-1 left-0 w-full h-[6px] bg-orange-300/40 rounded-full blur-sm"></span>
               </span>
               <br />
-              <span
-                className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-500"
-                dangerouslySetInnerHTML={{
-                  __html: aboutData?.missionSection?.description
-                    .split(" ")
-                    .slice(2)
-                    .join(" "),
-                }}
-              />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-500">
+                {aboutData?.missionSection?.description
+                  ? aboutData.missionSection.description.replace(/<[^>]+>/g, '').split(" ").slice(2).join(" ")
+                  : ""}
+              </span>
             </h2>
 
             {/* Description */}
