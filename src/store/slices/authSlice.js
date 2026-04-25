@@ -1,11 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
+const getUserFromCookie = () => {
+  const userCookie = Cookies.get("user");
+  if (!userCookie || userCookie === "undefined") return null;
+  try {
+    return JSON.parse(userCookie);
+  } catch (e) {
+    return null;
+  }
+};
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     isLoggedIn: !!Cookies.get("token"),
-    user: Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null,
+    user: getUserFromCookie(),
     isLoginModalOpen: false,
   },
   reducers: {
