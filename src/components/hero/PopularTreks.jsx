@@ -347,10 +347,10 @@ const PopularTreks = () => {
         {/* <div className="max-w-7xl mx-auto mb-8 flex flex-col gap-6">
 
   {/* TOP ROW: SEARCH + FILTERS */}
-  {/* <div className="flex flex-col lg:flex-row gap-6 items-center"> */}
+        {/* <div className="flex flex-col lg:flex-row gap-6 items-center"> */}
 
-    {/* Search Bar */}
-    {/* <div className="relative group mb-0 flex-1 perspective-1000 shadow-lg w-full">
+        {/* Search Bar */}
+        {/* <div className="relative group mb-0 flex-1 perspective-1000 shadow-lg w-full">
       <div
         className="absolute -inset-1 bg-gradient-to-r from-sky-400/20 via-blue-400/20 to-indigo-400/20 
                       rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -406,8 +406,8 @@ const PopularTreks = () => {
       </div>
     </div> */}
 
-    {/* Filter Chips */}
-    {/* <div className="flex flex-wrap justify-center gap-3 w-full lg:w-auto">
+        {/* Filter Chips */}
+        {/* <div className="flex flex-wrap justify-center gap-3 w-full lg:w-auto">
 
       {difficulties.map(({ name, label, icon: Icon, color }) => (
         <button
@@ -434,10 +434,10 @@ const PopularTreks = () => {
 
     </div> */}
 
-  {/* </div> */}
+        {/* </div> */}
 
-  {/* Active Filters Display (UNCHANGED) */}
-  {/* {(searchQuery ||
+        {/* Active Filters Display (UNCHANGED) */}
+        {/* {(searchQuery ||
     selectedDifficulty !== "all" ||
     selectedSeason !== "all") && (
     <div
@@ -477,202 +477,208 @@ const PopularTreks = () => {
             </span>
           </div>
         ) : (
-         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-12 mx-auto max-w-7xl">
-  {filteredTreks.map((trek) => {
-    const DifficultyIcon = getDifficultyIcon(trek.difficulty);
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-12 mx-auto max-w-7xl">
+            {filteredTreks.slice(0, 5).map((trek) => {
+              const DifficultyIcon = getDifficultyIcon(trek.difficulty);
 
-    return (
-      <div
-        key={trek._id}
-        className="group relative h-[500px]"
-      >
-        {/* CARD */}
-        <div
-          className="relative h-full rounded-lg overflow-hidden
-          bg-[#0B0F19] border-2 border-white/50
-          shadow-[0_25px_80px_rgba(0,0,0,0.6)]
-          transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]
-          group-hover:-translate-y-3 group-hover:shadow-[0_40px_120px_rgba(0,0,0,0.8)]"
-        >
+              return (
+                <div key={trek._id} className="group relative h-[500px]">
+                  <div
+                    className="relative h-full rounded-lg overflow-hidden
+                  bg-[#0B0F19] border-2 border-white/50
+                  shadow-[0_25px_80px_rgba(0,0,0,0.6)]
+                  transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]
+                  group-hover:-translate-y-3 group-hover:shadow-[0_40px_120px_rgba(0,0,0,0.8)]"
+                  >
+                    <img
+                      src={trek.image?.cdnUrl || trek.image || ""}
+                      alt={trek.title}
+                      className="absolute inset-0 w-full h-full object-cover
+                    scale-105 group-hover:scale-110 transition duration-[1200ms]"
+                    />
 
-          {/* IMAGE */}
-          <img
-            src={
-              trek.image?.cdnUrl ||
-              trek.image ||
-              ""
-            }
-            alt={trek.title}
-            className="absolute inset-0 w-full h-full object-cover
-            scale-105 group-hover:scale-110 transition duration-[1200ms]"
-          />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
-          {/* DARK OVERLAY */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                    <div className="absolute top-5 left-5 right-5 flex justify-between items-center z-20">
+                      <div className="flex gap-2">
+                        <div
+                          className="flex items-center gap-2 px-3 py-1.5 rounded-full
+                        bg-white/10 backdrop-blur-md border border-white/20
+                        text-[10px] font-semibold text-white tracking-wide"
+                        >
+                          <DifficultyIcon className="w-3 h-3 text-amber-400" />
+                          {trek.difficulty || "Unknown"}
+                        </div>
 
-          {/* TOP BAR */}
-          <div className="absolute top-5 left-5 right-5 flex justify-between items-center z-20">
+                        {trek.status && (
+                          <div
+                            className={`flex items-center px-3 py-1.5 rounded-full backdrop-blur-md border border-white/20 text-[10px] font-bold uppercase tracking-wide ${trek.status.toLowerCase() === "completed"
+                              ? "bg-rose-500/80 text-white"
+                              : trek.status.toLowerCase() === "upcoming"
+                                ? "bg-emerald-500/80 text-white"
+                                : trek.status.toLowerCase() === "ongoing"
+                                  ? "bg-amber-500/80 text-white"
+                                  : "bg-blue-500/80 text-white"
+                              }`}
+                          >
+                            {trek.status}
+                          </div>
+                        )}
+                      </div>
 
-            <div className="flex gap-2">
-              {/* Difficulty */}
-              <div
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full
-                bg-white/10 backdrop-blur-md border border-white/20
-                text-[10px] font-semibold text-white tracking-wide"
-              >
-                <DifficultyIcon className="w-3 h-3 text-amber-400" />
-                {trek.difficulty || "Unknown"}
-              </div>
+                      <button
+                        onClick={(e) => handleWishlist(e, trek)}
+                        className={`w-10 h-10 flex items-center justify-center rounded-full
+                      backdrop-blur-md border border-white/20 transition-all duration-300
+                      ${trek.isWishlisted
+                            ? "bg-rose-500/20 text-rose-400 border-rose-400/40"
+                            : "bg-white/5 text-white/70 hover:text-rose-400 hover:bg-rose-500/10"
+                          }`}
+                      >
+                        <Heart
+                          className={`w-4 h-4 ${trek.isWishlisted ? "fill-current" : ""
+                            }`}
+                        />
+                      </button>
+                    </div>
 
-              {/* Status */}
-              {trek.status && (
-                <div
-                  className={`flex items-center px-3 py-1.5 rounded-full backdrop-blur-md border border-white/20 text-[10px] font-bold uppercase tracking-wide ${
-                    trek.status.toLowerCase() === 'completed' 
-                      ? 'bg-rose-500/80 text-white' 
-                      : trek.status.toLowerCase() === 'upcoming'
-                      ? 'bg-emerald-500/80 text-white'
-                      : trek.status.toLowerCase() === 'ongoing'
-                      ? 'bg-amber-500/80 text-white'
-                      : 'bg-blue-500/80 text-white'
-                  }`}
-                >
-                  {trek.status}
+                    <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col gap-4 z-20">
+                      <h3 className="text-2xl font-semibold text-white leading-tight tracking-tight">
+                        {trek.title}
+                      </h3>
+
+                      <div className="flex items-center gap-2 text-white/70 text-sm">
+                        <MapPin className="w-4 h-4 text-amber-400" />
+                        {trek.location}
+                      </div>
+
+                      <div className="flex items-center justify-between text-white/60 text-xs border-t border-white/10 pt-3">
+                        <span>{trek.duration || "--"}</span>
+                        {trek.isLimitedSeats ? (
+                          <span
+                            className={`font-bold ${trek.totalSeats - trek.registrationCompleted > 0
+                              ? "text-sky-400"
+                              : "text-rose-400"
+                              }`}
+                          >
+                            {trek.totalSeats - trek.registrationCompleted > 0
+                              ? `${trek.totalSeats - trek.registrationCompleted
+                              } Seats Left`
+                              : "SOLD OUT"}
+                          </span>
+                        ) : (
+                          <span>Group: {trek.groupSize || "--"}</span>
+                        )}
+                        <span>{trek.altitude || "--"} ft</span>
+                      </div>
+
+                      <div
+                        className="flex items-center justify-between mt-2
+                      bg-white/[0.05] backdrop-blur-xl border border-white/10
+                      rounded-xl px-4 py-3"
+                      >
+                        <div>
+                          <p className="text-[10px] text-white/40 uppercase tracking-wider">
+                            Starting from
+                          </p>
+                          <p className="text-xl font-bold text-white tracking-tight">
+                            ₹{trek.price?.toLocaleString()}
+                          </p>
+                        </div>
+
+                        <button
+                          onClick={() => navigate(`/trek/${trek._id}`)}
+                          className="flex items-center gap-2 px-5 py-2.5 
+                        bg-gradient-to-r from-sky-500 to-blue-600
+                        hover:from-sky-400 hover:to-blue-500
+                        text-white text-xs font-bold uppercase tracking-widest
+                        rounded-lg transition-all shadow-lg shadow-sky-500/20"
+                        >
+                          Details
+                          <ChevronRight className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
+              );
+            })}
 
-            {/* Wishlist */}
-            <button
-              onClick={(e) => handleWishlist(e, trek)}
-              className={`w-10 h-10 flex items-center justify-center rounded-full
-              backdrop-blur-md border border-white/20 transition-all duration-300
-              ${
-                trek.isWishlisted
-                  ? "bg-rose-500/20 text-rose-400 border-rose-400/40"
-                  : "bg-white/5 text-white/70 hover:text-rose-400 hover:bg-rose-500/10"
-              }`}
-            >
-              <Heart
-                className={`w-4 h-4 ${
-                  trek.isWishlisted ? "fill-current" : ""
-                }`}
-              />
-            </button>
-          </div>
-
-          {/* CONTENT */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col gap-4 z-20">
-
-            {/* TITLE */}
-            <h3 className="text-2xl font-semibold text-white leading-tight tracking-tight">
-              {trek.title}
-            </h3>
-
-            {/* LOCATION */}
-            <div className="flex items-center gap-2 text-white/70 text-sm">
-              <MapPin className="w-4 h-4 text-amber-400" />
-              {trek.location}
-            </div>
-
-            {/* INFO STRIP */}
-            <div className="flex items-center justify-between text-white/60 text-xs border-t border-white/10 pt-3">
-              <span>{trek.duration || "--"}</span>
-              <span>Group: {trek.groupSize || "--"}</span>
-              <span>{trek.altitude || "--"} ft</span>
-            </div>
-
-            {/* PRICE + CTA */}
-            <div
-              className="flex items-center justify-between mt-2
-              bg-white/[0.05] backdrop-blur-xl border border-white/10
-              rounded-xl px-4 py-3"
-            >
-              {/* PRICE */}
-              <div>
-                <p className="text-[10px] text-white/40 uppercase tracking-wider">
-                  Starting from
-                </p>
-
-                <p className="text-xl font-bold bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">
-                  ₹{trek?.feeDetails?.totalFee?.toLocaleString() || "--"}
-                </p>
-
-                <p className="text-[10px] text-white/40">
-                  per person
-                </p>
-              </div>
-
-              {/* ACTIONS */}
-              <div className="flex items-center gap-2">
-
-                {/* View */}
-                <Link
-                  to={`/trek/${trek._id}`}
-                  className="w-10 h-10 flex items-center justify-center rounded-full
-                  bg-white/5 border border-white/10 hover:bg-white/10 transition"
+            {/* EXPLORE MORE CARD */}
+            {filteredTreks.length >= 5 && (
+              <div
+                onClick={() => navigate("/treks")}
+                className="group relative h-[500px] cursor-pointer perspective-1000"
+              >
+                <div
+                  className="relative h-full rounded-lg overflow-hidden
+                bg-sky-800/70 border-4 border-dashed border-sky-100/80
+                flex flex-col items-center justify-center gap-6
+                transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]
+                group-hover:border-sky-400 group-hover:-translate-y-3 
+                group-hover:shadow-[0_40px_120px_rgba(56,189,248,0.2)]"
                 >
-                  <Eye className="w-4 h-4 text-white" />
-                </Link>
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-sky-500/20 rounded-full blur-2xl animate-pulse" />
+                    <div className="relative w-24 h-24 rounded-full border-2 border-sky-500/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-700">
+                      <div className="w-16 h-16 rounded-full border border-sky-500/50 flex items-center justify-center animate-spin-slow">
+                        <Compass className="w-8 h-8 text-sky-400" />
+                      </div>
+                    </div>
+                  </div>
 
-                {/* BOOK BUTTON */}
-                <button
-                  onClick={() => handleBookNow(trek)}
-                  disabled={trek.status?.toLowerCase() === 'completed'}
-                  className={`px-4 py-2 rounded-full
-                  bg-gradient-to-r from-amber-500 to-amber-600
-                  text-black text-xs font-semibold tracking-wide
-                  transition-all duration-300 ${trek.status?.toLowerCase() === 'completed' ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
-                >
-                  {trek.status?.toLowerCase() === 'completed' ? 'Completed' : 'Book Now'}
-                </button>
+                  <div className="text-center space-y-2 z-10">
+                    <h3 className="text-2xl font-bold text-white tracking-tight group-hover:text-sky-400 transition-colors">
+                      Explore More
+                    </h3>
+                    <p className="text-sky-300/60 text-xs font-medium uppercase tracking-[0.2em]">
+                      Find your next summit
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-3 px-6 py-3 bg-white/5 rounded-full border border-white/10 group-hover:bg-sky-500 transition-all duration-500">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-white">
+                      View All Expeditions
+                    </span>
+                    <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-all" />
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
-
-          {/* PREMIUM HOVER LIGHT */}
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-700">
-            <div className="absolute -top-20 -right-20 w-72 h-72 bg-amber-400/10 blur-3xl rounded-full" />
-          </div>
-
-        </div>
-      </div>
-    );
-  })}
-</div>
         )}
         {/* ===== View All Link ===== */}
-       <div className="text-center mt-5">
+        <div className="text-center mt-5">
 
-  <Link
-    to="/treks"
-    className="group inline-flex items-center gap-3
+          <Link
+            to="/treks"
+            className="group inline-flex items-center gap-3
     px-6 py-3 rounded-3xl
     bg-white/5 backdrop-blur-md
     border border-white/10
     hover:border-amber-400/40 hover:bg-white/10
     transition-all duration-500 relative overflow-hidden"
-  >
+          >
 
-    {/* soft glow */}
-    <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition duration-500" />
+            {/* soft glow */}
+            <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition duration-500" />
 
-    {/* shimmer line */}
-    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+            {/* shimmer line */}
+            <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-    {/* text */}
-    <span className="relative text-sm font-medium text-white tracking-wide">
-      Explore Expeditions
-    </span>
+            {/* text */}
+            <span className="relative text-sm font-medium text-white tracking-wide">
+              Explore Expeditions
+            </span>
 
-    {/* icon */}
-    <div className="relative w-9 h-9 rounded-full border border-white/15 flex items-center justify-center group-hover:border-amber-400/60 transition">
-      <Globe className="w-4 h-4 text-amber-400 group-hover:rotate-180 transition-transform duration-700" />
-    </div>
+            {/* icon */}
+            <div className="relative w-9 h-9 rounded-full border border-white/15 flex items-center justify-center group-hover:border-amber-400/60 transition">
+              <Globe className="w-4 h-4 text-amber-400 group-hover:rotate-180 transition-transform duration-700" />
+            </div>
 
-  </Link>
+          </Link>
 
-</div>
+        </div>
       </div>
 
       {/* ===== Custom Animations ===== */}

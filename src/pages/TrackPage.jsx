@@ -196,12 +196,12 @@ const TrackPage = () => {
           />
         </div>
         <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-          <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3 mb-8">
+          {/* <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3 mb-8">
             <Terminal size={16} className="text-sky-300" />
             <span className="text-sky-300 text-xs font-bold tracking-[0.3em] uppercase">
               MISSION LOGS
             </span>
-          </div>
+          </div> */}
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
             Explore
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-sky-200 to-blue-200">
@@ -250,10 +250,9 @@ const TrackPage = () => {
                     key={level}
                     onClick={() => setSelectedDifficulty(val)}
                     className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wide transition-all duration-300
-                      ${
-                        isActive
-                          ? `${cfg.bg} ${cfg.text} shadow-sm scale-105 ring-2 ring-offset-1 ${cfg.text.replace("text", "ring")}`
-                          : "bg-white text-sky-600 border border-sky-200 hover:bg-sky-50 hover:border-sky-300"
+                      ${isActive
+                        ? `${cfg.bg} ${cfg.text} shadow-sm scale-105 ring-2 ring-offset-1 ${cfg.text.replace("text", "ring")}`
+                        : "bg-white text-sky-600 border border-sky-200 hover:bg-sky-50 hover:border-sky-300"
                       }`}
                   >
                     {isActive && (
@@ -346,7 +345,7 @@ const TrackPage = () => {
                       src={
                         trek.image?.cdnUrl ||
                         trek.image ||
-                        "https://images.unsplash.com/photo-1551632811-561732d1e306"
+                        ""
                       }
                       alt={trek.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
@@ -372,15 +371,14 @@ const TrackPage = () => {
                       </span>
                       {trek.status && (
                         <span
-                          className={`px-3 py-1.5 rounded-xl text-[11px] font-bold uppercase tracking-wide shadow-sm ${
-                            trek.status.toLowerCase() === 'completed'
-                              ? 'bg-rose-100 text-rose-700'
-                              : trek.status.toLowerCase() === 'upcoming'
+                          className={`px-3 py-1.5 rounded-xl text-[11px] font-bold uppercase tracking-wide shadow-sm ${trek.status.toLowerCase() === 'completed'
+                            ? 'bg-rose-100 text-rose-700'
+                            : trek.status.toLowerCase() === 'upcoming'
                               ? 'bg-emerald-100 text-emerald-700'
                               : trek.status.toLowerCase() === 'ongoing'
-                              ? 'bg-amber-100 text-amber-700'
-                              : 'bg-blue-100 text-blue-700'
-                          }`}
+                                ? 'bg-amber-100 text-amber-700'
+                                : 'bg-blue-100 text-blue-700'
+                            }`}
                         >
                           {trek.status}
                         </span>

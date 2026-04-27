@@ -10,6 +10,7 @@ import mapPinData from "../../lotties/mappin.json";
 import timerData from "../../lotties/timer.json";
 import shoppingCartData from "../../lotties/shoppingCart.json";
 import backPackData from "../../lotties/backPack.json";
+import hikingData from "../../lotties/hiking.json";
 
 const TrekInfoCard = ({ trek }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -73,6 +74,13 @@ const TrekInfoCard = ({ trek }) => {
       tag: "Category",
       bg: "bg-purple-50",
     },
+    "REMAINING SEATS": {
+      lottie: hikingData,
+      color: "#2563EB",
+      accent: "text-blue-700",
+      tag: "Availability",
+      bg: "bg-blue-50",
+    },
   };
 
   const defaultAsset = {
@@ -108,6 +116,19 @@ const TrekInfoCard = ({ trek }) => {
         bg: assets.bg,
       };
     });
+
+  if (trek?.isLimitedSeats) {
+    const assets = assetMap["REMAINING SEATS"];
+    infoGrid.push({
+      title: "REMAINING SEATS",
+      value: `${trek.totalSeats - trek.registrationCompleted} / ${trek.totalSeats} Seats Left`,
+      lottie: assets.lottie,
+      color: assets.color,
+      accent: assets.accent,
+      tag: assets.tag,
+      bg: assets.bg,
+    });
+  }
 
   return (
     <section className="w-full py-2">
