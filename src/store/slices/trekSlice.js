@@ -52,7 +52,12 @@ const trekSlice = createSlice({
             })
             .addCase(fetchTreksAsync.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.items = action.payload;
+                const priority = { 'Upcoming': 1, 'Ongoing': 2, 'Completed': 3 };
+                state.items = [...action.payload].sort((a, b) => {
+                    const pA = priority[a.status] || 4;
+                    const pB = priority[b.status] || 4;
+                    return pA - pB;
+                });
             })
             .addCase(fetchTreksAsync.rejected, (state, action) => {
                 state.status = 'failed';
@@ -63,7 +68,12 @@ const trekSlice = createSlice({
             })
             .addCase(fetchFilteredTreksAsync.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.items = action.payload;
+                const priority = { 'Upcoming': 1, 'Ongoing': 2, 'Completed': 3 };
+                state.items = [...action.payload].sort((a, b) => {
+                    const pA = priority[a.status] || 4;
+                    const pB = priority[b.status] || 4;
+                    return pA - pB;
+                });
             })
             .addCase(fetchFilteredTreksAsync.rejected, (state, action) => {
                 state.status = 'failed';
