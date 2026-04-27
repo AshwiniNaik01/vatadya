@@ -578,7 +578,13 @@ const PopularTreks = () => {
             {/* INFO STRIP */}
             <div className="flex items-center justify-between text-white/60 text-xs border-t border-white/10 pt-3">
               <span>{trek.duration || "--"}</span>
-              <span>Group: {trek.groupSize || "--"}</span>
+              {trek.isLimitedSeats ? (
+                <span className={`font-bold ${trek.totalSeats - trek.registrationCompleted > 0 ? "text-sky-400" : "text-rose-400"}`}>
+                  {trek.totalSeats - trek.registrationCompleted > 0 ? `${trek.totalSeats - trek.registrationCompleted} Seats Left` : "SOLD OUT"}
+                </span>
+              ) : (
+                <span>Group: {trek.groupSize || "--"}</span>
+              )}
               <span>{trek.altitude || "--"} ft</span>
             </div>
 
@@ -618,13 +624,13 @@ const PopularTreks = () => {
                 {/* BOOK BUTTON */}
                 <button
                   onClick={() => handleBookNow(trek)}
-                  disabled={trek.status?.toLowerCase() === 'completed'}
+                  disabled={trek.status?.toLowerCase() === 'completed' || (trek.isLimitedSeats && (trek.totalSeats - trek.registrationCompleted) <= 0)}
                   className={`px-4 py-2 rounded-full
                   bg-gradient-to-r from-amber-500 to-amber-600
                   text-black text-xs font-semibold tracking-wide
-                  transition-all duration-300 ${trek.status?.toLowerCase() === 'completed' ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
+                  transition-all duration-300 ${trek.status?.toLowerCase() === 'completed' || (trek.isLimitedSeats && (trek.totalSeats - trek.registrationCompleted) <= 0) ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
                 >
-                  {trek.status?.toLowerCase() === 'completed' ? 'Completed' : 'Book Now'}
+                  {trek.status?.toLowerCase() === 'completed' ? 'Completed' : (trek.isLimitedSeats && (trek.totalSeats - trek.registrationCompleted) <= 0) ? 'Sold Out' : 'Book Now'}
                 </button>
               </div>
             </div>

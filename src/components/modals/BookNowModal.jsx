@@ -12,6 +12,7 @@ import {
   Check,
 } from "lucide-react";
 import axios from "axios";
+import Swal from "sweetalert2";
 import { API_BASE_URL } from "../../config/constants";
 
 const BookNowModal = ({ isOpen, onClose, trekData }) => {
@@ -231,17 +232,46 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+
+    // Validation for number of people
+    if (name === "numberOfPeople") {
+      const num = parseInt(value) || 0;
+      if (trekData?.isLimitedSeats) {
+        const total = trekData.totalSeats || 0;
+        const booked = trekData.registrationCompleted || 0;
+        const available = total - booked;
+
+        if (num > available) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Insufficient Seats',
+            text: `Sorry, only ${available} seat${available !== 1 ? "s are" : " is"} available for this trek.`,
+            confirmButtonColor: '#3b82f6'
+          });
+          return; // Stop the update
+        }
+      }
+    }
+
+    setFormData((prev) => {
+      const newData = {
+        ...prev,
+        [name]: type === "checkbox" ? checked : value,
+      };
+
+      // Reset additional members if number of people is reduced
+      if (name === "numberOfPeople") {
+        const num = parseInt(value) || 0;
+        if (num <= 1) {
+          newData.additionalMembers = [];
+        }
+      }
+
+      return newData;
+    });
 
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
-    }
-
-    if (name === "numberOfPeople" && parseInt(value) <= 1) {
-      setFormData((prev) => ({ ...prev, additionalMembers: [] }));
     }
   };
 
@@ -326,6 +356,15 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
     if (formData.numberOfPeople < 1)
       newErrors.numberOfPeople = "Must be at least 1 person";
 
+    if (trekData?.isLimitedSeats) {
+      const total = trekData.totalSeats || 0;
+      const booked = trekData.registrationCompleted || 0;
+      const available = total - booked;
+      if (formData.numberOfPeople > available) {
+        newErrors.numberOfPeople = `Only ${available} seat(s) available`;
+      }
+    }
+
     if (formData.numberOfPeople > 1) {
       const requiredMembers = formData.numberOfPeople - 1;
       if (formData.additionalMembers.length < requiredMembers) {
@@ -395,11 +434,21 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
         `${API_BASE_URL}/api/bookings`,
         bookingData,
       );
-      alert("Booking submitted successfully");
+      Swal.fire({
+        icon: 'success',
+        title: 'Booking Successful!',
+        text: 'Your registration has been submitted successfully.',
+        confirmButtonColor: '#10b981'
+      });
       onClose();
     } catch (error) {
       console.error(error);
-      alert(error.response?.data?.message || "Something went wrong");
+      Swal.fire({
+        icon: 'error',
+        title: 'Booking Failed',
+        text: error.response?.data?.message || "Something went wrong. Please try again.",
+        confirmButtonColor: '#ef4444'
+      });
     }
   };
 
@@ -410,8 +459,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
 
   // Shared input className
   const inputCls = (hasError) =>
-    `w-full px-4 py-3 rounded-xl border text-gray-800 text-sm ${
-      hasError ? "border-red-400 bg-red-50/50" : "border-gray-200"
+    `w-full px-4 py-3 rounded-xl border text-gray-800 text-sm ${hasError ? "border-red-400 bg-red-50/50" : "border-gray-200"
     } focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400 shadow-sm hover:shadow-md transition-all bg-gray-50/80 focus:bg-white`;
 
   const selectCls = (hasError) =>
@@ -467,6 +515,11 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                     {discountPercent}% OFF
                   </span>
                 )}
+                {trekData?.isLimitedSeats && (
+                  <span className={`inline-flex items-center gap-1.5 backdrop-blur-sm border px-3 py-1.5 rounded-full text-xs font-bold ${trekData.totalSeats - trekData.registrationCompleted > 0 ? "bg-blue-400/20 border-blue-300/30 text-blue-100" : "bg-rose-400/20 border-rose-300/30 text-rose-100"}`}>
+                    👥 {trekData.totalSeats - trekData.registrationCompleted} / {trekData.totalSeats} Seats Left
+                  </span>
+                )}
               </div>
             </div>
 
@@ -514,7 +567,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                         name="whatsappNumber"
                         value={formData.whatsappNumber}
                         onChange={handleChange}
-                         maxLength={10}
+                        maxLength={10}
                         placeholder="Enter your WhatsApp number"
                         className={inputCls(errors.whatsappNumber)}
                       />
@@ -805,7 +858,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                         name="emergencyContact"
                         value={formData.emergencyContact}
                         onChange={handleChange}
-                         maxLength={10}
+                        maxLength={10}
                         placeholder="Emergency contact number"
                         className={inputCls(errors.emergencyContact)}
                       />
@@ -824,7 +877,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                         type="tel"
                         name="alternativeContact"
                         value={formData.alternativeContact}
-                         maxLength={10}
+                        maxLength={10}
                         onChange={handleChange}
                         placeholder="Alternative contact number"
                         className={inputCls(errors.alternativeContact)}
@@ -961,10 +1014,9 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                             type="button"
                             onClick={() => handleAddonToggle(addon)}
                             className={`relative flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-300 text-left group
-                              ${
-                                isSelected
-                                  ? "border-purple-400 bg-purple-50 shadow-md shadow-purple-100"
-                                  : "border-gray-200 bg-white hover:border-purple-200 hover:shadow-sm"
+                              ${isSelected
+                                ? "border-purple-400 bg-purple-50 shadow-md shadow-purple-100"
+                                : "border-gray-200 bg-white hover:border-purple-200 hover:shadow-sm"
                               }`}
                           >
                             <div
@@ -1020,15 +1072,15 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                       </div>
                       {formData.additionalMembers.length <
                         requiredAdditionalMembers && (
-                        <button
-                          type="button"
-                          onClick={handleAddMember}
-                          className="flex items-center gap-2 px-4 py-2 bg-teal-50 text-teal-700 rounded-xl hover:bg-teal-100 transition-all text-sm font-semibold"
-                        >
-                          <Plus size={16} />
-                          Add Member
-                        </button>
-                      )}
+                          <button
+                            type="button"
+                            onClick={handleAddMember}
+                            className="flex items-center gap-2 px-4 py-2 bg-teal-50 text-teal-700 rounded-xl hover:bg-teal-100 transition-all text-sm font-semibold"
+                          >
+                            <Plus size={16} />
+                            Add Member
+                          </button>
+                        )}
                     </div>
 
                     {errors.additionalMembers && (
@@ -1094,7 +1146,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                               <input
                                 type="tel"
                                 value={member.whatsappNumber || ""}
-                                 maxLength={10}
+                                maxLength={10}
                                 placeholder="+91 00000 00000"
                                 onChange={(e) =>
                                   handleMemberChange(
@@ -1120,7 +1172,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
                                 type="tel"
                                 value={member.contactNumber || ""}
                                 placeholder="Contact Number"
-                                  maxLength={10}
+                                maxLength={10}
                                 onChange={(e) =>
                                   handleMemberChange(
                                     index,
@@ -1497,7 +1549,7 @@ const BookNowModal = ({ isOpen, onClose, trekData }) => {
         }
         .custom-scrollbar { scrollbar-width: thin; scrollbar-color: #3b82f6 transparent; }
       `}</style>
-    </div>
+    </div >
   );
 };
 

@@ -103,8 +103,26 @@ const TrekIntroCard = ({ onBookNow, onWishlist, trek }) => {
               </div>
 
               <div className="flex items-center gap-5 text-sm text-gray-600 flex-wrap">
+                {trek.isLimitedSeats && (
+                  <div className="flex items-center gap-2">
+                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-100 text-[10px]">
+                      👥
+                    </span>
+                    <span className="font-bold">
+                      {trek.totalSeats - trek.registrationCompleted > 0 ? (
+                        <span className="text-blue-600">
+                          {trek.totalSeats - trek.registrationCompleted} Seats Remaining
+                        </span>
+                      ) : (
+                        <span className="text-rose-600 font-black">SOLD OUT</span>
+                      )}
+                    </span>
+                    <span className="text-gray-400 text-[10px]">
+                      (Total: {trek.totalSeats})
+                    </span>
+                  </div>
+                )}
                 <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
-
                 <div className="flex flex-col items-start gap-2"></div>
               </div>
             </div>
@@ -149,12 +167,16 @@ const TrekIntroCard = ({ onBookNow, onWishlist, trek }) => {
               {/* Book Now Button */}
               <button
                 onClick={onBookNow}
-                disabled={trek.status?.toLowerCase() === 'completed'}
-                className={`group relative px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold text-sm overflow-hidden shadow-lg transition-all duration-300 transform ${trek.status?.toLowerCase() === 'completed' ? 'opacity-50 cursor-not-allowed' : 'shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105'}`}
+                disabled={trek.status?.toLowerCase() === 'completed' || (trek.isLimitedSeats && (trek.totalSeats - trek.registrationCompleted) <= 0)}
+                className={`group relative px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold text-sm overflow-hidden shadow-lg transition-all duration-300 transform ${trek.status?.toLowerCase() === 'completed' || (trek.isLimitedSeats && (trek.totalSeats - trek.registrationCompleted) <= 0) ? 'opacity-50 cursor-not-allowed' : 'shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105'}`}
               >
                 {trek.status?.toLowerCase() === 'completed' ? (
                   <div className="relative flex items-center gap-2.5">
                     <span className="tracking-wide">COMPLETED</span>
+                  </div>
+                ) : (trek.isLimitedSeats && (trek.totalSeats - trek.registrationCompleted) <= 0) ? (
+                   <div className="relative flex items-center gap-2.5">
+                    <span className="tracking-wide">SOLD OUT</span>
                   </div>
                 ) : (
                   <>
